@@ -1,4 +1,4 @@
-package com.blin1.slavstagram.screens.main;
+package com.blin1.slavstagram.ui.screens.main;
 
 import android.content.Context;
 import android.content.Intent;
