@@ -1,12 +1,12 @@
-package com.blin1.slavstagram.ui.screens.splash;
+package com.babushka.slav_squad.ui.screens.splash;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.blin1.slavstagram.SessionManager;
-import com.blin1.slavstagram.ui.screens.login.LoginActivity;
-import com.blin1.slavstagram.ui.screens.main.MainActivity;
+import com.babushka.slav_squad.SessionManager;
+import com.babushka.slav_squad.ui.screens.login.LoginActivity;
+import com.babushka.slav_squad.ui.screens.main.MainActivity;
 
 /**
  * Created by iliyan on 21.05.17.

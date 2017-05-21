@@ -1,4 +1,4 @@
-package com.blin1.slavstagram.util;
+package com.babushka.slav_squad.util;
 
 /**
  * Created by iliyan on 21.05.17.

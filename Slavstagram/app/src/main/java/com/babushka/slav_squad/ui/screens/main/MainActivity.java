@@ -1,4 +1,4 @@
-package com.blin1.slavstagram.ui.screens.main;
+package com.babushka.slav_squad.ui.screens.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.blin1.slavstagram.R;
+import com.babushka.slavstagram.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

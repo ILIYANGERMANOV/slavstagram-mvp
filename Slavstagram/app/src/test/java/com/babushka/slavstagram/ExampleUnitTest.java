@@ -1,4 +1,4 @@
-package com.blin1.slavstagram;
+package com.babushka.slavstagram;
 
 import org.junit.Test;
 

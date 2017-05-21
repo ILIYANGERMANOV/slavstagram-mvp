@@ -1,4 +1,4 @@
-package com.blin1.slavstagram;
+package com.babushka.slavstagram;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

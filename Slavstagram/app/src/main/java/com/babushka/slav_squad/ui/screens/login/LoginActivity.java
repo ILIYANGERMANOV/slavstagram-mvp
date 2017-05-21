@@ -1,4 +1,4 @@
-package com.blin1.slavstagram.ui.screens.login;
+package com.babushka.slav_squad.ui.screens.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-import com.blin1.slavstagram.R;
+import com.babushka.slavstagram.R;
 
 public class LoginActivity extends AppCompatActivity {
     public static void startScreen(@NonNull Context context) {

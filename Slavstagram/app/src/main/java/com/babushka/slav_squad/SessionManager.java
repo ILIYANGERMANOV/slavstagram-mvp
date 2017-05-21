@@ -1,4 +1,4 @@
-package com.blin1.slavstagram;
+package com.babushka.slav_squad;
 
 import android.support.annotation.NonNull;
 

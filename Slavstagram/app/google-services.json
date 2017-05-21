@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141416631918:android:ba3761ab9415461e",
+        "mobilesdk_app_id": "1:141416631918:android:84c78033d0cc6cd6",
         "android_client_info": {
-          "package_name": "com.blin1.slavstagram"
+          "package_name": "com.babushka.slav_squad"
         }
       },
       "oauth_client": [
         {
-          "client_id": "141416631918-7fvsholgge4ml4pqd90q6uspm9hap1r1.apps.googleusercontent.com",
+          "client_id": "141416631918-mdl0a20396ebia9o2g793gckmr1cbsgk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.blin1.slavstagram",
+            "package_name": "com.babushka.slav_squad",
             "certificate_hash": "441bfd9002d302b5f0bed5f95db5547076ee917c"
           }
         },

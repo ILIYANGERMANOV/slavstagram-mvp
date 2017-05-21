@@ -4,7 +4,7 @@ android {
     compileSdkVersion project.compileSdk
     buildToolsVersion project.toolsVersion
     defaultConfig {
-        applicationId "com.blin1.slavstagram"
+        applicationId "com.babushka.slav_squad"
         minSdkVersion project.minSdk
         targetSdkVersion project.targetSdk
         versionCode 1
