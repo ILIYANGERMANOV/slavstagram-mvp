@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "141416631918",
+    "firebase_url": "https://slavstagram.firebaseio.com",
+    "project_id": "slavstagram",
+    "storage_bucket": "slavstagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141416631918:android:ba3761ab9415461e",
+        "android_client_info": {
+          "package_name": "com.blin1.slavstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141416631918-7fvsholgge4ml4pqd90q6uspm9hap1r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blin1.slavstagram",
+            "certificate_hash": "441bfd9002d302b5f0bed5f95db5547076ee917c"
+          }
+        },
+        {
+          "client_id": "141416631918-cuqcd3vj301en4ljci147voah30g1574.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQuUkcNwiQMs49q-GwtSj3Q5OhstNAuic"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141416631918-cuqcd3vj301en4ljci147voah30g1574.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
