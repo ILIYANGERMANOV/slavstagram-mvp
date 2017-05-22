@@ -25,7 +25,7 @@
             android:name="com.babushka.slav_squad.ui.screens.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.babushka.slav_squad.ui.screens.login.LoginActivity"
+            android:name="com.babushka.slav_squad.ui.screens.login.view.LoginActivity"
             android:screenOrientation="portrait" />
     </application>
 

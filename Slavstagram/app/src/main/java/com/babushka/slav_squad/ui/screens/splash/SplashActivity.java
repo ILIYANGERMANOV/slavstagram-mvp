@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.SessionManager;
-import com.babushka.slav_squad.ui.screens.login.LoginActivity;
+import com.babushka.slav_squad.ui.screens.login.view.LoginActivity;
 import com.babushka.slav_squad.ui.screens.main.MainActivity;
 
 /**
