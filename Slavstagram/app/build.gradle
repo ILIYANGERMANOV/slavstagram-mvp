@@ -26,13 +26,13 @@ dependencies {
     })
 
     compile deps.appCompat
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile deps.gson
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
-
-
     compile 'com.google.firebase:firebase-auth:10.2.6'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
     testCompile 'junit:junit:4.12'
 }
 

@@ -25,7 +25,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @NonNull
     protected abstract P initializePresenter();
 
-    protected abstract void onSetupFinished();
+    protected void onSetupFinished() {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
