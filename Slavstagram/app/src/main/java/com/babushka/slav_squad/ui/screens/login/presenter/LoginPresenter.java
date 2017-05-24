@@ -37,9 +37,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new FacebookLoginCallback() {
                     @Override
                     public void onSuccess(@NonNull FirebaseUser user) {
-                        if (mView != null) {
-                            mView.restartApp();
-                        }
+                        handleSuccesfulLogin();
                     }
 
                     @Override
@@ -51,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(@Nullable Exception exception) {
-                        handleException("Error while signIn with FB: ", exception);
+                        handleError("Error while signIn with FB: ", exception);
                     }
                 });
     }
@@ -61,19 +59,46 @@ public class LoginPresenter implements LoginContract.Presenter {
         mLoginAdapter = mSessionManager.loginWithGoogle(activity, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
-                if (mView != null) {
-                    mView.restartApp();
-                }
+                handleSuccesfulLogin();
             }
 
             @Override
             public void onError(@Nullable Exception exception) {
-                handleException("Error while signIn with Google: ", exception);
+                handleError("Error while signIn with Google: ", exception);
             }
         });
     }
 
-    private void handleException(@NonNull String localizedMessage, @Nullable Exception exception) {
+    @Override
+    public void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails) {
+        if (userDetails.validate()) {
+            loginWithValidatedUserDetails(activity, userDetails);
+        } else {
+            mView.showToast("Email and password cannot be empty fields!");
+        }
+    }
+
+    private void loginWithValidatedUserDetails(@NonNull Activity activity, @NonNull UserDetails userDetails) {
+        mSessionManager.loginWithEmailAndPassword(activity, userDetails, new FirebaseLoginCallback() {
+            @Override
+            public void onSuccess(@NonNull FirebaseUser user) {
+                handleSuccesfulLogin();
+            }
+
+            @Override
+            public void onError(@Nullable Exception exception) {
+                handleError("Login error: ", exception);
+            }
+        });
+    }
+
+    private void handleSuccesfulLogin() {
+        if (mView != null) {
+            mView.restartApp();
+        }
+    }
+
+    private void handleError(@NonNull String localizedMessage, @Nullable Exception exception) {
         if (mView != null) {
             String message = "unknown error";
             if (exception != null) {
@@ -81,12 +106,6 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
             mView.showToast(localizedMessage + message);
         }
-    }
-
-
-    @Override
-    public void loginWithUsernameAndPassword(@NonNull UserDetails userDetails) {
-
     }
 
     @Override

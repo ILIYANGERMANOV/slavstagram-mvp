@@ -1,6 +1,7 @@
 package com.babushka.slav_squad.session;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 /**
  * Created by iliyan on 23.05.17.
@@ -8,23 +9,27 @@ import android.support.annotation.NonNull;
 
 public class UserDetails {
     @NonNull
-    private final String mUsername;
+    private final String mEmail;
     @NonNull
     private final String mPassword;
 
-    public UserDetails(@NonNull String username, @NonNull String password) {
+    public UserDetails(@NonNull String email, @NonNull String password) {
 
-        mUsername = username;
+        mEmail = email;
         mPassword = password;
     }
 
     @NonNull
-    public String getUsername() {
-        return mUsername;
+    public String getEmail() {
+        return mEmail;
     }
 
     @NonNull
     public String getPassword() {
         return mPassword;
+    }
+
+    public boolean validate() {
+        return !TextUtils.isEmpty(mEmail) && !TextUtils.isEmpty(mPassword);
     }
 }

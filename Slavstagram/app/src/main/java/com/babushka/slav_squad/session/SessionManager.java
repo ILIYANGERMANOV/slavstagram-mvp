@@ -89,6 +89,12 @@ public class SessionManager {
         return loginAdapter;
     }
 
+    public void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails,
+                                          @NonNull FirebaseLoginCallback loginCallback) {
+        mAuth.signInWithEmailAndPassword(userDetails.getEmail(), userDetails.getPassword())
+                .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
+    }
+
     public void logout() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();

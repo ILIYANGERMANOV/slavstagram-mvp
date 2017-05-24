@@ -28,7 +28,7 @@ public interface LoginContract {
 
         void loginWithGoogle(@NonNull AppCompatActivity activity);
 
-        void loginWithUsernameAndPassword(@NonNull UserDetails userDetails);
+        void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails);
 
         void handleRegisterClick();
 

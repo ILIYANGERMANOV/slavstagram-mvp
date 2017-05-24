@@ -21,8 +21,8 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         implements LoginContract.View {
 
-    @BindView(R.id.login_username_edit_text)
-    EditText vUsernameInput;
+    @BindView(R.id.login_email_edit_text)
+    EditText vEmailInput;
     @BindView(R.id.login_password_edit_text)
     EditText vPasswordInput;
     @BindView(R.id.login_fb_login_button)
@@ -63,10 +63,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
 
     @OnClick(R.id.login_login_button)
     public void onLoginClicked() {
-        String username = vUsernameInput.getText().toString();
+        String email = vEmailInput.getText().toString();
         String password = vPasswordInput.getText().toString();
-        UserDetails userDetails = new UserDetails(username, password);
-        mPresenter.loginWithUsernameAndPassword(userDetails);
+        UserDetails userDetails = new UserDetails(email, password);
+        mPresenter.loginWithEmailAndPassword(this, userDetails);
     }
 
     @OnClick(R.id.login_register_button)
