@@ -49,7 +49,12 @@ public class SessionManager {
             public void onSuccess(@NonNull AuthCredential credential) {
                 //TODO: handle case where user has already signed with G+, signs out and then try with FB
                 mAuth.signInWithCredential(credential)
-                        .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
+                        .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback, new ErrorResolution() {
+                            @Override
+                            public void onResolveError(@Nullable Exception error) {
+                                logoutFacebook();
+                            }
+                        }));
             }
 
             @Override
@@ -95,17 +100,39 @@ public class SessionManager {
                 .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
     }
 
+    public void loginAsGuest(@NonNull Activity activity, @NonNull FirebaseLoginCallback loginCallback) {
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
+    }
+
     public void logout() {
         mAuth.signOut();
+        logoutFacebook();
+    }
+
+    private void logoutFacebook() {
         LoginManager.getInstance().logOut();
+    }
+
+    interface ErrorResolution {
+        void onResolveError(@Nullable Exception error);
     }
 
     private class DefaultSignInCompleteListener implements OnCompleteListener<AuthResult> {
         @NonNull
         private final FirebaseLoginCallback mLoginCallback;
+        @Nullable
+        private final ErrorResolution mErrorResolution;
+
+        DefaultSignInCompleteListener(@NonNull FirebaseLoginCallback loginCallback,
+                                      @NonNull ErrorResolution errorResolution) {
+            mLoginCallback = loginCallback;
+            mErrorResolution = errorResolution;
+        }
 
         DefaultSignInCompleteListener(@NonNull FirebaseLoginCallback loginCallback) {
             mLoginCallback = loginCallback;
+            mErrorResolution = null;
         }
 
         @Override
@@ -116,6 +143,9 @@ public class SessionManager {
                 Exception exception = task.getException();
                 if (exception != null) {
                     Log.e("SessionManager", exception.getMessage());
+                }
+                if (mErrorResolution != null) {
+                    mErrorResolution.onResolveError(exception);
                 }
                 mLoginCallback.onError(exception);
             }

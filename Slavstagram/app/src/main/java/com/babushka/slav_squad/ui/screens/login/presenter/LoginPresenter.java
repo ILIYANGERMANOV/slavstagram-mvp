@@ -37,7 +37,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new FacebookLoginCallback() {
                     @Override
                     public void onSuccess(@NonNull FirebaseUser user) {
-                        handleSuccesfulLogin();
+                        handleSuccessfulLogin();
                     }
 
                     @Override
@@ -49,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(@Nullable Exception exception) {
-                        handleError("Error while signIn with FB: ", exception);
+                        handleLoginError("Error while signIn with FB: ", exception);
                     }
                 });
     }
@@ -59,12 +59,12 @@ public class LoginPresenter implements LoginContract.Presenter {
         mLoginAdapter = mSessionManager.loginWithGoogle(activity, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
-                handleSuccesfulLogin();
+                handleSuccessfulLogin();
             }
 
             @Override
             public void onError(@Nullable Exception exception) {
-                handleError("Error while signIn with Google: ", exception);
+                handleLoginError("Error while signIn with Google: ", exception);
             }
         });
     }
@@ -82,23 +82,43 @@ public class LoginPresenter implements LoginContract.Presenter {
         mSessionManager.loginWithEmailAndPassword(activity, userDetails, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
-                handleSuccesfulLogin();
+                handleSuccessfulLogin();
             }
 
             @Override
             public void onError(@Nullable Exception exception) {
-                handleError("Login error: ", exception);
+                handleLoginError("Login error: ", exception);
             }
         });
     }
 
-    private void handleSuccesfulLogin() {
+    @Override
+    public void handleRegisterClick() {
+        //TODO: Implement method
+    }
+
+    @Override
+    public void loginAsGuest(@NonNull Activity activity) {
+        mSessionManager.loginAsGuest(activity, new FirebaseLoginCallback() {
+            @Override
+            public void onSuccess(@NonNull FirebaseUser user) {
+                handleSuccessfulLogin();
+            }
+
+            @Override
+            public void onError(@Nullable Exception exception) {
+                handleLoginError("Error while login as guest: ", exception);
+            }
+        });
+    }
+
+    private void handleSuccessfulLogin() {
         if (mView != null) {
             mView.restartApp();
         }
     }
 
-    private void handleError(@NonNull String localizedMessage, @Nullable Exception exception) {
+    private void handleLoginError(@NonNull String localizedMessage, @Nullable Exception exception) {
         if (mView != null) {
             String message = "unknown error";
             if (exception != null) {
@@ -106,16 +126,6 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
             mView.showToast(localizedMessage + message);
         }
-    }
-
-    @Override
-    public void handleRegisterClick() {
-
-    }
-
-    @Override
-    public void loginAsGuest() {
-
     }
 
     @Override

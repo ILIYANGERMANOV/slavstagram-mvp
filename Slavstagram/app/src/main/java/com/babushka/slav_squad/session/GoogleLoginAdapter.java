@@ -45,7 +45,6 @@ public class GoogleLoginAdapter
                 .enableAutoManage(activity, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
-
     }
 
     void signIn() {
@@ -55,7 +54,7 @@ public class GoogleLoginAdapter
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        mCallback.onError(new GoogleSignInError(connectionResult.getErrorMessage()));
+        handleErrorAndCallback(new GoogleSignInError(connectionResult.getErrorMessage()));
     }
 
     @Override
@@ -66,11 +65,16 @@ public class GoogleLoginAdapter
                 GoogleSignInAccount account = result.getSignInAccount();
                 mCallback.onSuccess(account);
             } else {
-                mCallback.onError(new GoogleSignInError("Google SignIn failed"));
+                handleErrorAndCallback(new GoogleSignInError("Google SignIn failed"));
             }
         }
     }
 
+    private void handleErrorAndCallback(@NonNull GoogleSignInError error) {
+        mGoogleApiClient.stopAutoManage(mActivity);
+        mGoogleApiClient.disconnect();
+        mCallback.onError(error);
+    }
 
     interface Callback {
         void onSuccess(@Nullable GoogleSignInAccount account);

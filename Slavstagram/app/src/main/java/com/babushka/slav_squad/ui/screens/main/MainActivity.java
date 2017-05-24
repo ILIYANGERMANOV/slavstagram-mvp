@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String name = currentUser.getDisplayName();
+            if (name == null) {
+                name = currentUser.getEmail();
+            }
+            if (name == null) {
+                name = "Anonymous";
+            }
             vInfoText.setText("Logged as: " + name);
         }
     }

@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
 
     @OnClick(R.id.login_skip_button)
     public void onSkipButtonClicked() {
-        mPresenter.loginAsGuest();
+        mPresenter.loginAsGuest(this);
     }
 
     @Override

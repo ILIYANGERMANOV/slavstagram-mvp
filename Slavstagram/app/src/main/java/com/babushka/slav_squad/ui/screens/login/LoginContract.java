@@ -32,7 +32,7 @@ public interface LoginContract {
 
         void handleRegisterClick();
 
-        void loginAsGuest();
+        void loginAsGuest(@NonNull Activity activity);
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
     }
