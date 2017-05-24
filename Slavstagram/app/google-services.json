@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "141416631918",
-    "firebase_url": "https://slavstagram.firebaseio.com",
-    "project_id": "slavstagram",
-    "storage_bucket": "slavstagram.appspot.com"
+    "project_number": "810702787772",
+    "firebase_url": "https://slav-squad.firebaseio.com",
+    "project_id": "slav-squad",
+    "storage_bucket": "slav-squad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141416631918:android:84c78033d0cc6cd6",
+        "mobilesdk_app_id": "1:810702787772:android:84c78033d0cc6cd6",
         "android_client_info": {
           "package_name": "com.babushka.slav_squad"
         }
       },
       "oauth_client": [
         {
-          "client_id": "141416631918-mdl0a20396ebia9o2g793gckmr1cbsgk.apps.googleusercontent.com",
+          "client_id": "810702787772-mt316iq8nceq3oe2bphm4jptndijhklv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.babushka.slav_squad",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "141416631918-cuqcd3vj301en4ljci147voah30g1574.apps.googleusercontent.com",
+          "client_id": "810702787772-v9fk1lrmb74q8cpef0n38cevg169bpci.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDQuUkcNwiQMs49q-GwtSj3Q5OhstNAuic"
+          "current_key": "AIzaSyDezXpdNEH-fMwTwhYw6P4z-maXUoTaULU"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "141416631918-cuqcd3vj301en4ljci147voah30g1574.apps.googleusercontent.com",
+              "client_id": "810702787772-v9fk1lrmb74q8cpef0n38cevg169bpci.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

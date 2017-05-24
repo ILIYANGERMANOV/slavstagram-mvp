@@ -3,6 +3,7 @@ package com.babushka.slav_squad.ui.screens.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.screens.BasePresenter;
@@ -25,7 +26,7 @@ public interface LoginContract {
     interface Presenter extends BasePresenter {
         void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton);
 
-        void loginWithGooglePlus();
+        void loginWithGoogle(@NonNull AppCompatActivity activity);
 
         void loginWithUsernameAndPassword(@NonNull UserDetails userDetails);
 

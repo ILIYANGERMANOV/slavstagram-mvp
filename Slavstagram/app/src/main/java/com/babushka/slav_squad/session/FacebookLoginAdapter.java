@@ -17,7 +17,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
  * Created by iliyan on 23.05.17.
  */
 
-public class FacebookLoginAdapter {
+public class FacebookLoginAdapter implements LoginAdapter {
     public static final String[] PERMISSIONS = {"email", "public_profile"};
     private static final String TAG = "FacebookLoginAdapter";
     @NonNull
@@ -30,7 +30,7 @@ public class FacebookLoginAdapter {
         mLoginButton = loginButton;
     }
 
-    public void setupLoginButton(@NonNull final Callback callback) {
+    void setupLoginButton(@NonNull final Callback callback) {
         mLoginButton.setReadPermissions(PERMISSIONS);
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -55,6 +55,7 @@ public class FacebookLoginAdapter {
         });
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }

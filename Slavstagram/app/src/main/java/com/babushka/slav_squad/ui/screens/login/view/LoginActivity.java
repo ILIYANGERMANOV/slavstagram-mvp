@@ -13,6 +13,7 @@ import com.babushka.slav_squad.ui.screens.login.presenter.LoginPresenter;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slavstagram.R;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,6 +27,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     EditText vPasswordInput;
     @BindView(R.id.login_fb_login_button)
     LoginButton vFBLoginButton;
+    @BindView(R.id.login_google_sign_in_button)
+    SignInButton vGoogleLoginButton;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -44,13 +47,18 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     }
 
     @Override
+    protected void onSetupUI() {
+        vGoogleLoginButton.setSize(SignInButton.SIZE_WIDE);
+    }
+
+    @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vFBLoginButton);
     }
 
-    @OnClick(R.id.login_login_with_google_plus_button)
+    @OnClick(R.id.login_google_sign_in_button)
     public void onLoginWithGooglePlusClicked() {
-        mPresenter.loginWithGooglePlus();
+        mPresenter.loginWithGoogle(this);
     }
 
     @OnClick(R.id.login_login_button)

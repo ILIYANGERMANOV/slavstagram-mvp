@@ -30,7 +30,10 @@ dependencies {
     compile deps.gson
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
+
+    //Authentication
     compile 'com.google.firebase:firebase-auth:10.2.6'
+    compile 'com.google.android.gms:play-services-auth:10.2.6'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     testCompile 'junit:junit:4.12'
