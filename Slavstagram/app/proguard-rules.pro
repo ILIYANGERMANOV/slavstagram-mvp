@@ -24,6 +24,20 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#Firebase Authentication
+#Firebase Authentication and Realtime DB
 -keepattributes Signature
+
+#Firebase Auth
 -keepattributes *Annotation*
+
+
+#Firebase DB---------------------------------------------------------
+
+
+# This rule will properly ProGuard all the model classes in
+# the package com.yourcompany.models. Modify to fit the structure
+# of your app.
+-keepclassmembers class com.babushka.slav_squad.persistence.database.model.** {
+  *;
+}
+#Firebase DB---------------------------------------------------------

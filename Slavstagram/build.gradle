@@ -22,6 +22,7 @@ ext {
 
     supportLibVersion = "25.3.1"
     butterKnifeVersion = "8.6.0"
+    playServicesVersion = "10.2.6"
 
     deps = [
             gson     : "com.google.code.gson:gson:2.4",
