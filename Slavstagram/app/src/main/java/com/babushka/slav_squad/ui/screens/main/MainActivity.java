@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private void setup() {
         ButterKnife.bind(this);
         setupUI();
+//        String photoUrl = "http://wwww.google.com";
+//        HashMap<String, Boolean> likedPosts = new HashMap<>();
+//        likedPosts.put("beer", true);
+//        User user = new User("Boris", photoUrl, likedPosts);
+//        Database.getInstance().saveUser(user);
     }
 
     private void setupUI() {
