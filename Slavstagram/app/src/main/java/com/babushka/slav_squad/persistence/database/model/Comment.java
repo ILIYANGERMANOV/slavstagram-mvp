@@ -13,15 +13,18 @@ public class Comment {
     private String mUid;
     @PropertyName(Table.Comment.TEXT)
     private String mText;
-    @PropertyName(Table.Comment.AUTHOR_ID)
-    private String mAuthorId;
+    @PropertyName(Table.Comment.AUTHOR)
+    private User mAuthor;
     @PropertyName(Table.Comment.TIMESTAMP)
     private long mTimestamp;
+    @PropertyName(Table.Comment.INVERTED_TIMESTAMP)
+    private long mInvertedTimestamp;
 
     public Comment() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
+    @PropertyName(Table.Comment.UID)
     public String getUid() {
         return mUid;
     }
@@ -30,6 +33,7 @@ public class Comment {
         mUid = uid;
     }
 
+    @PropertyName(Table.Comment.TEXT)
     public String getText() {
         return mText;
     }
@@ -38,19 +42,32 @@ public class Comment {
         mText = text;
     }
 
-    public String getAuthorId() {
-        return mAuthorId;
+
+    @PropertyName(Table.Comment.AUTHOR)
+    public User getAuthor() {
+        return mAuthor;
     }
 
-    public void setAuthorId(String authorId) {
-        mAuthorId = authorId;
+    public void setAuthor(User author) {
+        mAuthor = author;
     }
 
+    @PropertyName(Table.Comment.TIMESTAMP)
     public long getTimestamp() {
         return mTimestamp;
     }
 
     public void setTimestamp(long timestamp) {
         mTimestamp = timestamp;
+    }
+
+
+    @PropertyName(Table.Comment.INVERTED_TIMESTAMP)
+    public long getInvertedTimestamp() {
+        return mInvertedTimestamp;
+    }
+
+    public void setInvertedTimestamp(long invertedTimestamp) {
+        mInvertedTimestamp = invertedTimestamp;
     }
 }

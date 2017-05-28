@@ -1,9 +1,11 @@
 package com.babushka.slav_squad.persistence.database;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +25,8 @@ import timber.log.Timber;
 public class Database {
     private static Database sDatabase;
     private final DatabaseReference mDatabase;
+    @Nullable
+    private ChildEventListener mPostsEventListener;
 
     private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -52,7 +56,7 @@ public class Database {
     }
 
     public void toggleLike(@NonNull Post post, @NonNull final String userId) {
-        DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(post.getUid());
+        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(post.getUid());
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -84,8 +88,57 @@ public class Database {
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
                 // Transaction completed
-                Timber.d("postTransaction:onComplete" + databaseError);
+                Timber.d("postTransaction:onComplete " + databaseError);
             }
         });
+    }
+
+    public void addPostsListener(@NonNull final PostsListener postsListener) {
+        DatabaseReference postsRef = mDatabase.child(Table.POSTS_TABLE);
+        mPostsEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Post post = dataSnapshot.getValue(Post.class);
+                if (post != null) {
+                    postsListener.onPostAdded(post);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Post post = dataSnapshot.getValue(Post.class);
+                if (post != null) {
+                    postsListener.onPostChanged(post);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Post post = dataSnapshot.getValue(Post.class);
+                if (post != null) {
+                    postsListener.onPostRemoved(post);
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                //TODO: Implement method
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                if (databaseError != null) {
+                    postsListener.onError(databaseError);
+                }
+            }
+        };
+        //TODO: Consider add LIMIT [IMPORTANT]
+        postsRef.addChildEventListener(mPostsEventListener);
+    }
+
+    public void removePostsListener() {
+        if (mPostsEventListener != null) {
+            mDatabase.child(Table.POSTS_TABLE).removeEventListener(mPostsEventListener);
+        }
     }
 }

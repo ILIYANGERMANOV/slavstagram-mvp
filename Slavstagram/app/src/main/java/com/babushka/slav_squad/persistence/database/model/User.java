@@ -2,6 +2,7 @@ package com.babushka.slav_squad.persistence.database.model;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.Table;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,8 +24,6 @@ public class User {
     private String mDisplayName;
     @PropertyName(value = Table.User.PHOTO_URL)
     private String mPhotoUrl;
-    @PropertyName(value = Table.User.LIKED_POSTS_IDS)
-    private Map<String, Boolean> mLikesPostsIds;
 
     public User(@NonNull FirebaseUser user) {
         //TODO: handle missing attributes and make proper implementation
@@ -40,14 +39,7 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Map<String, Boolean> getLikesPostsIds() {
-        return mLikesPostsIds;
-    }
-
-    public void setLikesPostsIds(Map<String, Boolean> likesPostsIds) {
-        mLikesPostsIds = likesPostsIds;
-    }
-
+    @PropertyName(value = Table.User.EMAIL)
     public String getEmail() {
         return mEmail;
     }
@@ -56,6 +48,8 @@ public class User {
         mEmail = email;
     }
 
+    @Nullable
+    @PropertyName(value = Table.User.DISPLAY_NAME)
     public String getDisplayName() {
         return mDisplayName;
     }
@@ -64,6 +58,8 @@ public class User {
         mDisplayName = displayName;
     }
 
+    @Nullable
+    @PropertyName(value = Table.User.PHOTO_URL)
     public String getPhotoUrl() {
         return mPhotoUrl;
     }
