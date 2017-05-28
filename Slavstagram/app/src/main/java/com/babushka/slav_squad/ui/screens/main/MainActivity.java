@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.persistence.database.Database;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
-import com.babushka.slavstagram.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,6 +22,8 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_info_text_view)
     TextView vInfoText;
+    private Post mPost;
+    private FirebaseUser mUser;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -36,15 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private void setup() {
         ButterKnife.bind(this);
         setupUI();
-//        String photoUrl = "http://wwww.google.com";
-//        HashMap<String, Boolean> likedPosts = new HashMap<>();
-//        likedPosts.put("beer", true);
-//        User user = new User("Boris", photoUrl, likedPosts);
-//        Database.getInstance().saveUser(user);
     }
 
     private void setupUI() {
-//        mTestTextView.setText(mTestTextView.getText() + " 100% working!");
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String name = currentUser.getDisplayName();
@@ -62,5 +60,19 @@ public class MainActivity extends AppCompatActivity {
     public void logout() {
         SessionManager.getInstance().logout();
         SplashActivity.startScreenAsEntryPoint(this);
+    }
+
+    @OnClick(R.id.main_add_post_button)
+    public void addPost() {
+        String imageUrl = "https://i.ytimg.com/vi/x6lv7FACT-o/hqdefault.jpg";
+        mUser = SessionManager.getInstance().getCurrentUser();
+        mPost = new Post(mUser.getUid(), "Awesome squatting slav", imageUrl);
+        Database.getInstance().saveNewPost(mPost);
+
+    }
+
+    @OnClick(R.id.main_toggle_like_button)
+    public void toggleLikeButton() {
+        Database.getInstance().toggleLike(mPost, mUser.getUid());
     }
 }

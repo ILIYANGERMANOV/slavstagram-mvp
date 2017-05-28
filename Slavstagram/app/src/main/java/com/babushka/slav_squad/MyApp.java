@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.babushka.slav_squad.config.Configuration;
 import com.babushka.slav_squad.config.FirebaseDBConfiguration;
+import com.babushka.slav_squad.config.TimberConfiguration;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class MyApp extends Application {
 
     static {
         sConfigurationSet.add(new FirebaseDBConfiguration());
+        sConfigurationSet.add(new TimberConfiguration());
     }
 
     @Override

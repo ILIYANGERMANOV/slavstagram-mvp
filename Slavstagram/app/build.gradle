@@ -28,8 +28,11 @@ dependencies {
     compile deps.appCompat
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile deps.gson
+
+    //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
+    compile 'com.jakewharton.timber:timber:4.5.1'
 
     //Authentication
     compile "com.google.firebase:firebase-auth:$project.playServicesVersion"

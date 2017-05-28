@@ -12,6 +12,7 @@ import com.babushka.slav_squad.session.LoginAdapter;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.screens.login.LoginContract;
+import com.babushka.slav_squad.ui.screens.login.model.LoginModel;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,12 +23,16 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginPresenter implements LoginContract.Presenter {
     @NonNull
     private final SessionManager mSessionManager;
+    @NonNull
+    private final LoginModel mLoginModel;
     private LoginContract.View mView;
     @Nullable
     private LoginAdapter mLoginAdapter;
 
-    public LoginPresenter(@NonNull LoginContract.View view) {
+
+    public LoginPresenter(@NonNull LoginContract.View view, @NonNull LoginModel loginModel) {
         mView = view;
+        mLoginModel = loginModel;
         mSessionManager = SessionManager.getInstance();
     }
 
@@ -37,7 +42,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new FacebookLoginCallback() {
                     @Override
                     public void onSuccess(@NonNull FirebaseUser user) {
-                        handleSuccessfulLogin();
+                        saveUserAndHandleSuccessfulLogin(user);
                     }
 
                     @Override
@@ -59,7 +64,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         mLoginAdapter = mSessionManager.loginWithGoogle(activity, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
-                handleSuccessfulLogin();
+                saveUserAndHandleSuccessfulLogin(user);
             }
 
             @Override
@@ -110,6 +115,11 @@ public class LoginPresenter implements LoginContract.Presenter {
                 handleLoginError("Error while login as guest: ", exception);
             }
         });
+    }
+
+    private void saveUserAndHandleSuccessfulLogin(@NonNull FirebaseUser user) {
+        mLoginModel.saveUser(user);
+        handleSuccessfulLogin();
     }
 
     private void handleSuccessfulLogin() {

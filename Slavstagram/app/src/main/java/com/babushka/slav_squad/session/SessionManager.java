@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 /**
@@ -38,7 +39,11 @@ public class SessionManager {
     }
 
     public boolean isLoggedUser() {
-        return mAuth.getCurrentUser() != null;
+        return getCurrentUser() != null;
+    }
+
+    public FirebaseUser getCurrentUser() {
+        return mAuth.getCurrentUser();
     }
 
     public LoginAdapter loginWithFacebook(@NonNull final Activity activity, @NonNull LoginButton loginButton,
@@ -137,8 +142,8 @@ public class SessionManager {
 
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
-                mLoginCallback.onSuccess(mAuth.getCurrentUser());
+            if (task.isSuccessful() && getCurrentUser() != null) {
+                mLoginCallback.onSuccess(getCurrentUser());
             } else {
                 Exception exception = task.getException();
                 if (exception != null) {

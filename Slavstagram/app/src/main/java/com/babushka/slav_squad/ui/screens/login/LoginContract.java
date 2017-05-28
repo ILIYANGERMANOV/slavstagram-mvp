@@ -9,6 +9,7 @@ import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.screens.BasePresenter;
 import com.babushka.slav_squad.ui.screens.BaseView;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by iliyan on 22.05.17.
@@ -16,16 +17,16 @@ import com.facebook.login.widget.LoginButton;
 
 public interface LoginContract {
     interface View extends BaseView {
-        void startRegisterScreen();
 
+        void startRegisterScreen();
         void restartApp();
 
         void showToast(@NonNull String message);
+
     }
-
     interface Presenter extends BasePresenter {
-        void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton);
 
+        void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton);
         void loginWithGoogle(@NonNull AppCompatActivity activity);
 
         void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails);
@@ -35,5 +36,10 @@ public interface LoginContract {
         void loginAsGuest(@NonNull Activity activity);
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
+
+    }
+
+    interface Model {
+        void saveUser(@NonNull FirebaseUser user);
     }
 }

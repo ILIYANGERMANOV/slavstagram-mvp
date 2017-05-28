@@ -6,12 +6,13 @@ import android.support.annotation.NonNull;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.screens.BaseActivity;
 import com.babushka.slav_squad.ui.screens.login.LoginContract;
+import com.babushka.slav_squad.ui.screens.login.model.LoginModel;
 import com.babushka.slav_squad.ui.screens.login.presenter.LoginPresenter;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
-import com.babushka.slavstagram.R;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
@@ -43,7 +44,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     @NonNull
     @Override
     protected LoginContract.Presenter initializePresenter() {
-        return new LoginPresenter(this);
+        return new LoginPresenter(this, new LoginModel());
     }
 
     @Override

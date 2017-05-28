@@ -10,14 +10,15 @@ public class Table {
     public static final String COMMENTS_TABLE = "comments";
 
     public static class User {
+        public static final String EMAIL = "email";
         public static final String DISPLAY_NAME = "display_name";
         public static final String PHOTO_URL = "photo_url";
         //TODO: Add security rule in Firebase to protect liked posts
-        public static final String LIKED_POSTS = "liked_posts";
+        public static final String LIKED_POSTS_IDS = "liked_posts_ids";
     }
 
     public static class Post {
-        public static final String TITLE = "title";
+        public static final String UID = "uid";
         public static final String IMAGE_URL = "image_url";
         public static final String DESCRIPTION = "description";
         /**
@@ -31,7 +32,8 @@ public class Table {
     }
 
     public static class Comment {
-        public static final String MESSAGE = "message";
+        public static final String UID = "uid";
+        public static final String TEXT = "text";
         /**
          * Corresponds to USER_ID
          */
