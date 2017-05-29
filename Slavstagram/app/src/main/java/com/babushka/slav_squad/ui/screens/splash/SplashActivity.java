@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.login.view.LoginActivity;
-import com.babushka.slav_squad.ui.screens.main.MainActivity;
+import com.babushka.slav_squad.ui.screens.main.view.MainActivity;
 import com.babushka.slav_squad.util.Constants;
 
 /**

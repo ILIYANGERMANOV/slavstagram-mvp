@@ -25,9 +25,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    //CORE
     compile deps.appCompat
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile deps.gson
+    compile "com.android.support:recyclerview-v7:$project.supportLibVersion"
 
     //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"

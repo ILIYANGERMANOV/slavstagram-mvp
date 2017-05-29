@@ -38,4 +38,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mPresenter = initializePresenter();
         onSetupFinished();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }
