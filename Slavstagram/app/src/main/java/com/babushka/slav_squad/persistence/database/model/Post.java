@@ -21,10 +21,10 @@ public class Post {
     private String mUid;
     @PropertyName(value = Table.Post.AUTHOR)
     private User mAuthor;
+    @PropertyName(value = Table.Post.IMAGE)
+    private Image mImage;
     @PropertyName(value = Table.Post.DESCRIPTION)
     private String mDescription;
-    @PropertyName(value = Table.Post.IMAGE_URL)
-    private String mImageUrl;
     @PropertyName(value = Table.Post.LIKES_COUNT)
     private int mLikesCount;
     @PropertyName(value = Table.Post.LIKES)
@@ -37,10 +37,10 @@ public class Post {
     private long mInvertedTimestamp;
 
     public Post(@NonNull User author, @Nullable String description,
-                @NonNull String imageUrl) {
+                @NonNull Image image) {
         mAuthor = author;
         mDescription = description;
-        mImageUrl = imageUrl;
+        mImage = image;
         mLikesCount = 0;
         mLikes = new HashMap<>();
         mComments = new HashMap<>();
@@ -70,13 +70,13 @@ public class Post {
         mDescription = description;
     }
 
-    @PropertyName(value = Table.Post.IMAGE_URL)
-    public String getImageUrl() {
-        return mImageUrl;
+    @PropertyName(value = Table.Post.IMAGE)
+    public Image getImage() {
+        return mImage;
     }
 
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
+    public void setImage(Image image) {
+        mImage = image;
     }
 
     @PropertyName(value = Table.Post.AUTHOR)
@@ -142,7 +142,7 @@ public class Post {
         result.put(Table.Post.UID, mUid);
         result.put(Table.Post.AUTHOR, mAuthor);
         result.put(Table.Post.DESCRIPTION, mDescription);
-        result.put(Table.Post.IMAGE_URL, mImageUrl);
+        result.put(Table.Post.IMAGE, mImage);
         result.put(Table.Post.LIKES_COUNT, mLikesCount);
         result.put(Table.Post.LIKES, mLikes);
         result.put(Table.Post.COMMENTS, mComments);
@@ -151,19 +151,55 @@ public class Post {
         return result;
     }
 
-    @Exclude
-    @Override
-    public String toString() {
-        return "Post{" +
-                "mUid='" + mUid + '\'' +
-                ", mAuthor=" + mAuthor +
-                ", mDescription='" + mDescription + '\'' +
-                ", mImageUrl='" + mImageUrl + '\'' +
-                ", mLikesCount=" + mLikesCount +
-                ", mLikes=" + mLikes +
-                ", mComments=" + mComments +
-                ", mTimestamp=" + mTimestamp +
-                ", mInvertedTimestamp=" + mInvertedTimestamp +
-                '}';
+    @IgnoreExtraProperties
+    public static class Image {
+        @PropertyName(value = Table.Post.Image.IMAGE_URL)
+        private String mImageUrl;
+        @PropertyName(value = Table.Post.Image.WIDTH)
+        private double mWidth;
+        @PropertyName(value = Table.Post.Image.HEIGHT)
+        private double mHeight;
+
+        public Image(@NonNull String imageUrl, double width, double height) {
+            mImageUrl = imageUrl;
+            mWidth = width;
+            mHeight = height;
+        }
+
+        public Image() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        @PropertyName(value = Table.Post.Image.IMAGE_URL)
+        public String getImageUrl() {
+            return mImageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            mImageUrl = imageUrl;
+        }
+
+        @PropertyName(value = Table.Post.Image.WIDTH)
+        public double getWidth() {
+            return mWidth;
+        }
+
+        public void setWidth(double width) {
+            mWidth = width;
+        }
+
+        @PropertyName(value = Table.Post.Image.HEIGHT)
+        public double getHeight() {
+            return mHeight;
+        }
+
+        public void setHeight(double height) {
+            mHeight = height;
+        }
+
+        @Exclude
+        public double getWidthHeightRatio() {
+            return mWidth / mHeight;
+        }
     }
 }

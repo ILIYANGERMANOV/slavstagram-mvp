@@ -46,6 +46,24 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
         holder.display(mData.get(position));
     }
 
+    public void add(int position, @NonNull T item) {
+        ensureDataIsInitialzied();
+        mData.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public void add(@NonNull T item) {
+        ensureDataIsInitialzied();
+        mData.add(item);
+        notifyItemInserted(mData.size() - 1);
+    }
+
+    private void ensureDataIsInitialzied() {
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
+    }
+
     public void display(@NonNull List<T> data) {
         if (mData != null) {
             mData.clear();

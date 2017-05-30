@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       xmlns:tools="http://schemas.android.com/tools"
+       tools:parentTag="android.support.constraint.ConstraintLayout">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/post_author_circle_image_view"
+        android:layout_width="@dimen/post_profile_pic_size"
+        android:layout_height="@dimen/post_profile_pic_size"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/post_author_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/post_profile_pic_size"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center|start"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/post_author_circle_image_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Boris"/>
+
+    <ImageView
+        android:id="@+id/post_main_image_view"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_author_name_text_view"
+        app:srcCompat="@color/colorPrimary"/>
+
+    <ImageButton
+        android:id="@+id/post_like_image_button"
+        style="@style/ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="0dp"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        app:srcCompat="@drawable/ic_favorite_border_black_36dp"/>
+
+    <TextView
+        android:id="@+id/post_likes_count_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/PostNumberTextAppearance"
+        app:layout_constraintLeft_toRightOf="@+id/post_like_image_button"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        tools:text="16"/>
+
+    <ImageButton
+        android:id="@+id/post_comments_image_button"
+        style="@style/ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintLeft_toRightOf="@+id/post_likes_count_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        app:srcCompat="@drawable/ic_comment_black_36dp"/>
+
+    <TextView
+        android:id="@+id/post_comments_count_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/PostNumberTextAppearance"
+        app:layout_constraintLeft_toRightOf="@+id/post_comments_image_button"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        tools:text="8"/>
+
+    <ImageButton
+        android:id="@+id/post_download_image_button"
+        style="@style/ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        app:srcCompat="@drawable/ic_file_download_black_36dp"/>
+
+    <ImageButton
+        android:id="@+id/post_share_image_button"
+        style="@style/ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintRight_toLeftOf="@+id/post_download_image_button"
+        app:layout_constraintTop_toBottomOf="@+id/post_main_image_view"
+        app:srcCompat="@drawable/ic_share_black_36dp"/>
+
+    <TextView
+        android:id="@+id/post_description_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_like_image_button"
+        tools:text="Slav level - Putin"/>
+
+</merge>

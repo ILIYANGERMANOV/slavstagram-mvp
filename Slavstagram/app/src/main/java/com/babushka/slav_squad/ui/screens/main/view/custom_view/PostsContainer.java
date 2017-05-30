@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.BaseContainer;
 
@@ -19,7 +20,7 @@ public class PostsContainer extends BaseContainer<Post, PostViewHolder, PostsAda
     }
 
     @Override
-    protected PostsAdapter initializeAdapter(@NonNull Activity activity) {
-        return new PostsAdapter(activity);
+    protected PostsAdapter initializeAdapter(@NonNull Activity activity, @NonNull GlideRequests imageLoader) {
+        return new PostsAdapter(activity, imageLoader);
     }
 }

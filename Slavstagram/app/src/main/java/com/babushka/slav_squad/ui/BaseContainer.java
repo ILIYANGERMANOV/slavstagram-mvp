@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
+import com.babushka.slav_squad.GlideRequests;
+
 import java.util.List;
 
 /**
@@ -22,18 +24,33 @@ public abstract class BaseContainer<T, VH extends BaseAdapter.BaseViewHolder<T>,
         super(context, attrs);
     }
 
-    protected abstract A initializeAdapter(@NonNull Activity activity);
+    protected abstract A initializeAdapter(@NonNull Activity activity, @NonNull GlideRequests imageLoader);
 
-    public void setup(@NonNull Activity activity) {
-        setAdapter(initializeAdapter(activity));
+    public void setup(@NonNull Activity activity, @NonNull GlideRequests imageLoader) {
+        mAdapter = initializeAdapter(activity, imageLoader);
+        setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(activity);
         setLayoutManager(mLayoutManager);
     }
 
+    public void add(int position, @NonNull T item) {
+        ensureAdapterIsReady();
+        mAdapter.add(position, item);
+    }
+
+    public void add(@NonNull T item) {
+        ensureAdapterIsReady();
+        mAdapter.add(item);
+    }
+
     public void display(@NonNull List<T> data) {
+        ensureAdapterIsReady();
+        mAdapter.display(data);
+    }
+
+    private void ensureAdapterIsReady() {
         if (mAdapter == null) {
             throw new IllegalStateException("BaseContainer#setup() must be called before displaying data");
         }
-        mAdapter.display(data);
     }
 }

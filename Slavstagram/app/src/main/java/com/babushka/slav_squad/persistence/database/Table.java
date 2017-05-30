@@ -17,17 +17,23 @@ public class Table {
 
     public static class Post {
         public static final String UID = "uid";
-        public static final String IMAGE_URL = "image_url";
-        public static final String DESCRIPTION = "description";
         /**
          * Corresponds to USER_ID
          */
         public static final String AUTHOR = "author";
+        public static final String IMAGE = "image";
+        public static final String DESCRIPTION = "description";
         public static final String LIKES_COUNT = "likes_count";
         public static final String LIKES = "likes";
         public static final String COMMENTS = "comments";
         public static final String TIMESTAMP = "timestamp";
         public static final String INVERTED_TIMESTAMP = "inverted_timestamp";
+
+        public static class Image {
+            public static final String IMAGE_URL = "image_url";
+            public static final String WIDTH = "width";
+            public static final String HEIGHT = "height";
+        }
     }
 
     public static class Comment {

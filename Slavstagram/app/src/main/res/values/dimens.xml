@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard values -->
+    <dimen name="min_clickable_area">48dp</dimen>
+
+    <dimen name="post_profile_pic_size">40dp</dimen>
+</resources>
