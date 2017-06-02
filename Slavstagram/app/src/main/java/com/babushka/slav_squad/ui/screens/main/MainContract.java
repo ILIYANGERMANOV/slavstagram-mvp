@@ -1,5 +1,9 @@
 package com.babushka.slav_squad.ui.screens.main;
 
+import android.support.annotation.NonNull;
+
+import com.babushka.slav_squad.persistence.database.PostsListener;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.BasePresenter;
 import com.babushka.slav_squad.ui.screens.BaseView;
 
@@ -8,11 +12,17 @@ import com.babushka.slav_squad.ui.screens.BaseView;
  */
 
 public interface MainContract {
-    interface Presenter extends BasePresenter {
-
+    interface View extends BaseView {
+        void addPostAsFirst(@NonNull Post post);
     }
 
-    interface View extends BaseView {
+    interface Presenter extends BasePresenter {
+        void displayAllPostsInRealtime();
+    }
 
+    interface Model {
+        void addPostsListener(@NonNull PostsListener postsListener);
+
+        void removePostsListener();
     }
 }

@@ -10,16 +10,15 @@ import android.view.MenuItem;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.Database;
-import com.babushka.slav_squad.persistence.database.PostsListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.BaseActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
+import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
-import com.google.firebase.database.DatabaseError;
 
 import java.util.Random;
 
@@ -47,35 +46,13 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @Override
     protected void onSetupFinished() {
-        //TODO: Refactor to MVP
-        Database.getInstance().addPostsListener(new PostsListener() {
-            @Override
-            public void onPostAdded(@NonNull Post post) {
-                //add post as first
-                mPostsContainer.add(0, post);
-            }
-
-            @Override
-            public void onPostChanged(@NonNull Post post) {
-
-            }
-
-            @Override
-            public void onPostRemoved(@NonNull Post post) {
-
-            }
-
-            @Override
-            public void onError(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        mPresenter.displayAllPostsInRealtime();
     }
 
     @NonNull
     @Override
     protected MainPresenter initializePresenter() {
-        return new MainPresenter(this);
+        return new MainPresenter(this, new MainModel());
     }
 
     @Override
@@ -132,5 +109,10 @@ public class MainActivity extends BaseActivity<MainPresenter>
         String imageUrl = "http://cdn-9chat-fun.9cache.com/media/photo/aoXY4GW61_480w_v1.jpg";
         Post.Image image = new Post.Image(imageUrl, 480, 359);
         return new Post(author, "Squatting gopnica", image);
+    }
+
+    @Override
+    public void addPostAsFirst(@NonNull Post post) {
+        mPostsContainer.add(0, post);
     }
 }
