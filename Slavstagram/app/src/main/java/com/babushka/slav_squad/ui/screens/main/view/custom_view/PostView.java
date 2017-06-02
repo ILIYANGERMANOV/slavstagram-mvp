@@ -25,6 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class PostView extends LinearLayout {
+    private static int sPostViewWidth = 0;
     //TODO: Refactor
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
@@ -51,7 +52,7 @@ public class PostView extends LinearLayout {
     }
 
     public void display(@NonNull Post post, GlideRequests imageLoader) {
-        //TODO: Consider adding defense agains missing fields
+        //TODO: Consider adding defense against missing fields
         displayAuthor(post.getAuthor(), imageLoader);
         displayPostImage(post.getImage(), imageLoader);
         vDescriptionText.setText(post.getDescription());
@@ -68,28 +69,28 @@ public class PostView extends LinearLayout {
     }
 
     private void displayPostImage(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader) {
-        //TODO: Refactor
-        int measuredWidth = vMainImage.getMeasuredWidth();
-        if (measuredWidth > 0) {
-            resizeImageViewAndLoadImage(image, imageLoader);
-        } else {
+        if (sPostViewWidth == 0) {
             vMainImage.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
+                    sPostViewWidth = getMeasuredWidth();
                     vMainImage.getViewTreeObserver()
                             .removeOnGlobalLayoutListener(this);
+
                     resizeImageViewAndLoadImage(image, imageLoader);
                 }
             });
+        } else {
+            resizeImageViewAndLoadImage(image, imageLoader);
         }
     }
 
     private void resizeImageViewAndLoadImage(@NonNull Post.Image postImage, @NonNull GlideRequests imageLoader) {
-        int imageWidth = vMainImage.getMeasuredWidth();
-        int targetImageHeight = (int) (imageWidth / postImage.getWidthHeightRatio());
+        int targetImageHeight = (int) (sPostViewWidth / postImage.getWidthHeightRatio());
         setImageViewHeight(vMainImage, targetImageHeight);
         imageLoader.load(postImage.getImageUrl())
-                .override(imageWidth, targetImageHeight)
+                .override(sPostViewWidth, targetImageHeight)
+                .error(R.color.colorPrimary)
                 .into(vMainImage);
     }
 
