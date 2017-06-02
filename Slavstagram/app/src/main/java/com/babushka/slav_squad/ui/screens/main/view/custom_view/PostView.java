@@ -2,6 +2,7 @@ package com.babushka.slav_squad.ui.screens.main.view.custom_view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostView extends LinearLayout {
     private static int sPostViewWidth = 0;
-    //TODO: Refactor
+
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
     @BindView(R.id.post_author_name_text_view)
@@ -57,14 +58,14 @@ public class PostView extends LinearLayout {
         displayPostImage(post.getImage(), imageLoader);
         vDescriptionText.setText(post.getDescription());
         vLikesCountText.setText(String.valueOf(post.getLikesCount()));
-        Map<String, Boolean> comments = post.getComments();
-        if (comments != null) {
-            vCommentsCountText.setText(String.valueOf(comments.size()));
-        }
+        displayComments(post.getComments());
     }
 
     private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
-        imageLoader.load(author.getPhotoUrl()).dontAnimate().into(vAuthorCircleImage);
+        imageLoader.load(author.getPhotoUrl())
+                .dontAnimate()
+                //TODO: add placeholder and error drawable
+                .into(vAuthorCircleImage);
         vAuthorNameText.setText(author.getDisplayName());
     }
 
@@ -76,7 +77,6 @@ public class PostView extends LinearLayout {
                     sPostViewWidth = getMeasuredWidth();
                     vMainImage.getViewTreeObserver()
                             .removeOnGlobalLayoutListener(this);
-
                     resizeImageViewAndLoadImage(image, imageLoader);
                 }
             });
@@ -85,12 +85,18 @@ public class PostView extends LinearLayout {
         }
     }
 
+    private void displayComments(@Nullable Map<String, Boolean> comments) {
+        if (comments != null) {
+            vCommentsCountText.setText(String.valueOf(comments.size()));
+        }
+    }
+
     private void resizeImageViewAndLoadImage(@NonNull Post.Image postImage, @NonNull GlideRequests imageLoader) {
         int targetImageHeight = (int) (sPostViewWidth / postImage.getWidthHeightRatio());
         setImageViewHeight(vMainImage, targetImageHeight);
         imageLoader.load(postImage.getImageUrl())
                 .override(sPostViewWidth, targetImageHeight)
-                .error(R.color.colorPrimary)
+                //TODO: add placeholder and error drawable
                 .into(vMainImage);
     }
 
