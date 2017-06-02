@@ -14,6 +14,10 @@ import com.babushka.slav_squad.ui.screens.BaseView;
 public interface MainContract {
     interface View extends BaseView {
         void addPostAsFirst(@NonNull Post post);
+
+        void updatePost(@NonNull Post post);
+
+        void removePost(@NonNull Post post);
     }
 
     interface Presenter extends BasePresenter {

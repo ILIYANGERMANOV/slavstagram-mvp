@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui;
+package com.babushka.slav_squad.ui.container;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by iliyan on 29.05.17.
  */
 
-public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.BaseViewHolder<T>> extends RecyclerView.Adapter<VH> {
 
     protected final Context mContext;
 
@@ -52,19 +52,7 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
         notifyItemInserted(position);
     }
 
-    public void add(@NonNull T item) {
-        ensureDataIsInitialzied();
-        mData.add(item);
-        notifyItemInserted(mData.size() - 1);
-    }
-
-    private void ensureDataIsInitialzied() {
-        if (mData == null) {
-            mData = new ArrayList<>();
-        }
-    }
-
-    public void display(@NonNull List<T> data) {
+    void display(@NonNull List<T> data) {
         if (mData != null) {
             mData.clear();
         } else {
@@ -74,10 +62,57 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
         notifyDataSetChanged();
     }
 
+    void add(@NonNull T item) {
+        ensureDataIsInitialzied();
+        mData.add(item);
+        notifyItemInserted(mData.size() - 1);
+    }
+
+    void update(@NonNull T item) {
+        ensureDataIsInitialzied();
+        try {
+            int itemPosition = findItemPosition(item);
+            mData.set(itemPosition, item);
+            notifyItemChanged(itemPosition);
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void remove(@NonNull T item) {
+        ensureDataIsInitialzied();
+        try {
+            int itemPosition = findItemPosition(item);
+            mData.remove(itemPosition);
+            notifyItemRemoved(itemPosition);
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int findItemPosition(@NonNull T desiredItem) throws ItemNotFoundException {
+        String desiredItemId = desiredItem.getId();
+        for (int i = 0; i < mData.size(); ++i) {
+            T item = mData.get(i);
+            if (item.getId().equals(desiredItemId)) {
+                return i;
+            }
+        }
+        throw new ItemNotFoundException();
+    }
+
+
+    private void ensureDataIsInitialzied() {
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
+    }
+
     @Override
     public int getItemCount() {
         return mData != null ? mData.size() : 0;
     }
+
 
     public static abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
@@ -88,5 +123,8 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
         public abstract void display(@NonNull T item);
 
         public abstract void resetState();
+    }
+
+    private static class ItemNotFoundException extends Exception {
     }
 }

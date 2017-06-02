@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui;
+package com.babushka.slav_squad.ui.container;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by iliyan on 29.05.17.
  */
 
-public abstract class BaseContainer<T, VH extends BaseAdapter.BaseViewHolder<T>, A extends BaseAdapter<T, VH>> extends RecyclerView {
+public abstract class BaseContainer<T extends Findable, VH extends BaseAdapter.BaseViewHolder<T>, A extends BaseAdapter<T, VH>> extends RecyclerView {
     protected A mAdapter;
     protected LayoutManager mLayoutManager;
 
@@ -38,6 +38,11 @@ public abstract class BaseContainer<T, VH extends BaseAdapter.BaseViewHolder<T>,
         //empty method
     }
 
+    public void display(@NonNull List<T> data) {
+        ensureAdapterIsReady();
+        mAdapter.display(data);
+    }
+
     public void add(int position, @NonNull T item) {
         ensureAdapterIsReady();
         mAdapter.add(position, item);
@@ -48,9 +53,14 @@ public abstract class BaseContainer<T, VH extends BaseAdapter.BaseViewHolder<T>,
         mAdapter.add(item);
     }
 
-    public void display(@NonNull List<T> data) {
+    public void update(@NonNull T item) {
         ensureAdapterIsReady();
-        mAdapter.display(data);
+        mAdapter.update(item);
+    }
+
+    public void remove(@NonNull T item) {
+        ensureAdapterIsReady();
+        mAdapter.remove(item);
     }
 
     private void ensureAdapterIsReady() {

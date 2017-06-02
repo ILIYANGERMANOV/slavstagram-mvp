@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.ui.BaseContainer;
+import com.babushka.slav_squad.ui.container.BaseContainer;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**

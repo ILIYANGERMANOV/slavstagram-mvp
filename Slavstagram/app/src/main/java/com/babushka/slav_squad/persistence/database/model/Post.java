@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.Table;
+import com.babushka.slav_squad.ui.container.Findable;
 import com.babushka.slav_squad.util.DateUtil;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -16,7 +17,7 @@ import java.util.Map;
  * Created by iliyan on 25.05.17.
  */
 @IgnoreExtraProperties
-public class Post {
+public class Post implements Findable {
     @PropertyName(value = Table.Post.UID)
     private String mUid;
     @PropertyName(value = Table.Post.AUTHOR)
@@ -149,6 +150,13 @@ public class Post {
         result.put(Table.Post.TIMESTAMP, mTimestamp);
         result.put(Table.Post.INVERTED_TIMESTAMP, mInvertedTimestamp);
         return result;
+    }
+
+    @Exclude
+    @NonNull
+    @Override
+    public String getId() {
+        return mUid;
     }
 
     @IgnoreExtraProperties

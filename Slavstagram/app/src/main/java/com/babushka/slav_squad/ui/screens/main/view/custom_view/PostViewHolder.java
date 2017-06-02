@@ -6,7 +6,7 @@ import android.view.View;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.ui.BaseAdapter;
+import com.babushka.slav_squad.ui.container.BaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

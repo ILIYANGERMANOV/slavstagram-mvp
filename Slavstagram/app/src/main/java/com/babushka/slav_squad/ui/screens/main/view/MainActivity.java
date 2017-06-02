@@ -115,4 +115,14 @@ public class MainActivity extends BaseActivity<MainPresenter>
     public void addPostAsFirst(@NonNull Post post) {
         mPostsContainer.add(0, post);
     }
+
+    @Override
+    public void updatePost(@NonNull Post post) {
+        mPostsContainer.update(post);
+    }
+
+    @Override
+    public void removePost(@NonNull Post post) {
+        mPostsContainer.remove(post);
+    }
 }

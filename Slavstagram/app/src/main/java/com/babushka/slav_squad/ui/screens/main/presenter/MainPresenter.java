@@ -33,12 +33,16 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onPostChanged(@NonNull Post post) {
-                //TODO: Implement method
+                if (mView != null) {
+                    mView.updatePost(post);
+                }
             }
 
             @Override
             public void onPostRemoved(@NonNull Post post) {
-                //TODO: Implement method
+                if (mView != null) {
+                    mView.removePost(post);
+                }
 
             }
 
