@@ -38,6 +38,7 @@ dependencies {
 
     //3rd party UI
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
     //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"

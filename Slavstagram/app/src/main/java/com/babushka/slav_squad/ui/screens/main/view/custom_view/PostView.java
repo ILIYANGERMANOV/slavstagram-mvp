@@ -2,10 +2,10 @@ package com.babushka.slav_squad.ui.screens.main.view.custom_view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideRequests;
@@ -24,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by iliyan on 30.05.17.
  */
 
-public class PostView extends ConstraintLayout {
+public class PostView extends LinearLayout {
     //TODO: Refactor
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
@@ -41,8 +41,13 @@ public class PostView extends ConstraintLayout {
 
     public PostView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupRootView();
         inflate(context, R.layout.post_view_layout, this);
         ButterKnife.bind(this);
+    }
+
+    private void setupRootView() {
+        setOrientation(VERTICAL);
     }
 
     public void display(@NonNull Post post, GlideRequests imageLoader) {
@@ -58,7 +63,7 @@ public class PostView extends ConstraintLayout {
     }
 
     private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
-        imageLoader.load(author.getPhotoUrl()).into(vAuthorCircleImage);
+        imageLoader.load(author.getPhotoUrl()).dontAnimate().into(vAuthorCircleImage);
         vAuthorNameText.setText(author.getDisplayName());
     }
 

@@ -31,6 +31,11 @@ public abstract class BaseContainer<T, VH extends BaseAdapter.BaseViewHolder<T>,
         setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(activity);
         setLayoutManager(mLayoutManager);
+        onCustomSetup(activity);
+    }
+
+    protected void onCustomSetup(@NonNull Activity activity) {
+        //empty method
     }
 
     public void add(int position, @NonNull T item) {

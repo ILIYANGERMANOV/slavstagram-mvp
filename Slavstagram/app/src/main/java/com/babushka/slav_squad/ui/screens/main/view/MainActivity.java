@@ -21,6 +21,8 @@ import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Random;
+
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter>
@@ -88,9 +90,19 @@ public class MainActivity extends BaseActivity<MainPresenter>
         switch (item.getItemId()) {
             case R.id.action_add_post:
                 User author = new User(SessionManager.getInstance().getCurrentUser());
-                String imageUrl = "http://i.imgur.com/LmS9Fci.jpg";
-                Post.Image image = new Post.Image(imageUrl, 600, 400);
-                Post post = new Post(author, "Slavformers", image);
+                Random random = new Random();
+                Post post = buildPost1(author);
+                switch (random.nextInt(3)) {
+                    case 0:
+                        post = buildPost1(author);
+                        break;
+                    case 1:
+                        post = buildPost2(author);
+                        break;
+                    case 2:
+                        post = buildPost3(author);
+                        break;
+                }
                 Database.getInstance().saveNewPost(post);
                 return true;
             case R.id.action_logout:
@@ -99,5 +111,26 @@ public class MainActivity extends BaseActivity<MainPresenter>
                 return true;
         }
         return false;
+    }
+
+    @NonNull
+    private Post buildPost1(User author) {
+        String imageUrl = "http://i.imgur.com/LmS9Fci.jpg";
+        Post.Image image = new Post.Image(imageUrl, 600, 400);
+        return new Post(author, "Slavformers", image);
+    }
+
+    @NonNull
+    private Post buildPost2(User author) {
+        String imageUrl = "http://www.speakerscorner.me/wp-content/uploads/2017/05/Galina_Dub_9.jpg";
+        Post.Image image = new Post.Image(imageUrl, 1000, 600);
+        return new Post(author, "When she hears your got kompot", image);
+    }
+
+    @NonNull
+    private Post buildPost3(User author) {
+        String imageUrl = "http://cdn-9chat-fun.9cache.com/media/photo/aoXY4GW61_480w_v1.jpg";
+        Post.Image image = new Post.Image(imageUrl, 480, 359);
+        return new Post(author, "Squatting gopnica", image);
     }
 }
