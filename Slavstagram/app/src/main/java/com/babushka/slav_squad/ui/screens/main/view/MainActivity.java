@@ -19,6 +19,7 @@ import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Random;
 
@@ -52,7 +53,8 @@ public class MainActivity extends BaseActivity<MainPresenter>
     @NonNull
     @Override
     protected MainPresenter initializePresenter() {
-        return new MainPresenter(this, new MainModel());
+        FirebaseUser user = SessionManager.getInstance().getCurrentUser();
+        return new MainPresenter(this, new MainModel(user));
     }
 
     @Override

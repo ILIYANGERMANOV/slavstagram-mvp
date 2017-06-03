@@ -4,15 +4,22 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.session.SessionManager;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
 
@@ -27,6 +34,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostView extends LinearLayout {
     private static int sPostViewWidth = 0;
+    @NonNull
+    private final GestureDetector mGestureDetector;
 
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
@@ -40,25 +49,49 @@ public class PostView extends LinearLayout {
     TextView vCommentsCountText;
     @BindView(R.id.post_description_text_view)
     TextView vDescriptionText;
+    @BindView(R.id.post_like_image_button)
+    ImageButton vLikeButton;
+
+    @Nullable
+    private Post mPost;
 
     public PostView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupRootView();
         inflate(context, R.layout.post_view_layout, this);
         ButterKnife.bind(this);
+        mGestureDetector = new GestureDetector(context, new PostGestureListener());
+        setup();
     }
 
     private void setupRootView() {
         setOrientation(VERTICAL);
     }
 
+    private void setup() {
+        vMainImage.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mGestureDetector.onTouchEvent(event);
+            }
+        });
+    }
+
     public void display(@NonNull Post post, GlideRequests imageLoader) {
+        mPost = post;
         //TODO: Consider adding defense against missing fields
         displayAuthor(post.getAuthor(), imageLoader);
         displayPostImage(post.getImage(), imageLoader);
         vDescriptionText.setText(post.getDescription());
-        vLikesCountText.setText(String.valueOf(post.getLikesCount()));
+        displayLikes(post);
         displayComments(post.getComments());
+    }
+
+    private void displayLikes(@NonNull Post post) {
+        vLikesCountText.setText(String.valueOf(post.getLikesCount()));
+        int likeImageRID = post.isLiked() ? R.drawable.ic_favorite_black_36dp
+                : R.drawable.ic_favorite_border_black_36dp;
+        vLikeButton.setImageResource(likeImageRID);
     }
 
     private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
@@ -106,6 +139,7 @@ public class PostView extends LinearLayout {
     }
 
     public void reset() {
+        mPost = null;
         vAuthorCircleImage.setImageDrawable(null);
         vAuthorNameText.setText("");
         vMainImage.setImageDrawable(null);
@@ -117,7 +151,35 @@ public class PostView extends LinearLayout {
 
     @OnClick(R.id.post_like_image_button)
     public void onLikeClicked() {
-        //TODO: Implement method
+        if (mPost != null) {
+            if (mPost.isLiked()) {
+                //post is liked, unlike it
+                unlikePost(mPost);
+            } else {
+                //post is NOT liked, like it
+                likePost(mPost);
+            }
+        }
+    }
+
+    private void likePost(@NonNull Post post) {
+        if (!post.isLiked()) {
+            vLikeButton.setImageResource(R.drawable.ic_favorite_black_36dp);
+            setPostLikedState(post, true);
+        }
+    }
+
+    private void unlikePost(@NonNull Post post) {
+        if (post.isLiked()) {
+            vLikeButton.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+            setPostLikedState(post, false);
+        }
+    }
+
+    private void setPostLikedState(@NonNull Post post, boolean liked) {
+        post.setLiked(liked);
+        FirebaseUser user = SessionManager.getInstance().getCurrentUser();
+        Database.getInstance().toggleLike(post, user.getUid());
     }
 
     @OnClick(R.id.post_comments_image_button)
@@ -133,5 +195,27 @@ public class PostView extends LinearLayout {
     @OnClick(R.id.post_download_image_button)
     public void onDownloadClicked() {
         //TODO: Implement method
+    }
+
+    private class PostGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            if (mPost != null) {
+                likePost(mPost);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            //TODO: Implement method
+            return true;
+        }
     }
 }

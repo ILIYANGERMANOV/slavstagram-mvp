@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 
 import com.babushka.slav_squad.GlideRequests;
@@ -34,5 +35,6 @@ public class PostsContainer extends BaseContainer<Post, PostViewHolder, PostsAda
                 .marginResId(R.dimen.activity_horizontal_margin_half)
                 .sizeResId(R.dimen.posts_divider_height)
                 .build());
+        ((SimpleItemAnimator) getItemAnimator()).setSupportsChangeAnimations(false);
     }
 }

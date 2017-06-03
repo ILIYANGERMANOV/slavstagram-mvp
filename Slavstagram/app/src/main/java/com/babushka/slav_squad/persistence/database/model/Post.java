@@ -36,6 +36,8 @@ public class Post implements Findable {
     private long mTimestamp;
     @PropertyName(value = Table.Post.INVERTED_TIMESTAMP)
     private long mInvertedTimestamp;
+    @Exclude
+    private boolean mIsLiked;
 
     public Post(@NonNull User author, @Nullable String description,
                 @NonNull Image image) {
@@ -51,6 +53,15 @@ public class Post implements Findable {
 
     public Post() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    @Exclude
+    public boolean isLiked() {
+        return mIsLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        mIsLiked = liked;
     }
 
     @PropertyName(value = Table.Post.UID)
