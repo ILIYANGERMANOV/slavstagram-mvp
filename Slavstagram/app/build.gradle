@@ -39,11 +39,18 @@ dependencies {
     //3rd party UI
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.4.5'
+    compile 'com.github.yalantis:ucrop:2.2.1'
 
     //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
     compile 'com.jakewharton.timber:timber:4.5.1'
+    compile("com.github.hotchemi:permissionsdispatcher:$rootProject.permissionsDispatcherVersion") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$rootProject.permissionsDispatcherVersion"
 
     //Authentication
     compile "com.google.firebase:firebase-auth:$project.playServicesVersion"

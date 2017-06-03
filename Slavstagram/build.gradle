@@ -24,6 +24,7 @@ ext {
     butterKnifeVersion = "8.6.0"
     playServicesVersion = "10.2.6"
     glideVersion = "4.0.0-RC0"
+    permissionsDispatcherVersion = "2.4.0"
 
     deps = [
             gson     : "com.google.code.gson:gson:2.4",
@@ -35,6 +36,7 @@ ext {
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 

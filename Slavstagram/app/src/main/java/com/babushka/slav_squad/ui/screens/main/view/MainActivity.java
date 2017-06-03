@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
@@ -19,9 +18,8 @@ import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
+import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Random;
 
 import butterknife.BindView;
 
@@ -68,21 +66,22 @@ public class MainActivity extends BaseActivity<MainPresenter>
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_post:
-                User author = new User(SessionManager.getInstance().getCurrentUser());
-                Random random = new Random();
-                Post post = buildPost1(author);
-                switch (random.nextInt(3)) {
-                    case 0:
-                        post = buildPost1(author);
-                        break;
-                    case 1:
-                        post = buildPost2(author);
-                        break;
-                    case 2:
-                        post = buildPost3(author);
-                        break;
-                }
-                Database.getInstance().saveNewPost(post);
+                UploadPostActivity.startScreen(this);
+//                User author = new User(SessionManager.getInstance().getCurrentUser());
+//                Random random = new Random();
+//                Post post = buildPost1(author);
+//                switch (random.nextInt(3)) {
+//                    case 0:
+//                        post = buildPost1(author);
+//                        break;
+//                    case 1:
+//                        post = buildPost2(author);
+//                        break;
+//                    case 2:
+//                        post = buildPost3(author);
+//                        break;
+//                }
+//                Database.getInstance().saveNewPost(post);
                 return true;
             case R.id.action_logout:
                 SessionManager.getInstance().logout();
