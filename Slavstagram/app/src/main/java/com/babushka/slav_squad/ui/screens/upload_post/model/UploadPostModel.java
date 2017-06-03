@@ -43,22 +43,25 @@ public class UploadPostModel implements UploadPostContract.Model {
     @NonNull
     @Override
     public File createNewPhotoFile() throws IOException {
-        File photoFile = createTempFile();
+        File photoFile = createTempFile(FileType.JPEG);
         mPhotoPath = Uri.fromFile(photoFile);
         return photoFile;
     }
 
     @Override
-    public void deleteCurrentPhotoFile() {
+    public void deleteCurrentPhotoFileIfExists() {
         if (mPhotoPath != null) {
-            deleteFile(new File(mPhotoPath.getPath()));
+            File file = new File(mPhotoPath.getPath());
+            if (file.exists()) {
+                deleteFile(file);
+            }
         }
     }
 
     @NonNull
     @Override
     public File createCroppedImageFile() throws IOException {
-        File photoFile = createTempFile();
+        File photoFile = createTempFile(FileType.PNG);
         mCroppedImagePath = photoFile.getAbsolutePath();
         return photoFile;
     }
@@ -78,14 +81,28 @@ public class UploadPostModel implements UploadPostContract.Model {
 
     @SuppressLint("SimpleDateFormat")
     @NonNull
-    private File createTempFile() throws IOException {
-        //TODO: Implement better solution for creating image files
+    private File createTempFile(@NonNull FileType fileType) throws IOException {
+        String prefix;
+        String extension;
+        switch (fileType) {
+            case JPEG:
+                prefix = "JPEG_";
+                extension = ".jpg";
+                break;
+            case PNG:
+                prefix = "PNG_";
+                extension = ".png";
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported file type");
+        }
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = prefix + timeStamp + "_";
         File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                imageFileName,  /* file name */
+                extension,         /* extension */
                 storageDir      /* directory */
         );
     }
@@ -95,4 +112,8 @@ public class UploadPostModel implements UploadPostContract.Model {
         Database.getInstance().saveNewPost(post);
     }
 
+    private enum FileType {
+        JPEG,
+        PNG
+    }
 }

@@ -71,7 +71,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
         if (resultCode == RESULT_OK) {
             handleCameraOkResult();
         } else if (resultCode == RESULT_CANCELED) {
-            mModel.deleteCurrentPhotoFile();
+            mModel.deleteCurrentPhotoFileIfExists();
         }
     }
 
@@ -81,7 +81,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
             cropPhoto(mModel.getCurrentPhotoFile());
         } catch (IOException e) {
             e.printStackTrace();
-            mModel.deleteCurrentPhotoFile();
+            mModel.deleteCurrentPhotoFileIfExists();
             mView.showError("Error while trying to crop image");
         }
     }
@@ -102,11 +102,12 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
             handleCropErrorResult(data);
         } else if (resultCode == RESULT_CANCELED) {
             mModel.deleteCroppedImageFile();
+            mModel.deleteCurrentPhotoFileIfExists();
         }
     }
 
     private void handleCropOkResult(Intent data) {
-        mModel.deleteCurrentPhotoFile();
+        mModel.deleteCurrentPhotoFileIfExists();
         final Uri resultUri = UCrop.getOutput(data);
         if (resultUri != null) {
             mView.displayPostImage(resultUri);
@@ -117,6 +118,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     private void handleCropErrorResult(Intent data) {
         mModel.deleteCroppedImageFile();
+        mModel.deleteCurrentPhotoFileIfExists();
         final Throwable cropError = UCrop.getError(data);
         if (cropError != null) {
             cropError.printStackTrace();

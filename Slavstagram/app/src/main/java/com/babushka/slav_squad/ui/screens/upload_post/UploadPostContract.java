@@ -51,7 +51,7 @@ public interface UploadPostContract {
         @NonNull
         File createNewPhotoFile() throws IOException;
 
-        void deleteCurrentPhotoFile();
+        void deleteCurrentPhotoFileIfExists();
 
         @NonNull
         File createCroppedImageFile() throws IOException;
