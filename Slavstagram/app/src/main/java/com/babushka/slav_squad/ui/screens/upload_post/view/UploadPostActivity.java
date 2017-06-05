@@ -178,6 +178,7 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
                 .title("Uploading post")
                 .content("Please wait...")
                 .progress(true, 0)
+                .cancelable(false)
                 .show();
     }
 
