@@ -8,11 +8,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.screens.BaseActivity;
@@ -41,6 +43,9 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
     ImageView vImage;
     @BindView(R.id.upload_post_desc_edit_text)
     EditText vDescInput;
+
+    @Nullable
+    private MaterialDialog mProgressDialog;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, UploadPostActivity.class);
@@ -76,7 +81,7 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             createPhotoFileAndStartCameraApp(takePictureIntent, requestCode);
         } else {
-            Toast.makeText(this, "Camera app not found on device, please install one :)", Toast.LENGTH_LONG).show();
+            showToast("Camera app not found on device, please install one :)");
         }
     }
 
@@ -97,7 +102,7 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
     @OnShowRationale(Manifest.permission.CAMERA)
     public void showRationaleForCamera(@NonNull PermissionRequest request) {
         //TODO: Implement method
-        Toast.makeText(this, "Cyka, we need your camera to take pictures!", Toast.LENGTH_LONG).show();
+        showToast("Cyka, we need your camera to take pictures!");
         request.proceed();
     }
 
@@ -132,14 +137,14 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
         if (chooserIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(chooserIntent, requestCode);
         } else {
-            Toast.makeText(this, "Gallery app not found on device, please install one :)", Toast.LENGTH_LONG).show();
+            showToast("Gallery app not found on device, please install one :)");
         }
     }
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
         //TODO: Implement method
-        Toast.makeText(this, "Cyka, we need your storage to pick up a picture!", Toast.LENGTH_LONG).show();
+        showToast("Cyka, we need your storage to pick up a picture!");
         request.proceed();
     }
 
@@ -161,13 +166,40 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
         options.setFreeStyleCropEnabled(true);
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ALL, UCropActivity.SCALE);
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+        options.setMaxBitmapSize(1000);
         UCrop.of(sourceUri, destinationUri)
                 .withOptions(options)
                 .start(this);
     }
 
     @Override
+    public void setUploading() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title("Uploading post")
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
+    }
+
+    @Override
     public void showError(@NonNull String message) {
+        showToast(message);
+        dismissProgressDialog();
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showSuccessAndCloseScreen() {
+        showToast("Post uploaded");
+        finish();
+    }
+
+    private void showToast(@NonNull String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -179,6 +211,12 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
     @OnClick(R.id.upload_post_gallery_button)
     public void onGalleryButtonClicked() {
         mPresenter.handleGalleryClicked();
+    }
+
+    @OnClick(R.id.upload_post_upload_button)
+    public void onUploadButtonClicked() {
+        String desc = vDescInput.getText().toString();
+        mPresenter.handleUpload(desc);
     }
 
     @Override

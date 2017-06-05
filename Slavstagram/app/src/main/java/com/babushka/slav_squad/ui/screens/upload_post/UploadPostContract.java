@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.BasePresenter;
 import com.babushka.slav_squad.ui.screens.BaseView;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
@@ -27,7 +26,11 @@ public interface UploadPostContract {
 
         void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri);
 
+        void setUploading();
+
         void showError(@NonNull String message);
+
+        void showSuccessAndCloseScreen();
     }
 
     interface Presenter extends BasePresenter {
@@ -44,7 +47,8 @@ public interface UploadPostContract {
     }
 
     interface Model {
-        void uploadPost(@NonNull Post post);
+        void uploadPost(@NonNull Uri imageUri, @NonNull String description,
+                        @NonNull UploadPostModel.UploadPostListener listener);
 
         @Nullable
         Uri getCurrentPhotoFile();

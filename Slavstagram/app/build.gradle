@@ -58,6 +58,9 @@ dependencies {
     compile "com.google.firebase:firebase-database:$project.playServicesVersion"
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
+    //Firebase
+    compile "com.google.firebase:firebase-storage:$rootProject.playServicesVersion"
+
     testCompile 'junit:junit:4.12'
 }
 

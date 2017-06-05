@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +46,7 @@ public class Database {
         currentUserRef.updateChildren(user.toCreationMap());
     }
 
-    public void saveNewPost(@NonNull Post post) {
+    public void saveNewPost(@NonNull Post post, @NonNull final OperationListener listener) {
         String key = mDatabase.child(Table.POSTS_TABLE).push().getKey();
         post.setUid(key);
         Map<String, Object> postValues = post.toMap();
@@ -52,7 +54,18 @@ public class Database {
         childUpdates.put('/' + Table.POSTS_TABLE + '/' + key, postValues);
         //TODO: update connected tables
         //        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
-        mDatabase.updateChildren(childUpdates);
+        mDatabase.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                listener.onSuccess();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                listener.onError();
+            }
+        });
     }
 
     public void toggleLike(@NonNull Post post, @NonNull final String userId) {
@@ -140,5 +153,11 @@ public class Database {
         if (mPostsEventListener != null) {
             mDatabase.child(Table.POSTS_TABLE).removeEventListener(mPostsEventListener);
         }
+    }
+
+    public interface OperationListener {
+        void onSuccess();
+
+        void onError();
     }
 }

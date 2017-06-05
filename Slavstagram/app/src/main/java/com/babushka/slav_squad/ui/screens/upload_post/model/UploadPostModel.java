@@ -13,6 +13,9 @@ import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.storage.Storage;
+import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.util.AppUtil;
 
@@ -154,13 +157,49 @@ public class UploadPostModel implements UploadPostContract.Model {
     }
 
     @Override
-    public void uploadPost(@NonNull Post post) {
-        Database.getInstance().saveNewPost(post);
+    public void uploadPost(@NonNull final Uri imageUri, @NonNull final String description,
+                           @NonNull final UploadPostListener listener) {
+        //Upload post image
+        Storage.getInstance().uploadImage(imageUri, new Storage.UploadImageListener() {
+            @Override
+            public void onImageUploaded(@NonNull Post.Image image) {
+                savePostInDatabase(image, description, listener);
+            }
+
+            @Override
+            public void onError(@NonNull Exception e) {
+                Timber.d("Error while uploading post image: %s", imageUri.toString());
+                listener.onError();
+            }
+        });
+    }
+
+    private void savePostInDatabase(@NonNull Post.Image image, @NonNull String description,
+                                    @NonNull final UploadPostListener listener) {
+        User author = new User(SessionManager.getInstance().getCurrentUser());
+        Post post = new Post(author, description, image);
+        Database.getInstance().saveNewPost(post, new Database.OperationListener() {
+            @Override
+            public void onSuccess() {
+                listener.onPostUploaded();
+            }
+
+            @Override
+            public void onError() {
+                listener.onError();
+            }
+        });
     }
 
     private enum FileType {
         JPEG,
         PNG
+    }
+
+    public interface UploadPostListener {
+        void onPostUploaded();
+
+        void onError();
     }
 
     public class SelectedImageNotFoundException extends Exception {

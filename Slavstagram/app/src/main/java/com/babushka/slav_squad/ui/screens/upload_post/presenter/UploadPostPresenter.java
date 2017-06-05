@@ -30,6 +30,8 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     @NonNull
     private final UploadPostContract.Model mModel;
     private UploadPostContract.View mView;
+    @Nullable
+    private Uri mCroppedImageUri;
 
     public UploadPostPresenter(@NonNull UploadPostContract.View view,
                                @NonNull UploadPostContract.Model model) {
@@ -55,7 +57,26 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     @Override
     public void handleUpload(@NonNull String description) {
-        //TODO: Implement method
+        if (mCroppedImageUri != null) {
+            mView.setUploading();
+            mModel.uploadPost(mCroppedImageUri, description, new UploadPostModel.UploadPostListener() {
+                @Override
+                public void onPostUploaded() {
+                    if (mView != null) {
+                        mView.showSuccessAndCloseScreen();
+                    }
+                }
+
+                @Override
+                public void onError() {
+                    if (mView != null) {
+                        mView.showError("Error while uploading post");
+                    }
+                }
+            });
+        } else {
+            mView.showError("Cannot upload post without image :)");
+        }
     }
 
     @Override
@@ -129,9 +150,9 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     private void handleCropOkResult(Intent data) {
         mModel.deleteCurrentPhotoFileIfExists();
-        final Uri resultUri = UCrop.getOutput(data);
-        if (resultUri != null) {
-            mView.displayPostImage(resultUri);
+        mCroppedImageUri = UCrop.getOutput(data);
+        if (mCroppedImageUri != null) {
+            mView.displayPostImage(mCroppedImageUri);
         } else {
             mView.showError("Shit happened while processing crop result");
         }
