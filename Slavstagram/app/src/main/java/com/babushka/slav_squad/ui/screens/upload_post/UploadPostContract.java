@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.BasePresenter;
 import com.babushka.slav_squad.ui.screens.BaseView;
+import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public interface UploadPostContract {
 
         void openCameraWithPermissionCheck(int requestCode);
 
-        void openGallery(int requestCode);
+        void openGalleryWithCheck(int requestCode);
 
         void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri);
 
@@ -57,5 +58,9 @@ public interface UploadPostContract {
         File createCroppedImageFile() throws IOException;
 
         void deleteCroppedImageFile();
+
+        @NonNull
+        Uri getSelectedImageFromGallery(@NonNull Intent data)
+                throws UploadPostModel.SelectedImageNotFoundException;
     }
 }

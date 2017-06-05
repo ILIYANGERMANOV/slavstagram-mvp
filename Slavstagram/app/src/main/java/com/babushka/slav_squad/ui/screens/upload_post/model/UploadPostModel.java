@@ -1,15 +1,20 @@
 package com.babushka.slav_squad.ui.screens.upload_post.model;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
+import com.babushka.slav_squad.util.AppUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,6 +78,47 @@ public class UploadPostModel implements UploadPostContract.Model {
         }
     }
 
+    @NonNull
+    @Override
+    public Uri getSelectedImageFromGallery(@NonNull Intent data) throws SelectedImageNotFoundException {
+        ContentResolver contentResolver = mContext.getContentResolver();
+        //TODO: Ensure all cases are handled properly
+        if (AppUtil.isPreKitkat()) {
+            return getGalleryImageUriPreKitkat(data, contentResolver);
+        } else {
+            return getGalleryImageUriAfterKitkat(data);
+        }
+    }
+
+    @NonNull
+    private Uri getGalleryImageUriPreKitkat(@NonNull Intent data, ContentResolver contentResolver) throws SelectedImageNotFoundException {
+        Uri originalUri = data.getData();
+        String[] projection = {MediaStore.Images.Media.DATA};
+        if (originalUri == null) {
+            throw new SelectedImageNotFoundException();
+        }
+
+        Cursor cursor = contentResolver.query(originalUri, projection, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            String picturePath = cursor.getString(columnIndex); // returns null
+            cursor.close();
+            return Uri.parse(picturePath);
+        }
+        return originalUri;
+    }
+
+
+    @NonNull
+    private Uri getGalleryImageUriAfterKitkat(@NonNull Intent data) throws SelectedImageNotFoundException {
+        Uri originalUri = data.getData();
+        if (originalUri == null) {
+            throw new SelectedImageNotFoundException();
+        }
+        return originalUri;
+    }
+
     private void deleteFile(@NonNull File file) {
         if (!file.delete()) {
             Timber.d("Error while deleting file: %s", file.getAbsolutePath());
@@ -115,5 +161,8 @@ public class UploadPostModel implements UploadPostContract.Model {
     private enum FileType {
         JPEG,
         PNG
+    }
+
+    public class SelectedImageNotFoundException extends Exception {
     }
 }

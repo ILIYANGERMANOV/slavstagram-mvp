@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
+import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -23,6 +24,9 @@ import static android.app.Activity.RESULT_OK;
 public class UploadPostPresenter implements UploadPostContract.Presenter {
     //TODO: Refactor by splitting in separate classes
     private static final int RC_IMAGE_CAPTURE = 1;
+    private static final int RC_GALLERY = 2;
+
+
     @NonNull
     private final UploadPostContract.Model mModel;
     private UploadPostContract.View mView;
@@ -46,8 +50,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     @Override
     public void handleGalleryClicked() {
-        //TODO: Implement method
-
+        mView.openGalleryWithCheck(RC_GALLERY);
     }
 
     @Override
@@ -59,7 +62,10 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case RC_IMAGE_CAPTURE:
-                handleCameraResult(resultCode, data);
+                handleCameraResult(resultCode);
+                break;
+            case RC_GALLERY:
+                handleGalleryResult(resultCode, data);
                 break;
             case UCrop.REQUEST_CROP:
                 handleCropResult(resultCode, data);
@@ -67,7 +73,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
         }
     }
 
-    private void handleCameraResult(int resultCode, Intent data) {
+    private void handleCameraResult(int resultCode) {
         if (resultCode == RESULT_OK) {
             handleCameraOkResult();
         } else if (resultCode == RESULT_CANCELED) {
@@ -83,6 +89,21 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
             e.printStackTrace();
             mModel.deleteCurrentPhotoFileIfExists();
             mView.showError("Error while trying to crop image");
+        }
+    }
+
+    private void handleGalleryResult(int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            try {
+                Uri selectedImage = mModel.getSelectedImageFromGallery(data);
+                cropPhoto(selectedImage);
+            } catch (UploadPostModel.SelectedImageNotFoundException e) {
+                e.printStackTrace();
+                mView.showError("Selected image path not found :(");
+            } catch (IOException e) {
+                e.printStackTrace();
+                mView.showError("Error while trying to crop image");
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.babushka.slav_squad.ui.screens.upload_post.view;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -110,10 +111,48 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
         //TODO: Implement method
     }
 
+
     @Override
+    public void openGalleryWithCheck(int requestCode) {
+        UploadPostActivityPermissionsDispatcher.openGalleryWithCheck(this, requestCode);
+    }
+
+    @SuppressLint("NewApi")
+    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+
+        if (chooserIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(chooserIntent, requestCode);
+        } else {
+            Toast.makeText(this, "Gallery app not found on device, please install one :)", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        //TODO: Implement method
+        Toast.makeText(this, "Cyka, we need your storage to pick up a picture!", Toast.LENGTH_LONG).show();
+        request.proceed();
+    }
+
+    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showDeniedForReadStorage() {
         //TODO: Implement method
     }
+
+    @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showNeverAskForReadStorage() {
+        //TODO: Implement method
+    }
+
 
     @Override
     public void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
@@ -135,6 +174,11 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
     @OnClick(R.id.upload_post_camera_button)
     public void onCameraButtonClicked() {
         mPresenter.handleCameraClicked();
+    }
+
+    @OnClick(R.id.upload_post_gallery_button)
+    public void onGalleryButtonClicked() {
+        mPresenter.handleGalleryClicked();
     }
 
     @Override
