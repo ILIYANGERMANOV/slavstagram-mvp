@@ -53,9 +53,7 @@ public class Database {
         String key = mDatabase.child(Table.POSTS_TABLE).push().getKey();
         post.setUid(key);
         Map<String, Object> postValues = post.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put('/' + Table.POSTS_TABLE + '/' + key, postValues);
-        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + userId + "/" + key, postValues);
+        Map<String, Object> childUpdates = getPostUpdateMap(userId, key, postValues);
         mDatabase.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -70,9 +68,21 @@ public class Database {
         });
     }
 
+    public void deletePost(@NonNull String userId, @NonNull String postId) {
+        Map<String, Object> postDeleteMap = getPostUpdateMap(userId, postId, null);
+        mDatabase.updateChildren(postDeleteMap);
+    }
+
+    @NonNull
+    private Map<String, Object> getPostUpdateMap(@NonNull String userId, String postId, @Nullable Map<String, Object> postValues) {
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put('/' + Table.POSTS_TABLE + '/' + postId, postValues);
+        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + userId + "/" + postId, postValues);
+        return childUpdates;
+    }
+
     public void toggleLike(@NonNull Post post, @NonNull final String userId) {
-        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(post.getUid());
-        postRef.runTransaction(new Transaction.Handler() {
+        Transaction.Handler likeToggleHandler = new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Post post = mutableData.getValue(Post.class);
@@ -105,7 +115,14 @@ public class Database {
                 // Transaction completed
                 Timber.d("postTransaction:onComplete " + databaseError);
             }
-        });
+        };
+        String postId = post.getUid();
+        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(postId);
+        postRef.runTransaction(likeToggleHandler);
+        final DatabaseReference userPostRef = mDatabase.child(Table.USER_POSTS_TABLE)
+                .child(userId)
+                .child(postId);
+        userPostRef.runTransaction(likeToggleHandler);
     }
 
     public void addPostsListener(@NonNull final PostsListener postsListener) {

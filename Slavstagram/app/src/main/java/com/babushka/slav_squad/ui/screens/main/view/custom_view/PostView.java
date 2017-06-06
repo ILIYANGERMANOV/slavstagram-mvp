@@ -194,7 +194,11 @@ public class PostView extends LinearLayout {
 
     @OnClick(R.id.post_download_image_button)
     public void onDownloadClicked() {
-        //TODO: Implement method
+        if (mPost != null) {
+            //TODO: Remove this and implement method
+            String userId = SessionManager.getInstance().getCurrentUser().getUid();
+            Database.getInstance().deletePost(userId, mPost.getId());
+        }
     }
 
     private class PostGestureListener extends GestureDetector.SimpleOnGestureListener {
