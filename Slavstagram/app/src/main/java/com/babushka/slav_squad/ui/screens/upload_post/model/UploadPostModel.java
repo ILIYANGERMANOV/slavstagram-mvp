@@ -18,6 +18,7 @@ import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.util.AppUtil;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,9 +177,10 @@ public class UploadPostModel implements UploadPostContract.Model {
 
     private void savePostInDatabase(@NonNull Post.Image image, @NonNull String description,
                                     @NonNull final UploadPostListener listener) {
-        User author = new User(SessionManager.getInstance().getCurrentUser());
+        FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
+        User author = new User(currentUser);
         Post post = new Post(author, description, image);
-        Database.getInstance().saveNewPost(post, new Database.OperationListener() {
+        Database.getInstance().saveNewPost(currentUser.getUid(), post, new Database.OperationListener() {
             @Override
             public void onSuccess() {
                 listener.onPostUploaded();

@@ -8,6 +8,7 @@ public class Table {
     public static final String USERS_TABLE = "users";
     public static final String POSTS_TABLE = "posts";
     public static final String COMMENTS_TABLE = "comments";
+    public static final String USER_POSTS_TABLE = "user-posts";
 
     public static class User {
         public static final String EMAIL = "email";

@@ -29,6 +29,8 @@ public class Database {
     private final DatabaseReference mDatabase;
     @Nullable
     private ChildEventListener mPostsEventListener;
+    @Nullable
+    private ChildEventListener mUserPostsEventListener;
 
     private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -46,14 +48,14 @@ public class Database {
         currentUserRef.updateChildren(user.toCreationMap());
     }
 
-    public void saveNewPost(@NonNull Post post, @NonNull final OperationListener listener) {
+    public void saveNewPost(@NonNull String userId, @NonNull Post post,
+                            @NonNull final OperationListener listener) {
         String key = mDatabase.child(Table.POSTS_TABLE).push().getKey();
         post.setUid(key);
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put('/' + Table.POSTS_TABLE + '/' + key, postValues);
-        //TODO: update connected tables
-        //        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + userId + "/" + key, postValues);
         mDatabase.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -108,45 +110,15 @@ public class Database {
 
     public void addPostsListener(@NonNull final PostsListener postsListener) {
         DatabaseReference postsRef = mDatabase.child(Table.POSTS_TABLE);
-        mPostsEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Post post = dataSnapshot.getValue(Post.class);
-                if (post != null) {
-                    postsListener.onPostAdded(post);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Post post = dataSnapshot.getValue(Post.class);
-                if (post != null) {
-                    postsListener.onPostChanged(post);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Post post = dataSnapshot.getValue(Post.class);
-                if (post != null) {
-                    postsListener.onPostRemoved(post);
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                //TODO: Implement method
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                if (databaseError != null) {
-                    postsListener.onError(databaseError);
-                }
-            }
-        };
+        mPostsEventListener = new DefaultChildEventListener(postsListener);
         //TODO: Consider add LIMIT [IMPORTANT]
         postsRef.addChildEventListener(mPostsEventListener);
+    }
+
+    public void addUserPostsListener(@NonNull String userId, @NonNull final PostsListener postsListener) {
+        DatabaseReference userPostsRef = mDatabase.child(Table.USER_POSTS_TABLE).child(userId);
+        mUserPostsEventListener = new DefaultChildEventListener(postsListener);
+        userPostsRef.addChildEventListener(mUserPostsEventListener);
     }
 
     public void removePostsListener() {
@@ -155,9 +127,60 @@ public class Database {
         }
     }
 
+    public void removeUserPostsListener() {
+        if (mUserPostsEventListener != null) {
+            mDatabase.child(Table.POSTS_TABLE).removeEventListener(mUserPostsEventListener);
+        }
+    }
+
     public interface OperationListener {
         void onSuccess();
 
         void onError();
+    }
+
+    private static class DefaultChildEventListener implements ChildEventListener {
+        @NonNull
+        private final PostsListener mPostsListener;
+
+        DefaultChildEventListener(@NonNull PostsListener postsListener) {
+            mPostsListener = postsListener;
+        }
+
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Post post = dataSnapshot.getValue(Post.class);
+            if (post != null) {
+                mPostsListener.onPostAdded(post);
+            }
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            Post post = dataSnapshot.getValue(Post.class);
+            if (post != null) {
+                mPostsListener.onPostChanged(post);
+            }
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            Post post = dataSnapshot.getValue(Post.class);
+            if (post != null) {
+                mPostsListener.onPostRemoved(post);
+            }
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            //TODO: Implement method
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            if (databaseError != null) {
+                mPostsListener.onError(databaseError);
+            }
+        }
     }
 }
