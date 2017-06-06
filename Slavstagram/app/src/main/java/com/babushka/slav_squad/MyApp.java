@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.babushka.slav_squad.config.Configuration;
 import com.babushka.slav_squad.config.FirebaseDBConfiguration;
+import com.babushka.slav_squad.config.LeakCanaryConfiguration;
 import com.babushka.slav_squad.config.TimberConfiguration;
 
 import java.util.LinkedHashSet;
@@ -14,18 +15,21 @@ import java.util.Set;
  */
 
 public class MyApp extends Application {
-    private static final Set<Configuration> sConfigurationSet = new LinkedHashSet<>();
-
-    static {
-        sConfigurationSet.add(new FirebaseDBConfiguration());
-        sConfigurationSet.add(new TimberConfiguration());
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        for (Configuration configuration : sConfigurationSet) {
+        Set<Configuration> configurations = getsConfigurationSet();
+        for (Configuration configuration : configurations) {
             configuration.onConfigure(this);
         }
+    }
+
+    private Set<Configuration> getsConfigurationSet() {
+        Set<Configuration> configurationSet = new LinkedHashSet<>();
+        configurationSet.add(new FirebaseDBConfiguration());
+        configurationSet.add(new TimberConfiguration());
+        configurationSet.add(new LeakCanaryConfiguration(this));
+        return configurationSet;
     }
 }

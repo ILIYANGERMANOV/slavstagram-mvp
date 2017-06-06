@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.PostsListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.ui.screens.BasePresenter;
-import com.babushka.slav_squad.ui.screens.BaseView;
+import com.babushka.slav_squad.ui.BasePresenter;
+import com.babushka.slav_squad.ui.BaseView;
 
 /**
  * Created by iliyan on 29.05.17.

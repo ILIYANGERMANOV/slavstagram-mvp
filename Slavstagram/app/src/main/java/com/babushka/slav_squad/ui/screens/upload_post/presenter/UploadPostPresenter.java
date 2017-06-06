@@ -22,21 +22,20 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class UploadPostPresenter implements UploadPostContract.Presenter {
-    //TODO: Refactor by splitting in separate classes
     private static final int RC_IMAGE_CAPTURE = 1;
     private static final int RC_GALLERY = 2;
 
-
     @NonNull
     private final UploadPostContract.Model mModel;
+    @NonNull
+    private final CropHandler mCropHandler;
     private UploadPostContract.View mView;
-    @Nullable
-    private Uri mCroppedImageUri;
 
     public UploadPostPresenter(@NonNull UploadPostContract.View view,
                                @NonNull UploadPostContract.Model model) {
         mView = view;
         mModel = model;
+        mCropHandler = new CropHandler(view, model);
     }
 
     @Override
@@ -57,9 +56,10 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     @Override
     public void handleUpload(@NonNull String description) {
-        if (mCroppedImageUri != null) {
+        Uri croppedImageUri = mCropHandler.getCroppedImageUri();
+        if (croppedImageUri != null) {
             mView.setUploading();
-            mModel.uploadPost(mCroppedImageUri, description, new UploadPostModel.UploadPostListener() {
+            mModel.uploadPost(croppedImageUri, description, new UploadPostModel.UploadPostListener() {
                 @Override
                 public void onPostUploaded() {
                     if (mView != null) {
@@ -89,7 +89,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
                 handleGalleryResult(resultCode, data);
                 break;
             case UCrop.REQUEST_CROP:
-                handleCropResult(resultCode, data);
+                mCropHandler.handleCropResult(resultCode, data);
                 break;
         }
     }
@@ -105,7 +105,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     private void handleCameraOkResult() {
         Timber.d("Photo taken successfully");
         try {
-            cropPhoto(mModel.getCurrentPhotoFile());
+            mCropHandler.cropPhoto(mModel.getCurrentPhotoFile());
         } catch (IOException e) {
             e.printStackTrace();
             mModel.deleteCurrentPhotoFileIfExists();
@@ -117,7 +117,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
         if (resultCode == RESULT_OK && data != null) {
             try {
                 Uri selectedImage = mModel.getSelectedImageFromGallery(data);
-                cropPhoto(selectedImage);
+                mCropHandler.cropPhoto(selectedImage);
             } catch (UploadPostModel.SelectedImageNotFoundException e) {
                 e.printStackTrace();
                 mView.showError("Selected image path not found :(");
@@ -126,46 +126,6 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
                 mView.showError("Error while trying to crop image");
             }
         }
-    }
-
-    private void cropPhoto(@Nullable Uri photoUri) throws IOException {
-        if (photoUri != null) {
-            File croppedFile = mModel.createCroppedImageFile();
-            mView.openImageCropScreen(photoUri, Uri.fromFile(croppedFile));
-        } else {
-            mView.showError("Selected image Uri is missing, can NOT crop :(");
-        }
-    }
-
-    private void handleCropResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            handleCropOkResult(data);
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            handleCropErrorResult(data);
-        } else if (resultCode == RESULT_CANCELED) {
-            mModel.deleteCroppedImageFile();
-            mModel.deleteCurrentPhotoFileIfExists();
-        }
-    }
-
-    private void handleCropOkResult(Intent data) {
-        mModel.deleteCurrentPhotoFileIfExists();
-        mCroppedImageUri = UCrop.getOutput(data);
-        if (mCroppedImageUri != null) {
-            mView.displayPostImage(mCroppedImageUri);
-        } else {
-            mView.showError("Shit happened while processing crop result");
-        }
-    }
-
-    private void handleCropErrorResult(Intent data) {
-        mModel.deleteCroppedImageFile();
-        mModel.deleteCurrentPhotoFileIfExists();
-        final Throwable cropError = UCrop.getError(data);
-        if (cropError != null) {
-            cropError.printStackTrace();
-        }
-        mView.showError("Error while processing cropped image");
     }
 
     @Override

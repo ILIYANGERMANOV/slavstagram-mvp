@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens;
+package com.babushka.slav_squad.ui;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -43,5 +43,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+        mPresenter = null;
     }
 }

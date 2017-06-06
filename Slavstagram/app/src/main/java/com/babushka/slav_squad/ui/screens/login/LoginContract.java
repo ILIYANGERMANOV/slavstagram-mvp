@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.session.UserDetails;
-import com.babushka.slav_squad.ui.screens.BasePresenter;
-import com.babushka.slav_squad.ui.screens.BaseView;
+import com.babushka.slav_squad.ui.BasePresenter;
+import com.babushka.slav_squad.ui.BaseView;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseUser;
 

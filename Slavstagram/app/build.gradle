@@ -52,6 +52,11 @@ dependencies {
     }
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$rootProject.permissionsDispatcherVersion"
 
+    //extras
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$project.leakCanaryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$project.leakCanaryVersion"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$project.leakCanaryVersion"
+
     //Authentication
     compile "com.google.firebase:firebase-auth:$project.playServicesVersion"
     compile "com.google.android.gms:play-services-auth:$project.playServicesVersion"

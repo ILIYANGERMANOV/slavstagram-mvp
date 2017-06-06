@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.UserDetails;
-import com.babushka.slav_squad.ui.screens.BaseActivity;
+import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.login.LoginContract;
 import com.babushka.slav_squad.ui.screens.login.model.LoginModel;
 import com.babushka.slav_squad.ui.screens.login.presenter.LoginPresenter;

@@ -5,8 +5,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.babushka.slav_squad.ui.screens.BasePresenter;
-import com.babushka.slav_squad.ui.screens.BaseView;
+import com.babushka.slav_squad.ui.BasePresenter;
+import com.babushka.slav_squad.ui.BaseView;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 
 import java.io.File;

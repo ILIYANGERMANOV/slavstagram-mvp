@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.ui.screens.BaseActivity;
+import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;

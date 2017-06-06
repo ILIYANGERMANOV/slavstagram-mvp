@@ -12,7 +12,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
-import com.babushka.slav_squad.ui.screens.BaseActivity;
+import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
