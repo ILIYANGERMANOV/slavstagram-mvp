@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
@@ -15,7 +14,7 @@ import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
-import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
+import com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
@@ -27,7 +26,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
     @BindView(R.id.main_posts_container)
-    PostsContainer vPostsContainer;
+    MainPostsContainer vPostsContainer;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -41,12 +40,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     protected void onSetupUI() {
-        vPostsContainer.setup(this, GlideApp.with(this));
+        vPostsContainer.setup(this);
     }
 
     @Override
     protected void onSetupFinished() {
-        mPresenter.displayAllPostsInRealtime();
+        mPresenter.displayAllPostsInRealTime();
     }
 
     @NonNull
@@ -79,7 +78,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @OnClick(R.id.main_add_post_fab)
-    public void onAddPostClicked() {
+    public void onAddPostFabClicked() {
         UploadPostActivity.startScreen(this);
     }
 

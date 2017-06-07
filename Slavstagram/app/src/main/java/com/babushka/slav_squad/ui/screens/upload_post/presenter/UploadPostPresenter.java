@@ -130,6 +130,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     @Override
     public void onDestroy() {
+        mCropHandler.destroy();
         mView = null;
     }
 }

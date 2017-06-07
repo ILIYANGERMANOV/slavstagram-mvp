@@ -1,5 +1,6 @@
 package com.babushka.slav_squad.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -18,10 +19,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @LayoutRes
     protected abstract int getContentViewLayout();
 
-    protected void onSetupUI() {
+    protected void onReadArguments(@NonNull Intent intent) {
         //empty stub
     }
 
+    protected void onSetupUI() {
+        //empty stub
+
+    }
     @NonNull
     protected abstract P initializePresenter();
 
@@ -33,6 +38,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewLayout());
+        onReadArguments(getIntent());
         ButterKnife.bind(this);
         onSetupUI();
         mPresenter = initializePresenter();

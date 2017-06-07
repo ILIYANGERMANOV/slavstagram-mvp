@@ -1,10 +1,29 @@
 package com.babushka.slav_squad.ui.screens.profile.model;
 
+import android.support.annotation.NonNull;
+
+import com.babushka.slav_squad.persistence.database.Database;
+import com.babushka.slav_squad.persistence.database.PostsListener;
+import com.babushka.slav_squad.ui.screens.BasePostsModel;
 import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 
 /**
  * Created by iliyan on 07.06.17.
  */
 
-public class ProfileModel implements ProfileContract.Model {
+public class ProfileModel extends BasePostsModel implements ProfileContract.Model {
+    public ProfileModel(@NonNull String userId) {
+        super(userId);
+    }
+
+    @Override
+    public void addUserPostsListener(@NonNull PostsListener postsListener) {
+        Database database = Database.getInstance();
+        database.addUserPostsListener(mUserId, buildIsLikedPostTransformator(postsListener));
+    }
+
+    @Override
+    public void removeUserPostsListener() {
+        Database.getInstance().removeUserPostsListener(mUserId);
+    }
 }

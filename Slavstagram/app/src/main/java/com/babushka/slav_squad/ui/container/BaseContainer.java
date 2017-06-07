@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
+import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.GlideRequests;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public abstract class BaseContainer<T extends Findable, VH extends BaseAdapter.B
 
     protected abstract A initializeAdapter(@NonNull Activity activity, @NonNull GlideRequests imageLoader);
 
-    public void setup(@NonNull Activity activity, @NonNull GlideRequests imageLoader) {
-        mAdapter = initializeAdapter(activity, imageLoader);
+    public void setup(@NonNull Activity activity) {
+        mAdapter = initializeAdapter(activity, GlideApp.with(activity));
         setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(activity);
         setLayoutManager(mLayoutManager);

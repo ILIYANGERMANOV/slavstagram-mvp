@@ -20,8 +20,7 @@ import static android.app.Activity.RESULT_OK;
 
 class CropHandler {
 
-    @NonNull
-    private final UploadPostContract.View mView;
+    private UploadPostContract.View mView;
     @NonNull
     private final UploadPostContract.Model mModel;
     @Nullable
@@ -75,5 +74,9 @@ class CropHandler {
             cropError.printStackTrace();
         }
         mView.showError("Error while processing cropped image");
+    }
+
+    void destroy() {
+        mView = null;
     }
 }

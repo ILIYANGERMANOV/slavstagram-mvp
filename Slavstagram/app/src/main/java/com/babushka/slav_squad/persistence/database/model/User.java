@@ -18,6 +18,8 @@ import java.util.Map;
  */
 @IgnoreExtraProperties
 public class User {
+    @PropertyName(value = Table.User.UID)
+    private String mUid;
     @PropertyName(value = Table.User.EMAIL)
     private String mEmail;
     @PropertyName(value = Table.User.DISPLAY_NAME)
@@ -27,6 +29,7 @@ public class User {
 
     public User(@NonNull FirebaseUser user) {
         //TODO: handle missing attributes and make proper implementation
+        mUid = user.getUid();
         mEmail = user.getEmail();
         mDisplayName = user.getDisplayName();
         Uri photoUrl = user.getPhotoUrl();
@@ -37,6 +40,15 @@ public class User {
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    @PropertyName(value = Table.User.UID)
+    public String getUid() {
+        return mUid;
+    }
+
+    public void setUid(String uid) {
+        mUid = uid;
     }
 
     @PropertyName(value = Table.User.EMAIL)
@@ -71,6 +83,7 @@ public class User {
     @Exclude
     public Map<String, Object> toCreationMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put(Table.User.UID, mUid);
         result.put(Table.User.EMAIL, mEmail);
         result.put(Table.User.DISPLAY_NAME, mDisplayName);
         result.put(Table.User.PHOTO_URL, mPhotoUrl);

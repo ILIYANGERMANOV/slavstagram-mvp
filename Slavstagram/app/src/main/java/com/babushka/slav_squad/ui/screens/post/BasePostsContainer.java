@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.main.view.custom_view;
+package com.babushka.slav_squad.ui.screens.post;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,24 +8,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 
-import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseContainer;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**
- * Created by iliyan on 29.05.17.
+ * Created by iliyan on 07.06.17.
  */
 
-public class PostsContainer extends BaseContainer<Post, PostViewHolder, PostsAdapter> {
-    public PostsContainer(Context context, @Nullable AttributeSet attrs) {
+public abstract class BasePostsContainer<A extends BasePostsAdapter>
+        extends BaseContainer<Post, PostViewHolder, A> {
+    public BasePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    @Override
-    protected PostsAdapter initializeAdapter(@NonNull Activity activity, @NonNull GlideRequests imageLoader) {
-        return new PostsAdapter(activity, imageLoader);
     }
 
     @Override

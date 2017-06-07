@@ -10,4 +10,5 @@
     <!-- Main -->
     <dimen name="main_profile_pic_size">40dp</dimen>
     <dimen name="posts_divider_height">0.5dp</dimen>
+    <dimen name="profile_circle_image_size">40dp</dimen>
 </resources>

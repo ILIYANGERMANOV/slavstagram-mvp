@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.main.view.custom_view;
+package com.babushka.slav_squad.ui.screens.post;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -20,6 +20,7 @@ import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
@@ -38,7 +39,7 @@ public class PostView extends LinearLayout {
     @NonNull
     private final GestureDetector mGestureDetector;
 
-    @BindView(R.id.post_view_author_layout)
+    @BindView(R.id.post_author_layout)
     LinearLayout vAuthorLayout;
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
@@ -104,24 +105,9 @@ public class PostView extends LinearLayout {
             displayAuthor(post.getAuthor(), imageLoader);
         }
         displayPostImage(post.getImage(), imageLoader);
-        vDescriptionText.setText(post.getDescription());
+        displayDescription(post.getDescription());
         displayLikes(post);
         displayComments(post.getComments());
-    }
-
-    private void displayLikes(@NonNull Post post) {
-        vLikesCountText.setText(String.valueOf(post.getLikesCount()));
-        int likeImageRID = post.isLiked() ? R.drawable.ic_favorite_black_36dp
-                : R.drawable.ic_favorite_border_black_36dp;
-        vLikeButton.setImageResource(likeImageRID);
-    }
-
-    private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
-        imageLoader.load(author.getPhotoUrl())
-                .dontAnimate()
-                //TODO: add placeholder and error drawable
-                .into(vAuthorCircleImage);
-        vAuthorNameText.setText(author.getDisplayName());
     }
 
     private void displayPostImage(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader) {
@@ -138,6 +124,29 @@ public class PostView extends LinearLayout {
         } else {
             resizeImageViewAndLoadImage(image, imageLoader);
         }
+    }
+
+    private void displayDescription(@Nullable String description) {
+        if (description != null) {
+            vDescriptionText.setText(description);
+        } else {
+            vDescriptionText.setVisibility(GONE);
+        }
+    }
+
+    private void displayLikes(@NonNull Post post) {
+        vLikesCountText.setText(String.valueOf(post.getLikesCount()));
+        int likeImageRID = post.isLiked() ? R.drawable.ic_favorite_black_36dp
+                : R.drawable.ic_favorite_border_black_36dp;
+        vLikeButton.setImageResource(likeImageRID);
+    }
+
+    private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
+        imageLoader.load(author.getPhotoUrl())
+                .dontAnimate()
+                //TODO: add placeholder and error drawable
+                .into(vAuthorCircleImage);
+        vAuthorNameText.setText(author.getDisplayName());
     }
 
     private void displayComments(@Nullable Map<String, Boolean> comments) {
@@ -166,6 +175,7 @@ public class PostView extends LinearLayout {
         vAuthorNameText.setText("");
         vMainImage.setImageDrawable(null);
         vDescriptionText.setText("");
+        vDescriptionText.setVisibility(VISIBLE);
         vCommentsCountText.setText("0");
         vLikesCountText.setText("0");
     }
@@ -220,6 +230,14 @@ public class PostView extends LinearLayout {
             //TODO: Remove this and implement method
             String userId = SessionManager.getInstance().getCurrentUser().getUid();
             Database.getInstance().deletePost(userId, mPost.getId());
+        }
+    }
+
+    @OnClick(R.id.post_author_layout)
+    public void onAuthorLayoutClicked() {
+        if (mPost != null) {
+            User author = mPost.getAuthor();
+            ProfileActivity.startScreen(getContext(), author);
         }
     }
 

@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 tools:context="com.babushka.slav_squad.ui.screens.main.view.MainActivity">
 
-    <com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer
+    <com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer
         android:id="@+id/main_posts_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

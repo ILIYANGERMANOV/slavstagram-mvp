@@ -11,6 +11,7 @@ public class Table {
     public static final String USER_POSTS_TABLE = "user-posts";
 
     public static class User {
+        public static final String UID = "uid";
         public static final String EMAIL = "email";
         public static final String DISPLAY_NAME = "display_name";
         public static final String PHOTO_URL = "photo_url";
@@ -18,9 +19,6 @@ public class Table {
 
     public static class Post {
         public static final String UID = "uid";
-        /**
-         * Corresponds to USER_ID
-         */
         public static final String AUTHOR = "author";
         public static final String IMAGE = "image";
         public static final String DESCRIPTION = "description";

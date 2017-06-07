@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;
@@ -37,7 +37,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class UploadPostActivity extends BaseActivity<UploadPostContract.Presenter>
+public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract.Presenter>
         implements UploadPostContract.View {
     @BindView(R.id.upload_post_image_view)
     ImageView vImage;

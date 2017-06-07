@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.main.view.custom_view;
+package com.babushka.slav_squad.ui.screens.post;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by iliyan on 29.05.17.
  */
 
-class PostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
+public class PostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     @NonNull
     private final GlideRequests mImageLoader;
     @BindView(R.id.adapter_post_post_view)

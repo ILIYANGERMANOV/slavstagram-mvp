@@ -127,14 +127,14 @@ public class Database {
 
     public void addPostsListener(@NonNull final PostsListener postsListener) {
         DatabaseReference postsRef = mDatabase.child(Table.POSTS_TABLE);
-        mPostsEventListener = new DefaultChildEventListener(postsListener);
+        mPostsEventListener = new DefaultPostEventListener(postsListener);
         //TODO: Consider add LIMIT [IMPORTANT]
         postsRef.addChildEventListener(mPostsEventListener);
     }
 
     public void addUserPostsListener(@NonNull String userId, @NonNull final PostsListener postsListener) {
         DatabaseReference userPostsRef = mDatabase.child(Table.USER_POSTS_TABLE).child(userId);
-        mUserPostsEventListener = new DefaultChildEventListener(postsListener);
+        mUserPostsEventListener = new DefaultPostEventListener(postsListener);
         userPostsRef.addChildEventListener(mUserPostsEventListener);
     }
 
@@ -144,9 +144,10 @@ public class Database {
         }
     }
 
-    public void removeUserPostsListener() {
+    public void removeUserPostsListener(@NonNull String userId) {
         if (mUserPostsEventListener != null) {
-            mDatabase.child(Table.POSTS_TABLE).removeEventListener(mUserPostsEventListener);
+            mDatabase.child(Table.POSTS_TABLE).child(userId)
+                    .removeEventListener(mUserPostsEventListener);
         }
     }
 
@@ -156,11 +157,11 @@ public class Database {
         void onError();
     }
 
-    private static class DefaultChildEventListener implements ChildEventListener {
+    private static class DefaultPostEventListener implements ChildEventListener {
         @NonNull
         private final PostsListener mPostsListener;
 
-        DefaultChildEventListener(@NonNull PostsListener postsListener) {
+        DefaultPostEventListener(@NonNull PostsListener postsListener) {
             mPostsListener = postsListener;
         }
 
