@@ -10,23 +10,24 @@ import android.view.MenuItem;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.PostsContainer;
+import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity<MainPresenter>
+public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
     @BindView(R.id.main_posts_container)
-    PostsContainer mPostsContainer;
+    PostsContainer vPostsContainer;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -40,7 +41,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @Override
     protected void onSetupUI() {
-        mPostsContainer.setup(this, GlideApp.with(this));
+        vPostsContainer.setup(this, GlideApp.with(this));
     }
 
     @Override
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @NonNull
     @Override
-    protected MainPresenter initializePresenter() {
+    protected MainContract.Presenter initializePresenter() {
         FirebaseUser user = SessionManager.getInstance().getCurrentUser();
         return new MainPresenter(this, new MainModel(user));
     }
@@ -64,25 +65,11 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO: Migrate to MVP
         switch (item.getItemId()) {
-            case R.id.action_add_post:
-                UploadPostActivity.startScreen(this);
-//                User author = new User(SessionManager.getInstance().getCurrentUser());
-//                Random random = new Random();
-//                Post post = buildPost1(author);
-//                switch (random.nextInt(3)) {
-//                    case 0:
-//                        post = buildPost1(author);
-//                        break;
-//                    case 1:
-//                        post = buildPost2(author);
-//                        break;
-//                    case 2:
-//                        post = buildPost3(author);
-//                        break;
-//                }
-//                Database.getInstance().saveNewPost(post);
-                return true;
+            case R.id.action_profile:
+                ProfileActivity.startScreen(this);
+                break;
             case R.id.action_logout:
                 SessionManager.getInstance().logout();
                 SplashActivity.startScreenAsEntryPoint(this);
@@ -91,39 +78,24 @@ public class MainActivity extends BaseActivity<MainPresenter>
         return false;
     }
 
-    @NonNull
-    private Post buildPost1(User author) {
-        String imageUrl = "http://i.imgur.com/LmS9Fci.jpg";
-        Post.Image image = new Post.Image(imageUrl, 600, 400);
-        return new Post(author, "Slavformers", image);
+    @OnClick(R.id.main_add_post_fab)
+    public void onAddPostClicked() {
+        UploadPostActivity.startScreen(this);
     }
 
-    @NonNull
-    private Post buildPost2(User author) {
-        String imageUrl = "http://www.speakerscorner.me/wp-content/uploads/2017/05/Galina_Dub_9.jpg";
-        Post.Image image = new Post.Image(imageUrl, 1000, 600);
-        return new Post(author, "When she hears your got kompot", image);
-    }
-
-    @NonNull
-    private Post buildPost3(User author) {
-        String imageUrl = "http://cdn-9chat-fun.9cache.com/media/photo/aoXY4GW61_480w_v1.jpg";
-        Post.Image image = new Post.Image(imageUrl, 480, 359);
-        return new Post(author, "Squatting gopnica", image);
-    }
 
     @Override
     public void addPostAsFirst(@NonNull Post post) {
-        mPostsContainer.add(0, post);
+        vPostsContainer.add(0, post);
     }
 
     @Override
     public void updatePost(@NonNull Post post) {
-        mPostsContainer.update(post);
+        vPostsContainer.update(post);
     }
 
     @Override
     public void removePost(@NonNull Post post) {
-        mPostsContainer.remove(post);
+        vPostsContainer.remove(post);
     }
 }

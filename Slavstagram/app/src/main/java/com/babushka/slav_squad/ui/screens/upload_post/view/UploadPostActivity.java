@@ -37,7 +37,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
+public class UploadPostActivity extends BaseActivity<UploadPostContract.Presenter>
         implements UploadPostContract.View {
     @BindView(R.id.upload_post_image_view)
     ImageView vImage;
@@ -59,7 +59,7 @@ public class UploadPostActivity extends BaseActivity<UploadPostPresenter>
 
     @NonNull
     @Override
-    protected UploadPostPresenter initializePresenter() {
+    protected UploadPostContract.Presenter initializePresenter() {
         return new UploadPostPresenter(this, new UploadPostModel(this));
     }
 

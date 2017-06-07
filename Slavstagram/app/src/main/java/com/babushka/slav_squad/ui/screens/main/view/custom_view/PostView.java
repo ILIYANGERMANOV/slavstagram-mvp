@@ -1,6 +1,7 @@
 package com.babushka.slav_squad.ui.screens.main.view.custom_view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -37,6 +38,8 @@ public class PostView extends LinearLayout {
     @NonNull
     private final GestureDetector mGestureDetector;
 
+    @BindView(R.id.post_view_author_layout)
+    LinearLayout vAuthorLayout;
     @BindView(R.id.post_author_circle_image_view)
     CircleImageView vAuthorCircleImage;
     @BindView(R.id.post_author_name_text_view)
@@ -55,13 +58,30 @@ public class PostView extends LinearLayout {
     @Nullable
     private Post mPost;
 
+    private boolean mHideAuthor;
+
     public PostView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupUI(context);
+        setupFromAttributes(context, attrs);
+        mGestureDetector = new GestureDetector(context, new PostGestureListener());
+        setup();
+    }
+
+    private void setupUI(Context context) {
         setupRootView();
         inflate(context, R.layout.post_view_layout, this);
         ButterKnife.bind(this);
-        mGestureDetector = new GestureDetector(context, new PostGestureListener());
-        setup();
+    }
+
+    private void setupFromAttributes(Context context, AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PostView);
+        try {
+            mHideAuthor = ta.getBoolean(R.styleable.PostView_hideAuthor, false);
+            vAuthorLayout.setVisibility(mHideAuthor ? GONE : VISIBLE);
+        } finally {
+            ta.recycle();
+        }
     }
 
     private void setupRootView() {
@@ -80,7 +100,9 @@ public class PostView extends LinearLayout {
     public void display(@NonNull Post post, GlideRequests imageLoader) {
         mPost = post;
         //TODO: Consider adding defense against missing fields
-        displayAuthor(post.getAuthor(), imageLoader);
+        if (!mHideAuthor) {
+            displayAuthor(post.getAuthor(), imageLoader);
+        }
         displayPostImage(post.getImage(), imageLoader);
         vDescriptionText.setText(post.getDescription());
         displayLikes(post);

@@ -24,7 +24,7 @@ class PostsAdapter extends BaseAdapter<Post, PostViewHolder> {
 
     @Override
     protected int getItemLayout() {
-        return R.layout.adapter_post_view_holder;
+        return R.layout.adapter_main_post_view_holder;
     }
 
     @Override

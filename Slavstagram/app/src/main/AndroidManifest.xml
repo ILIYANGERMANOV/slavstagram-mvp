@@ -46,6 +46,9 @@
         <activity
             android:name=".ui.screens.upload_post.view.UploadPostActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.screens.profile.view.ProfileActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Image cropper -->
         <activity

@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="posts_divider_color">#EEEEEE</color>
+
+    <!-- Common colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>
