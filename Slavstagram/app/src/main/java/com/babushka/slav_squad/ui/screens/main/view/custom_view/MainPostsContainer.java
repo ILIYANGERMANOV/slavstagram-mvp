@@ -8,12 +8,13 @@ import android.util.AttributeSet;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.ui.screens.post.BasePostsContainer;
+import com.babushka.slav_squad.ui.screens.post.PostViewHolder;
 
 /**
  * Created by iliyan on 29.05.17.
  */
 
-public class MainPostsContainer extends BasePostsContainer<MainPostsAdapter> {
+public class MainPostsContainer extends BasePostsContainer<MainPostsAdapter, PostViewHolder> {
     public MainPostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }

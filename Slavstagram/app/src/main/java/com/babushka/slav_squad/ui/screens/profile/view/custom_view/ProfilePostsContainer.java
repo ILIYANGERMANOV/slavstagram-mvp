@@ -13,7 +13,9 @@ import com.babushka.slav_squad.ui.screens.post.BasePostsContainer;
  * Created by iliyan on 07.06.17.
  */
 
-public class ProfilePostsContainer extends BasePostsContainer<ProfilePostsAdapter> {
+public class ProfilePostsContainer extends BasePostsContainer<ProfilePostsAdapter, ProfilePostViewHolder> {
+    private boolean mIsMyProfile;
+
     public ProfilePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -21,6 +23,11 @@ public class ProfilePostsContainer extends BasePostsContainer<ProfilePostsAdapte
     @Override
     protected ProfilePostsAdapter initializeAdapter(@NonNull Activity activity,
                                                     @NonNull GlideRequests imageLoader) {
-        return new ProfilePostsAdapter(activity, imageLoader);
+        return new ProfilePostsAdapter(activity, imageLoader, mIsMyProfile);
+    }
+
+    public void setup(@NonNull Activity activity, boolean isMyProfile) {
+        mIsMyProfile = isMyProfile;
+        setup(activity);
     }
 }

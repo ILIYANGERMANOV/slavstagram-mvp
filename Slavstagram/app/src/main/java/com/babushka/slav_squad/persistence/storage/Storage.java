@@ -24,13 +24,16 @@ public class Storage {
     private static Storage sStorage;
 
     @NonNull
+    private final FirebaseStorage mFirebaseStorage;
+    @NonNull
     private final StorageReference mStorageRef;
     @NonNull
     private final StorageReference mImagesRef;
 
 
     private Storage() {
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mFirebaseStorage = FirebaseStorage.getInstance();
+        mStorageRef = mFirebaseStorage.getReference();
         mImagesRef = mStorageRef.child(IMAGE_FOLDER);
     }
 
@@ -82,6 +85,16 @@ public class Storage {
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(new File(imageUri.getPath()).getAbsolutePath(), options);
         return new ImageSize(options.outWidth, options.outHeight);
+    }
+
+    public void deleteImage(@NonNull String imageUrl) {
+        //secure that nothing wil crash
+        try {
+            StorageReference imageRef = mFirebaseStorage.getReferenceFromUrl(imageUrl);
+            imageRef.delete();
+        } catch (Exception e) {
+            //ignored
+        }
     }
 
     public interface UploadImageListener {

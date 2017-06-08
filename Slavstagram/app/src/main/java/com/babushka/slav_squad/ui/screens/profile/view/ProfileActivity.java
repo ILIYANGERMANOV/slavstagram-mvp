@@ -30,6 +30,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     ProfilePostsContainer vPostsContainer;
 
     private User mUser;
+    private boolean mIsMyProfile;
 
     public static void startScreen(@NonNull Context context, @NonNull User user) {
         Intent intent = new Intent(context, ProfileActivity.class);
@@ -50,18 +51,19 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @Override
     protected void onReadArguments(@NonNull Intent intent) {
         String serializedUser = intent.getStringExtra(EXTRA_USER);
+        FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
         if (serializedUser != null) {
             mUser = new Gson().fromJson(serializedUser, User.class);
         } else {
-            FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
             mUser = new User(currentUser);
         }
+        mIsMyProfile = mUser.getUid().equals(currentUser.getUid());
     }
 
     @Override
     protected void onSetupUI() {
         super.onSetupUI();
-        vPostsContainer.setup(this);
+        vPostsContainer.setup(this, mIsMyProfile);
     }
 
     @Override

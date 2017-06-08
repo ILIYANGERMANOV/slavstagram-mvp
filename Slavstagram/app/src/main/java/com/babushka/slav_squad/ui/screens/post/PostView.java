@@ -58,8 +58,9 @@ public class PostView extends LinearLayout {
 
     @Nullable
     private Post mPost;
-
     private boolean mHideAuthor;
+    @Nullable
+    private OnPostLongClickListener mOnPostLongClickListener;
 
     public PostView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,6 +68,10 @@ public class PostView extends LinearLayout {
         setupFromAttributes(context, attrs);
         mGestureDetector = new GestureDetector(context, new PostGestureListener());
         setup();
+    }
+
+    public void setOnPostLongClickListener(@Nullable OnPostLongClickListener onPostLongClickListener) {
+        mOnPostLongClickListener = onPostLongClickListener;
     }
 
     private void setupUI(Context context) {
@@ -227,9 +232,7 @@ public class PostView extends LinearLayout {
     @OnClick(R.id.post_download_image_button)
     public void onDownloadClicked() {
         if (mPost != null) {
-            //TODO: Remove this and implement method
-            String userId = SessionManager.getInstance().getCurrentUser().getUid();
-            Database.getInstance().deletePost(userId, mPost.getId());
+            //TODO: Implement method
         }
     }
 
@@ -239,6 +242,10 @@ public class PostView extends LinearLayout {
             User author = mPost.getAuthor();
             ProfileActivity.startScreen(getContext(), author);
         }
+    }
+
+    public interface OnPostLongClickListener {
+        void onPostLongClick(@NonNull Post post);
     }
 
     private class PostGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -254,6 +261,13 @@ public class PostView extends LinearLayout {
                 likePost(mPost);
             }
             return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            if (mOnPostLongClickListener != null && mPost != null) {
+                mOnPostLongClickListener.onPostLongClick(mPost);
+            }
         }
 
         @Override

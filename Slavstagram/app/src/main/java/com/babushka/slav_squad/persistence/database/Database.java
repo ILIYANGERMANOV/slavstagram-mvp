@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.storage.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -68,16 +69,18 @@ public class Database {
         });
     }
 
-    public void deletePost(@NonNull String userId, @NonNull String postId) {
-        Map<String, Object> postDeleteMap = getPostUpdateMap(userId, postId, null);
+    public void deletePost(@NonNull Post post) {
+        String authorId = post.getAuthor().getUid();
+        Map<String, Object> postDeleteMap = getPostUpdateMap(authorId, post.getId(), null);
         mDatabase.updateChildren(postDeleteMap);
+        Storage.getInstance().deleteImage(post.getImage().getImageUrl());
     }
 
     @NonNull
-    private Map<String, Object> getPostUpdateMap(@NonNull String userId, String postId, @Nullable Map<String, Object> postValues) {
+    private Map<String, Object> getPostUpdateMap(@NonNull String authorId, String postId, @Nullable Map<String, Object> postValues) {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put('/' + Table.POSTS_TABLE + '/' + postId, postValues);
-        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + userId + "/" + postId, postValues);
+        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + authorId + "/" + postId, postValues);
         return childUpdates;
     }
 

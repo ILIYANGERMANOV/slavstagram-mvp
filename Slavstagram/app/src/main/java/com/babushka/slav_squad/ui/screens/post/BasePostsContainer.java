@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.container.BaseContainer;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -17,8 +18,8 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
  * Created by iliyan on 07.06.17.
  */
 
-public abstract class BasePostsContainer<A extends BasePostsAdapter>
-        extends BaseContainer<Post, PostViewHolder, A> {
+public abstract class BasePostsContainer<A extends BaseAdapter<Post, VH>, VH extends PostViewHolder>
+        extends BaseContainer<Post, VH, A> {
     public BasePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }

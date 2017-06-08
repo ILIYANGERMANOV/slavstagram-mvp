@@ -19,9 +19,9 @@ public class PostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     @NonNull
     private final GlideRequests mImageLoader;
     @BindView(R.id.adapter_post_post_view)
-    PostView mPostView;
+    protected PostView mPostView;
 
-    PostViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
+    protected PostViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
         mImageLoader = imageLoader;
         ButterKnife.bind(this, itemView);
