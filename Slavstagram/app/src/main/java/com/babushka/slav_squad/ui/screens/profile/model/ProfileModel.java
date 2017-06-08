@@ -12,18 +12,22 @@ import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
  */
 
 public class ProfileModel extends BasePostsModel implements ProfileContract.Model {
-    public ProfileModel(@NonNull String userId) {
+    @NonNull
+    private final String mProfileId;
+
+    public ProfileModel(@NonNull String profileId, @NonNull String userId) {
         super(userId);
+        mProfileId = profileId;
     }
 
     @Override
     public void addUserPostsListener(@NonNull PostsListener postsListener) {
         Database database = Database.getInstance();
-        database.addUserPostsListener(mUserId, buildIsLikedPostTransformator(postsListener));
+        database.addUserPostsListener(mProfileId, buildIsLikedPostTransformator(postsListener));
     }
 
     @Override
     public void removeUserPostsListener() {
-        Database.getInstance().removeUserPostsListener(mUserId);
+        Database.getInstance().removeUserPostsListener(mProfileId);
     }
 }

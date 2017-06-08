@@ -180,7 +180,7 @@ public class UploadPostModel implements UploadPostContract.Model {
         FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
         User author = new User(currentUser);
         Post post = new Post(author, description, image);
-        Database.getInstance().saveNewPost(currentUser.getUid(), post, new Database.OperationListener() {
+        Database.getInstance().saveNewPost(post, new Database.OperationListener() {
             @Override
             public void onSuccess() {
                 listener.onPostUploaded();

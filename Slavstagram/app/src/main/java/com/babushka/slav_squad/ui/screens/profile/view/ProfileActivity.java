@@ -29,7 +29,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @BindView(R.id.profile_posts_container)
     ProfilePostsContainer vPostsContainer;
 
-    private User mUser;
+    private User mProfileUser;
     private boolean mIsMyProfile;
 
     public static void startScreen(@NonNull Context context, @NonNull User user) {
@@ -53,11 +53,11 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
         String serializedUser = intent.getStringExtra(EXTRA_USER);
         FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
         if (serializedUser != null) {
-            mUser = new Gson().fromJson(serializedUser, User.class);
+            mProfileUser = new Gson().fromJson(serializedUser, User.class);
         } else {
-            mUser = new User(currentUser);
+            mProfileUser = new User(currentUser);
         }
-        mIsMyProfile = mUser.getUid().equals(currentUser.getUid());
+        mIsMyProfile = mProfileUser.getUid().equals(currentUser.getUid());
     }
 
     @Override
@@ -74,7 +74,9 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @NonNull
     @Override
     protected ProfileContract.Presenter initializePresenter() {
-        return new ProfilePresenter(this, new ProfileModel(mUser.getUid()), mUser);
+        String userId = SessionManager.getInstance().getCurrentUser().getUid();
+        ProfileModel model = new ProfileModel(mProfileUser.getUid(), userId);
+        return new ProfilePresenter(this, model, mProfileUser);
     }
 
     @Override

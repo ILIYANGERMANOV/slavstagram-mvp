@@ -49,12 +49,12 @@ public class Database {
         currentUserRef.updateChildren(user.toCreationMap());
     }
 
-    public void saveNewPost(@NonNull String userId, @NonNull Post post,
-                            @NonNull final OperationListener listener) {
+    public void saveNewPost(@NonNull Post post, @NonNull final OperationListener listener) {
         String key = mDatabase.child(Table.POSTS_TABLE).push().getKey();
+        String authorId = post.getAuthor().getUid();
         post.setUid(key);
         Map<String, Object> postValues = post.toMap();
-        Map<String, Object> childUpdates = getPostUpdateMap(userId, key, postValues);
+        Map<String, Object> childUpdates = getPostUpdateMap(authorId, key, postValues);
         mDatabase.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -84,8 +84,20 @@ public class Database {
         return childUpdates;
     }
 
-    public void toggleLike(@NonNull Post post, @NonNull final String userId) {
-        Transaction.Handler likeToggleHandler = new Transaction.Handler() {
+    public void toggleLike(@NonNull Post post, @NonNull String userId) {
+        String postId = post.getUid();
+        String authorId = post.getAuthor().getUid();
+        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(postId);
+        postRef.runTransaction(buildLikeToggleHandler(userId));
+        final DatabaseReference userPostRef = mDatabase.child(Table.USER_POSTS_TABLE)
+                .child(authorId)
+                .child(postId);
+        userPostRef.runTransaction(buildLikeToggleHandler(userId));
+    }
+
+    @NonNull
+    private Transaction.Handler buildLikeToggleHandler(@NonNull final String userId) {
+        return new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Post post = mutableData.getValue(Post.class);
@@ -119,13 +131,6 @@ public class Database {
                 Timber.d("postTransaction:onComplete " + databaseError);
             }
         };
-        String postId = post.getUid();
-        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(postId);
-        postRef.runTransaction(likeToggleHandler);
-        final DatabaseReference userPostRef = mDatabase.child(Table.USER_POSTS_TABLE)
-                .child(userId)
-                .child(postId);
-        userPostRef.runTransaction(likeToggleHandler);
     }
 
     public void addPostsListener(@NonNull final PostsListener postsListener) {

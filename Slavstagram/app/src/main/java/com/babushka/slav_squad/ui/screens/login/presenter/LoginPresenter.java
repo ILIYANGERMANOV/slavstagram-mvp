@@ -87,7 +87,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         mSessionManager.loginWithEmailAndPassword(activity, userDetails, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
-                handleSuccessfulLogin();
+                saveUserAndHandleSuccessfulLogin(user);
             }
 
             @Override
