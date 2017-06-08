@@ -1,5 +1,6 @@
 package com.babushka.slav_squad.ui;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
@@ -15,6 +16,13 @@ public abstract class BaseActionBarActivity<P extends BasePresenter> extends Bas
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    protected void setActionBarTitle(@NonNull String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
         }
     }
 

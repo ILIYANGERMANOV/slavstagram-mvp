@@ -3,9 +3,7 @@ package com.babushka.slav_squad.ui.screens.profile.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
 
-import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -19,7 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by iliyan on 07.06.17.
@@ -29,10 +26,6 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
         implements ProfileContract.View {
     private static final String EXTRA_USER = "user_extra";
 
-    @BindView(R.id.profile_profile_circle_image_view)
-    CircleImageView vProfileImage;
-    @BindView(R.id.profile_display_name_text_view)
-    TextView vDisplayNameText;
     @BindView(R.id.profile_posts_container)
     ProfilePostsContainer vPostsContainer;
 
@@ -84,11 +77,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
 
     @Override
     public void displayUser(@NonNull String imageUrl, @NonNull String displayName) {
-        GlideApp.with(this).load(imageUrl)
-                .dontAnimate()
-                //TODO: add placeholder and error drawable
-                .into(vProfileImage);
-        vDisplayNameText.setText(displayName);
+        setActionBarTitle(displayName);
     }
 
     @Override
