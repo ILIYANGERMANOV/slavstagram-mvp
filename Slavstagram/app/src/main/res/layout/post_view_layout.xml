@@ -37,6 +37,7 @@
     <ImageView
         android:id="@+id/post_main_image_view"
         android:layout_width="match_parent"
+        android:scaleType="fitXY"
         android:layout_height="400dp"/>
 
     <LinearLayout
