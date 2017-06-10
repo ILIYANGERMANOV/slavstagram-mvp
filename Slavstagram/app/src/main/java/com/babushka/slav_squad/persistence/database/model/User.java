@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,8 @@ import java.util.Map;
 public class User {
     @PropertyName(value = Table.User.UID)
     private String mUid;
+    @PropertyName(value = Table.User.NOTIFICATION_TOKEN)
+    private String mNotificationToken;
     @PropertyName(value = Table.User.EMAIL)
     private String mEmail;
     @PropertyName(value = Table.User.DISPLAY_NAME)
@@ -30,6 +33,7 @@ public class User {
     public User(@NonNull FirebaseUser user) {
         //TODO: handle missing attributes and make proper implementation
         mUid = user.getUid();
+        mNotificationToken = FirebaseInstanceId.getInstance().getToken();
         mEmail = user.getEmail();
         mDisplayName = user.getDisplayName();
         Uri photoUrl = user.getPhotoUrl();
@@ -49,6 +53,16 @@ public class User {
 
     public void setUid(String uid) {
         mUid = uid;
+    }
+
+    @Nullable
+    @PropertyName(value = Table.User.NOTIFICATION_TOKEN)
+    public String getNotificationToken() {
+        return mNotificationToken;
+    }
+
+    public void setNotificationToken(String notificationToken) {
+        mNotificationToken = notificationToken;
     }
 
     @PropertyName(value = Table.User.EMAIL)
@@ -84,6 +98,7 @@ public class User {
     public Map<String, Object> toCreationMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put(Table.User.UID, mUid);
+        result.put(Table.User.NOTIFICATION_TOKEN, mNotificationToken);
         result.put(Table.User.EMAIL, mEmail);
         result.put(Table.User.DISPLAY_NAME, mDisplayName);
         result.put(Table.User.PHOTO_URL, mPhotoUrl);

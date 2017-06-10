@@ -12,6 +12,7 @@ public class Table {
 
     public static class User {
         public static final String UID = "uid";
+        public static final String NOTIFICATION_TOKEN = "notification_token";
         public static final String EMAIL = "email";
         public static final String DISPLAY_NAME = "display_name";
         public static final String PHOTO_URL = "photo_url";
@@ -24,7 +25,7 @@ public class Table {
         public static final String DESCRIPTION = "description";
         public static final String LIKES_COUNT = "likes_count";
         public static final String LIKES = "likes";
-        public static final String COMMENTS = "comments";
+        public static final String COMMENTS_COUNT = "comments_count";
         public static final String TIMESTAMP = "timestamp";
         public static final String INVERTED_TIMESTAMP = "inverted_timestamp";
 

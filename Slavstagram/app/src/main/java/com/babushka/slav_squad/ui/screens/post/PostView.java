@@ -17,13 +17,14 @@ import android.widget.TextView;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.Database;
+import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,7 +113,7 @@ public class PostView extends LinearLayout {
         displayPostImage(post.getImage(), imageLoader);
         displayDescription(post.getDescription());
         displayLikes(post);
-        displayComments(post.getComments());
+        displayComments(post.getCommentsCount());
     }
 
     private void displayPostImage(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader) {
@@ -154,10 +155,8 @@ public class PostView extends LinearLayout {
         vAuthorNameText.setText(author.getDisplayName());
     }
 
-    private void displayComments(@Nullable Map<String, Boolean> comments) {
-        if (comments != null) {
-            vCommentsCountText.setText(String.valueOf(comments.size()));
-        }
+    private void displayComments(int commentsCount) {
+        vCommentsCountText.setText(String.valueOf(commentsCount));
     }
 
     private void resizeImageViewAndLoadImage(@NonNull Post.Image postImage, @NonNull GlideRequests imageLoader) {
@@ -221,7 +220,24 @@ public class PostView extends LinearLayout {
 
     @OnClick(R.id.post_comments_image_button)
     public void onCommentsClicked() {
-        //TODO: Implement method
+        if (mPost != null) {
+            String text = "Cyka blyat!";
+            switch (new Random().nextInt(3)) {
+                case 0:
+                    text = "Idi nahui!";
+                    break;
+                case 1:
+                    text = "Approves";
+                    break;
+                case 2:
+                    text = "Kurwaa";
+                    break;
+            }
+            FirebaseUser firebaseUser = SessionManager.getInstance().getCurrentUser();
+            Comment comment = new Comment(new User(firebaseUser), text);
+            Database.getInstance().addComment(mPost, comment);
+            //TODO: Implement method
+        }
     }
 
     @OnClick(R.id.post_share_image_button)

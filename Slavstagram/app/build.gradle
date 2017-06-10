@@ -66,6 +66,9 @@ dependencies {
 
     //Firebase
     compile "com.google.firebase:firebase-storage:$rootProject.playServicesVersion"
+    compile "com.google.firebase:firebase-core:$rootProject.playServicesVersion"
+    //required by messaging
+    compile "com.google.firebase:firebase-messaging:$rootProject.playServicesVersion"
 
     testCompile 'junit:junit:4.12'
 }

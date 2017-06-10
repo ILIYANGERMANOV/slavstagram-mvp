@@ -30,8 +30,8 @@ public class Post implements Findable {
     private int mLikesCount;
     @PropertyName(value = Table.Post.LIKES)
     private Map<String, Boolean> mLikes;
-    @PropertyName(value = Table.Post.COMMENTS)
-    private Map<String, Boolean> mComments;
+    @PropertyName(value = Table.Post.COMMENTS_COUNT)
+    private int mCommentsCount;
     @PropertyName(value = Table.Post.TIMESTAMP)
     private long mTimestamp;
     @PropertyName(value = Table.Post.INVERTED_TIMESTAMP)
@@ -46,7 +46,7 @@ public class Post implements Findable {
         mImage = image;
         mLikesCount = 0;
         mLikes = new HashMap<>();
-        mComments = new HashMap<>();
+        mCommentsCount = 0;
         mTimestamp = DateUtil.getTimestampForNow();
         mInvertedTimestamp = -1 * mTimestamp;
     }
@@ -119,14 +119,13 @@ public class Post implements Findable {
         mLikes = likes;
     }
 
-    @Nullable
-    @PropertyName(value = Table.Post.COMMENTS)
-    public Map<String, Boolean> getComments() {
-        return mComments;
+    @PropertyName(value = Table.Post.COMMENTS_COUNT)
+    public int getCommentsCount() {
+        return mCommentsCount;
     }
 
-    public void setComments(Map<String, Boolean> comments) {
-        mComments = comments;
+    public void setCommentsCount(int commentsCount) {
+        mCommentsCount = commentsCount;
     }
 
     @PropertyName(value = Table.Post.TIMESTAMP)
@@ -157,7 +156,7 @@ public class Post implements Findable {
         result.put(Table.Post.IMAGE, mImage);
         result.put(Table.Post.LIKES_COUNT, mLikesCount);
         result.put(Table.Post.LIKES, mLikes);
-        result.put(Table.Post.COMMENTS, mComments);
+        result.put(Table.Post.COMMENTS_COUNT, mCommentsCount);
         result.put(Table.Post.TIMESTAMP, mTimestamp);
         result.put(Table.Post.INVERTED_TIMESTAMP, mInvertedTimestamp);
         return result;

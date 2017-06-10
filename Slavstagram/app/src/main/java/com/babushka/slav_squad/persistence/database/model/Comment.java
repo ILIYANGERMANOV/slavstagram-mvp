@@ -1,6 +1,9 @@
 package com.babushka.slav_squad.persistence.database.model;
 
+import android.support.annotation.NonNull;
+
 import com.babushka.slav_squad.persistence.database.Table;
+import com.babushka.slav_squad.util.DateUtil;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
@@ -19,6 +22,13 @@ public class Comment {
     private long mTimestamp;
     @PropertyName(Table.Comment.INVERTED_TIMESTAMP)
     private long mInvertedTimestamp;
+
+    public Comment(@NonNull User author, @NonNull String text) {
+        mAuthor = author;
+        mText = text;
+        mTimestamp = DateUtil.getTimestampForNow();
+        mInvertedTimestamp = -1 * mTimestamp;
+    }
 
     public Comment() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

@@ -3,6 +3,7 @@ package com.babushka.slav_squad.persistence.database;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.persistence.storage.Storage;
@@ -49,6 +50,11 @@ public class Database {
         currentUserRef.updateChildren(user.toCreationMap());
     }
 
+    public void updateUserNotificationToken(@NonNull String userId, @NonNull String token) {
+        DatabaseReference currentUserRef = mDatabase.child(Table.USERS_TABLE).child(userId);
+        currentUserRef.child(Table.User.NOTIFICATION_TOKEN).setValue(token);
+    }
+
     public void saveNewPost(@NonNull Post post, @NonNull final OperationListener listener) {
         String key = mDatabase.child(Table.POSTS_TABLE).push().getKey();
         String authorId = post.getAuthor().getUid();
@@ -87,11 +93,14 @@ public class Database {
     public void toggleLike(@NonNull Post post, @NonNull String userId) {
         String postId = post.getUid();
         String authorId = post.getAuthor().getUid();
-        final DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE).child(postId);
-        postRef.runTransaction(buildLikeToggleHandler(userId));
-        final DatabaseReference userPostRef = mDatabase.child(Table.USER_POSTS_TABLE)
+
+        DatabaseReference postRef = mDatabase.child(Table.POSTS_TABLE)
+                .child(postId);
+        DatabaseReference userPostRef = mDatabase.child(Table.USER_POSTS_TABLE)
                 .child(authorId)
                 .child(postId);
+
+        postRef.runTransaction(buildLikeToggleHandler(userId));
         userPostRef.runTransaction(buildLikeToggleHandler(userId));
     }
 
@@ -119,7 +128,7 @@ public class Database {
                     post.setLikesCount(post.getLikesCount() + 1);
                     likes.put(userId, true);
                 }
-                // Set value and report transaction success
+
                 mutableData.setValue(post);
                 return Transaction.success(mutableData);
             }
@@ -128,7 +137,54 @@ public class Database {
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
                 // Transaction completed
-                Timber.d("postTransaction:onComplete " + databaseError);
+                if (databaseError != null) {
+                    Timber.e("togglePostLikeTransaction:onError: %s " + databaseError.getMessage());
+                }
+            }
+        };
+    }
+
+    public void addComment(@NonNull Post post, @NonNull Comment comment) {
+        //TODO: Consider error handling
+        //Add comment in COMMENTS table
+        mDatabase.child(Table.COMMENTS_TABLE).child(post.getUid())
+                .push().setValue(comment);
+        //Increment post's comments_count in POSTS AND USER-POSTS tables
+        String postId = post.getUid();
+        String authorId = post.getAuthor().getUid();
+
+        DatabaseReference postCommentsCountRef = mDatabase.child(Table.POSTS_TABLE)
+                .child(postId)
+                .child(Table.Post.COMMENTS_COUNT);
+        DatabaseReference userPostCommentsCountRef = mDatabase.child(Table.USER_POSTS_TABLE)
+                .child(authorId)
+                .child(postId)
+                .child(Table.Post.COMMENTS_COUNT);
+
+        postCommentsCountRef.runTransaction(buildIncrementCommentsCountHandler());
+        userPostCommentsCountRef.runTransaction(buildIncrementCommentsCountHandler());
+    }
+
+    private Transaction.Handler buildIncrementCommentsCountHandler() {
+        return new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer commentsCount = mutableData.getValue(Integer.class);
+                if (commentsCount == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                mutableData.setValue(commentsCount + 1);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                // Transaction completed
+                if (databaseError != null) {
+                    Timber.e("incrementPostCommentsCountTransaction:onError: %s" + databaseError.getMessage());
+                }
             }
         };
     }
