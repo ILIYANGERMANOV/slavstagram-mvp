@@ -2,7 +2,7 @@ package com.babushka.slav_squad.ui.screens.profile;
 
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.persistence.database.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.PostsView;
 

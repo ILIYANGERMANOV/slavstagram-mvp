@@ -3,7 +3,7 @@ package com.babushka.slav_squad.ui.screens;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.babushka.slav_squad.persistence.database.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.google.firebase.database.DatabaseError;
 

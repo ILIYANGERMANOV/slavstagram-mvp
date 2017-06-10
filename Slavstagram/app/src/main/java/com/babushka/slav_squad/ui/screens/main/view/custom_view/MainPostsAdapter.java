@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.ui.screens.post.BasePostsAdapter;
+import com.babushka.slav_squad.ui.screens.post_container.BasePostsAdapter;
 
 /**
  * Created by iliyan on 07.06.17.

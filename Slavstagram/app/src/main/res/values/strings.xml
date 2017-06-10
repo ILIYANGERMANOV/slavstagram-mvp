@@ -5,4 +5,5 @@
 
     <string name="activity_profile">Profile</string>
     <string name="activity_upload_post">Upload post</string>
+    <string name="activity_comments">Comments</string>
 </resources>

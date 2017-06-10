@@ -31,7 +31,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected abstract P initializePresenter();
 
     protected void onSetupFinished() {
-
+        //empty stub
     }
 
     @Override

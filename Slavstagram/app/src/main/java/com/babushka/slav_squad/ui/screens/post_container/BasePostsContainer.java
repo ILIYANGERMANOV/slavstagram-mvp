@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.post;
+package com.babushka.slav_squad.ui.screens.post_container;
 
 import android.app.Activity;
 import android.content.Context;

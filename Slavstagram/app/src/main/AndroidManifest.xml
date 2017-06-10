@@ -51,6 +51,10 @@
             android:name=".ui.screens.profile.view.ProfileActivity"
             android:label="@string/activity_profile"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.screens.comments.view.CommentsActivity"
+            android:label="@string/activity_comments"
+            android:screenOrientation="portrait"/>
 
         <!-- Image cropper -->
         <activity
@@ -61,14 +65,16 @@
 
         <!-- Firebase messaging -->
         <service
-            android:name=".MyFirebaseMessagingService">
+            android:name=".messaging.firebase.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".MyFirebaseInstanceIDService">
+            android:name=".messaging.firebase.MyFirebaseInstanceIdService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

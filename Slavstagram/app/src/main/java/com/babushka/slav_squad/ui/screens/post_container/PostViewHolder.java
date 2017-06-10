@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.post;
+package com.babushka.slav_squad.ui.screens.post_container;
 
 import android.support.annotation.NonNull;
 import android.view.View;

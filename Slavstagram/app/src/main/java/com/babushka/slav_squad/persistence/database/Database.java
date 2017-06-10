@@ -3,6 +3,8 @@ package com.babushka.slav_squad.persistence.database;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.babushka.slav_squad.persistence.database.listeners.CommentsListener;
+import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -33,6 +35,8 @@ public class Database {
     private ChildEventListener mPostsEventListener;
     @Nullable
     private ChildEventListener mUserPostsEventListener;
+    @Nullable
+    private ChildEventListener mCommentsEventListener;
 
     private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -196,22 +200,82 @@ public class Database {
         postsRef.addChildEventListener(mPostsEventListener);
     }
 
-    public void addUserPostsListener(@NonNull String userId, @NonNull final PostsListener postsListener) {
-        DatabaseReference userPostsRef = mDatabase.child(Table.USER_POSTS_TABLE).child(userId);
-        mUserPostsEventListener = new DefaultPostEventListener(postsListener);
+    public void addUserPostsListener(@NonNull String userId, @NonNull final PostsListener listener) {
+        DatabaseReference userPostsRef = mDatabase
+                .child(Table.USER_POSTS_TABLE)
+                .child(userId);
+        mUserPostsEventListener = new DefaultPostEventListener(listener);
         userPostsRef.addChildEventListener(mUserPostsEventListener);
+    }
+
+    public void addCommentsListener(@NonNull Post post, @NonNull final CommentsListener listener) {
+        DatabaseReference postCommentsRef = mDatabase.child(Table.COMMENTS_TABLE)
+                .child(post.getUid());
+        mCommentsEventListener = buildCommentsEventListener(listener);
+        postCommentsRef.addChildEventListener(mCommentsEventListener);
+    }
+
+    @NonNull
+    private ChildEventListener buildCommentsEventListener(@NonNull final CommentsListener listener) {
+        return new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Comment comment = dataSnapshot.getValue(Comment.class);
+                if (comment != null) {
+                    listener.onCommentAdded(comment);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Comment comment = dataSnapshot.getValue(Comment.class);
+                if (comment != null) {
+                    listener.onCommentChanged(comment);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Comment comment = dataSnapshot.getValue(Comment.class);
+                if (comment != null) {
+                    listener.onCommentRemoved(comment);
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                //TODO: Implement method
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                if (databaseError != null) {
+                    listener.onError(databaseError);
+                }
+            }
+        };
     }
 
     public void removePostsListener() {
         if (mPostsEventListener != null) {
-            mDatabase.child(Table.POSTS_TABLE).removeEventListener(mPostsEventListener);
+            mDatabase.child(Table.POSTS_TABLE)
+                    .removeEventListener(mPostsEventListener);
         }
     }
 
     public void removeUserPostsListener(@NonNull String userId) {
         if (mUserPostsEventListener != null) {
-            mDatabase.child(Table.POSTS_TABLE).child(userId)
+            mDatabase.child(Table.USER_POSTS_TABLE)
+                    .child(userId)
                     .removeEventListener(mUserPostsEventListener);
+        }
+    }
+
+    public void removeCommentsEventListener(@NonNull String postId) {
+        if (mCommentsEventListener != null) {
+            mDatabase.child(Table.COMMENTS_TABLE)
+                    .child(postId)
+                    .removeEventListener(mCommentsEventListener);
         }
     }
 

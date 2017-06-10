@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.post;
+package com.babushka.slav_squad.ui.screens.post_container;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,6 +21,7 @@ import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -237,6 +238,8 @@ public class PostView extends LinearLayout {
             Comment comment = new Comment(new User(firebaseUser), text);
             Database.getInstance().addComment(mPost, comment);
             //TODO: Implement method
+
+            CommentsActivity.startScreen(getContext(), mPost);
         }
     }
 

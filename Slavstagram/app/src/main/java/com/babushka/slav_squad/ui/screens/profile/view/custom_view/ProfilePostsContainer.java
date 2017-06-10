@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.babushka.slav_squad.GlideRequests;
-import com.babushka.slav_squad.ui.screens.post.BasePostsContainer;
+import com.babushka.slav_squad.ui.screens.post_container.BasePostsContainer;
 
 /**
  * Created by iliyan on 07.06.17.

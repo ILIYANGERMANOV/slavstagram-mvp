@@ -8,8 +8,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.ui.screens.post.PostView;
-import com.babushka.slav_squad.ui.screens.post.PostViewHolder;
+import com.babushka.slav_squad.ui.screens.post_container.PostView;
+import com.babushka.slav_squad.ui.screens.post_container.PostViewHolder;
 
 /**
  * Created by iliyan on 08.06.17.
