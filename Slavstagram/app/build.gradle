@@ -42,6 +42,7 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
     compile 'com.github.yalantis:ucrop:2.2.1'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 
     //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"

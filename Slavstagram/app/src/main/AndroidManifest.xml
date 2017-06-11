@@ -55,6 +55,10 @@
             android:name=".ui.screens.comments.view.CommentsActivity"
             android:label="@string/activity_comments"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.screens.image_preview.ImagePreviewActivity"
+            android:label="@string/activity_image_preview"
+            android:screenOrientation="portrait"/>
 
         <!-- Image cropper -->
         <activity

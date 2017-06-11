@@ -21,6 +21,7 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
+import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -271,7 +272,10 @@ public class PostView extends LinearLayout {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            //TODO: Implement method
+            if (mPost != null) {
+                String imageUrl = mPost.getImage().getImageUrl();
+                ImagePreviewActivity.startScreen(getContext(), imageUrl);
+            }
             return true;
         }
     }
