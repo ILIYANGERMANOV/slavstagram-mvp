@@ -84,6 +84,7 @@ public class Database {
         Map<String, Object> postDeleteMap = getPostUpdateMap(authorId, post.getId(), null);
         mDatabase.updateChildren(postDeleteMap);
         Storage.getInstance().deleteImage(post.getImage().getImageUrl());
+        deleteCommentsOnPost(post);
     }
 
     @NonNull
@@ -92,6 +93,12 @@ public class Database {
         childUpdates.put('/' + Table.POSTS_TABLE + '/' + postId, postValues);
         childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + authorId + "/" + postId, postValues);
         return childUpdates;
+    }
+
+    private void deleteCommentsOnPost(@NonNull Post post) {
+        DatabaseReference commentsOnPostRef = mDatabase.child(Table.COMMENTS_TABLE)
+                .child(post.getUid());
+        commentsOnPostRef.setValue(null);
     }
 
     public void toggleLike(@NonNull Post post, @NonNull String userId) {
