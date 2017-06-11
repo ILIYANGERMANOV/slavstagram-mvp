@@ -18,8 +18,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/post_author_circle_image_view"
-            android:layout_width="@dimen/main_profile_pic_size"
-            android:layout_height="@dimen/main_profile_pic_size"
+            android:layout_width="@dimen/profile_pic_size"
+            android:layout_height="@dimen/profile_pic_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
         <TextView

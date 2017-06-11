@@ -51,7 +51,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @Override
     protected void onReadArguments(@NonNull Intent intent) {
         String serializedUser = intent.getStringExtra(EXTRA_USER);
-        FirebaseUser currentUser = SessionManager.getInstance().getCurrentUser();
+        FirebaseUser currentUser = SessionManager.getInstance().getCurrentFirebaseUser();
         if (serializedUser != null) {
             mProfileUser = new Gson().fromJson(serializedUser, User.class);
         } else {
@@ -74,7 +74,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @NonNull
     @Override
     protected ProfileContract.Presenter initializePresenter() {
-        String userId = SessionManager.getInstance().getCurrentUser().getUid();
+        String userId = SessionManager.getInstance().getCurrentFirebaseUser().getUid();
         ProfileModel model = new ProfileModel(mProfileUser.getUid(), userId);
         return new ProfilePresenter(this, model, mProfileUser);
     }

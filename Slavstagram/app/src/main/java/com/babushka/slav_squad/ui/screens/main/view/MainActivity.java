@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @NonNull
     @Override
     protected MainContract.Presenter initializePresenter() {
-        FirebaseUser user = SessionManager.getInstance().getCurrentUser();
+        FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
         return new MainPresenter(this, new MainModel(user));
     }
 

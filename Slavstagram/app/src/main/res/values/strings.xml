@@ -6,4 +6,11 @@
     <string name="activity_profile">Profile</string>
     <string name="activity_upload_post">Upload post</string>
     <string name="activity_comments">Comments</string>
+
+    <string name="just_now">just now</string>
+    <string name="minutes_ago">%dm</string>
+    <string name="hours_ago">%dh</string>
+    <string name="days_ago">%dd</string>
+    <string name="weeks_ago">%dw</string>
+    <string name="months_ago">%dm</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.util;
+package com.babushka.slav_squad.util.datetime;
 
 import java.util.Calendar;
 

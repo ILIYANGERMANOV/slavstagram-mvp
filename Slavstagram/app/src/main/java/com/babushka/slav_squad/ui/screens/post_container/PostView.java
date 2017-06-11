@@ -17,15 +17,12 @@ import android.widget.TextView;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.Database;
-import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -215,30 +212,13 @@ public class PostView extends LinearLayout {
 
     private void setPostLikedState(@NonNull Post post, boolean liked) {
         post.setLiked(liked);
-        FirebaseUser user = SessionManager.getInstance().getCurrentUser();
+        FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
         Database.getInstance().toggleLike(post, user.getUid());
     }
 
     @OnClick(R.id.post_comments_image_button)
     public void onCommentsClicked() {
         if (mPost != null) {
-            String text = "Cyka blyat!";
-            switch (new Random().nextInt(3)) {
-                case 0:
-                    text = "Idi nahui!";
-                    break;
-                case 1:
-                    text = "Approves";
-                    break;
-                case 2:
-                    text = "Kurwaa";
-                    break;
-            }
-            FirebaseUser firebaseUser = SessionManager.getInstance().getCurrentUser();
-            Comment comment = new Comment(new User(firebaseUser), text);
-            Database.getInstance().addComment(mPost, comment);
-            //TODO: Implement method
-
             CommentsActivity.startScreen(getContext(), mPost);
         }
     }

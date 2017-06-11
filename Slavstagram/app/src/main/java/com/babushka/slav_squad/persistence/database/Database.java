@@ -155,13 +155,13 @@ public class Database {
                 .push().setValue(comment);
         //Increment post's comments_count in POSTS AND USER-POSTS tables
         String postId = post.getUid();
-        String authorId = post.getAuthor().getUid();
+        String postAuthorId = post.getAuthor().getUid();
 
         DatabaseReference postCommentsCountRef = mDatabase.child(Table.POSTS_TABLE)
                 .child(postId)
                 .child(Table.Post.COMMENTS_COUNT);
         DatabaseReference userPostCommentsCountRef = mDatabase.child(Table.USER_POSTS_TABLE)
-                .child(authorId)
+                .child(postAuthorId)
                 .child(postId)
                 .child(Table.Post.COMMENTS_COUNT);
 

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.babushka.slav_squad.persistence.database.model.User;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -39,11 +40,15 @@ public class SessionManager {
     }
 
     public boolean isLoggedUser() {
-        return getCurrentUser() != null;
+        return getCurrentFirebaseUser() != null;
     }
 
-    public FirebaseUser getCurrentUser() {
+    public FirebaseUser getCurrentFirebaseUser() {
         return mAuth.getCurrentUser();
+    }
+
+    public User getCurrentUser() {
+        return new User(getCurrentFirebaseUser());
     }
 
     public LoginAdapter loginWithFacebook(@NonNull final Activity activity, @NonNull LoginButton loginButton,
@@ -142,8 +147,8 @@ public class SessionManager {
 
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful() && getCurrentUser() != null) {
-                mLoginCallback.onSuccess(getCurrentUser());
+            if (task.isSuccessful() && getCurrentFirebaseUser() != null) {
+                mLoginCallback.onSuccess(getCurrentFirebaseUser());
             } else {
                 Exception exception = task.getException();
                 if (exception != null) {

@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.Table;
 import com.babushka.slav_squad.ui.container.Findable;
-import com.babushka.slav_squad.util.DateUtil;
+import com.babushka.slav_squad.util.datetime.DateUtil;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;

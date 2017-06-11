@@ -24,7 +24,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     }
 
     private void sendNotificationTokenToServer(String refreshedToken) {
-        String userId = SessionManager.getInstance().getCurrentUser().getUid();
+        String userId = SessionManager.getInstance().getCurrentFirebaseUser().getUid();
         Database.getInstance().updateUserNotificationToken(userId, refreshedToken);
     }
 }

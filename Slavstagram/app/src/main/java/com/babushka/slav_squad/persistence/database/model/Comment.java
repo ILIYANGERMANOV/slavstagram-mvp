@@ -3,7 +3,8 @@ package com.babushka.slav_squad.persistence.database.model;
 import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.Table;
-import com.babushka.slav_squad.util.DateUtil;
+import com.babushka.slav_squad.ui.container.Findable;
+import com.babushka.slav_squad.util.datetime.DateUtil;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
@@ -11,7 +12,7 @@ import com.google.firebase.database.PropertyName;
  * Created by iliyan on 28.05.17.
  */
 @IgnoreExtraProperties
-public class Comment {
+public class Comment implements Findable {
     @PropertyName(Table.Comment.UID)
     private String mUid;
     @PropertyName(Table.Comment.TEXT)
@@ -79,5 +80,11 @@ public class Comment {
 
     public void setInvertedTimestamp(long invertedTimestamp) {
         mInvertedTimestamp = invertedTimestamp;
+    }
+
+    @NonNull
+    @Override
+    public String getId() {
+        return mUid;
     }
 }
