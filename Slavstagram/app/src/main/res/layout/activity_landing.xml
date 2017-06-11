@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_fb_login_button"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="@dimen/landing_side_margin"
+        android:layout_marginRight="@dimen/landing_side_margin"
+        android:gravity="center"
+        android:text="Sign in with:"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+        android:textColor="@color/black"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/landing_fb_login_button"
+        style="@style/FacebookLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_center_view"
+        android:layout_marginLeft="@dimen/landing_fb_button_side_margin"
+        android:layout_marginRight="@dimen/landing_fb_button_side_margin"/>
+
+    <View
+        android:id="@+id/landing_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="0dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/landing_google_email_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/landing_fb_login_button"
+        android:layout_marginLeft="@dimen/landing_side_margin"
+        android:layout_marginRight="@dimen/landing_side_margin"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/landing_google_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"/>
+
+        <Button
+            android:id="@+id/landing_email_button"
+            style="@style/LandingButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:text="Email"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/landing_skip_button"
+        style="@style/LandingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/landing_google_email_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="SKIP"/>
+
+</RelativeLayout>

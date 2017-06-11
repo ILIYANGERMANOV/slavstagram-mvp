@@ -19,14 +19,30 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="ImageButton">
+    <style name="ImageButton" parent="Button">
         <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Button">
         <item name="android:minWidth">@dimen/min_clickable_area</item>
         <item name="android:minHeight">@dimen/min_clickable_area</item>
     </style>
 
     <style name="PostNumberTextAppearance" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Landing -->
+    <style name="FacebookLoginButton">
+        <item name="android:paddingTop">@dimen/fb_button_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/fb_button_vertical_padding</item>
+        <item name="android:paddingLeft">@dimen/fb_button_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/fb_button_horizontal_padding</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="LandingButton" parent="Button">
+
     </style>
 
 </resources>

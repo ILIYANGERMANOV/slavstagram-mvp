@@ -1,11 +1,10 @@
-package com.babushka.slav_squad.ui.screens.login;
+package com.babushka.slav_squad.ui.screens.landing.landing;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.BaseView;
 import com.facebook.login.widget.LoginButton;
@@ -15,10 +14,10 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by iliyan on 22.05.17.
  */
 
-public interface LoginContract {
+public interface LandingContract {
     interface View extends BaseView {
+        void startLoginScreen();
 
-        void startRegisterScreen();
         void restartApp();
 
         void showToast(@NonNull String message);
@@ -29,9 +28,7 @@ public interface LoginContract {
         void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton);
         void loginWithGoogle(@NonNull AppCompatActivity activity);
 
-        void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails);
-
-        void handleRegisterClick();
+        void handleEmailClick();
 
         void loginAsGuest(@NonNull Activity activity);
 

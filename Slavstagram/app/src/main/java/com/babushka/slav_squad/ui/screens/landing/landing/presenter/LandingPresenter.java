@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.login.presenter;
+package com.babushka.slav_squad.ui.screens.landing.landing.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.LoginAdapter;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.session.UserDetails;
-import com.babushka.slav_squad.ui.screens.login.LoginContract;
-import com.babushka.slav_squad.ui.screens.login.model.LoginModel;
+import com.babushka.slav_squad.ui.screens.landing.landing.LandingContract;
+import com.babushka.slav_squad.ui.screens.landing.landing.model.LandingModel;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,19 +20,19 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by iliyan on 22.05.17.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LandingPresenter implements LandingContract.Presenter {
     @NonNull
     private final SessionManager mSessionManager;
     @NonNull
-    private final LoginModel mLoginModel;
-    private LoginContract.View mView;
+    private final LandingModel mModel;
+    private LandingContract.View mView;
     @Nullable
     private LoginAdapter mLoginAdapter;
 
 
-    public LoginPresenter(@NonNull LoginContract.View view, @NonNull LoginModel loginModel) {
+    public LandingPresenter(@NonNull LandingContract.View view, @NonNull LandingModel model) {
         mView = view;
-        mLoginModel = loginModel;
+        mModel = model;
         mSessionManager = SessionManager.getInstance();
     }
 
@@ -74,15 +74,6 @@ public class LoginPresenter implements LoginContract.Presenter {
         });
     }
 
-    @Override
-    public void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails) {
-        if (userDetails.validate()) {
-            loginWithValidatedUserDetails(activity, userDetails);
-        } else {
-            mView.showToast("Email and password cannot be empty fields!");
-        }
-    }
-
     private void loginWithValidatedUserDetails(@NonNull Activity activity, @NonNull UserDetails userDetails) {
         mSessionManager.loginWithEmailAndPassword(activity, userDetails, new FirebaseLoginCallback() {
             @Override
@@ -98,8 +89,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void handleRegisterClick() {
-        //TODO: Implement method
+    public void handleEmailClick() {
+        mView.startLoginScreen();
     }
 
     @Override
@@ -118,7 +109,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     private void saveUserAndHandleSuccessfulLogin(@NonNull FirebaseUser user) {
-        mLoginModel.saveUser(user);
+        mModel.saveUser(user);
         handleSuccessfulLogin();
     }
 

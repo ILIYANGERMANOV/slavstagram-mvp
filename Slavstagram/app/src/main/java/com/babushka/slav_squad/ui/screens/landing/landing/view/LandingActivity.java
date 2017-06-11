@@ -1,17 +1,15 @@
-package com.babushka.slav_squad.ui.screens.login.view;
+package com.babushka.slav_squad.ui.screens.landing.landing.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.session.UserDetails;
 import com.babushka.slav_squad.ui.BaseActivity;
-import com.babushka.slav_squad.ui.screens.login.LoginContract;
-import com.babushka.slav_squad.ui.screens.login.model.LoginModel;
-import com.babushka.slav_squad.ui.screens.login.presenter.LoginPresenter;
+import com.babushka.slav_squad.ui.screens.landing.landing.LandingContract;
+import com.babushka.slav_squad.ui.screens.landing.landing.model.LandingModel;
+import com.babushka.slav_squad.ui.screens.landing.landing.presenter.LandingPresenter;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
@@ -19,32 +17,28 @@ import com.google.android.gms.common.SignInButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity<LoginContract.Presenter>
-        implements LoginContract.View {
+public class LandingActivity extends BaseActivity<LandingContract.Presenter>
+        implements LandingContract.View {
 
-    @BindView(R.id.login_email_edit_text)
-    EditText vEmailInput;
-    @BindView(R.id.login_password_edit_text)
-    EditText vPasswordInput;
-    @BindView(R.id.login_fb_login_button)
+    @BindView(R.id.landing_fb_login_button)
     LoginButton vFBLoginButton;
-    @BindView(R.id.login_google_sign_in_button)
+    @BindView(R.id.landing_google_login_button)
     SignInButton vGoogleLoginButton;
 
     public static void startScreen(@NonNull Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, LandingActivity.class);
         context.startActivity(intent);
     }
 
     @Override
     protected int getContentViewLayout() {
-        return R.layout.activity_login;
+        return R.layout.activity_landing;
     }
 
     @NonNull
     @Override
-    protected LoginContract.Presenter initializePresenter() {
-        return new LoginPresenter(this, new LoginModel());
+    protected LandingContract.Presenter initializePresenter() {
+        return new LandingPresenter(this, new LandingModel());
     }
 
     @Override
@@ -57,33 +51,24 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         mPresenter.setupFacebookLogin(this, vFBLoginButton);
     }
 
-    @OnClick(R.id.login_google_sign_in_button)
+    @OnClick(R.id.landing_google_login_button)
     public void onLoginWithGooglePlusClicked() {
         mPresenter.loginWithGoogle(this);
     }
 
-    @OnClick(R.id.login_login_button)
-    public void onLoginClicked() {
-        String email = vEmailInput.getText().toString();
-        String password = vPasswordInput.getText().toString();
-        UserDetails userDetails = new UserDetails(email, password);
-        mPresenter.loginWithEmailAndPassword(this, userDetails);
-    }
-
-    @OnClick(R.id.login_register_button)
+    @OnClick(R.id.landing_email_button)
     public void onRegisterClicked() {
-        mPresenter.handleRegisterClick();
+        mPresenter.handleEmailClick();
     }
 
-    @OnClick(R.id.login_skip_button)
+    @OnClick(R.id.landing_skip_button)
     public void onSkipButtonClicked() {
         mPresenter.loginAsGuest(this);
     }
 
     @Override
-    public void startRegisterScreen() {
+    public void startLoginScreen() {
         //TODO: Implement method
-        Toast.makeText(this, "Register clicked (not implemented yet)", Toast.LENGTH_SHORT).show();
     }
 
     @Override

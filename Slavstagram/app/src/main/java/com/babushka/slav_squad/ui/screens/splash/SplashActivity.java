@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.session.SessionManager;
-import com.babushka.slav_squad.ui.screens.login.view.LoginActivity;
+import com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.view.MainActivity;
 import com.babushka.slav_squad.util.Constants;
 
@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         if (SessionManager.getInstance().isLoggedUser()) {
             MainActivity.startScreen(this);
         } else {
-            LoginActivity.startScreen(this);
+            LandingActivity.startScreen(this);
         }
     }
 }

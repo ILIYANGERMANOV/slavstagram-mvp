@@ -7,6 +7,12 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_vertical_margin_half">8dp</dimen>
 
+    <!-- Landing -->
+    <dimen name="fb_button_vertical_padding">12dp</dimen>
+    <dimen name="fb_button_horizontal_padding">20dp</dimen>
+    <dimen name="landing_fb_button_side_margin">37dp</dimen>
+    <dimen name="landing_side_margin">32dp</dimen>
+
     <!-- Main -->
     <dimen name="profile_pic_size">40dp</dimen>
     <dimen name="posts_divider_height">0.5dp</dimen>
