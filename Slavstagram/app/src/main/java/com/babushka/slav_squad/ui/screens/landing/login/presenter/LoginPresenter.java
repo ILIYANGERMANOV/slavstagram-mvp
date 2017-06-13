@@ -65,6 +65,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
+    public void handleRegisterButtonClick() {
+        mView.startRegisterScreen();
+    }
+
+    @Override
     public void onDestroy() {
         mView = null;
     }

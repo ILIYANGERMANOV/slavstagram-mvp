@@ -64,7 +64,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @OnClick(R.id.landing_skip_button)
     public void onSkipButtonClicked() {
-        mPresenter.loginAsGuest(this);
+        mPresenter.loginAsGuest();
     }
 
     @Override

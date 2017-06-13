@@ -79,8 +79,8 @@ public class LandingPresenter implements LandingContract.Presenter {
     }
 
     @Override
-    public void loginAsGuest(@NonNull Activity activity) {
-        mSessionManager.loginAsGuest(activity, new FirebaseLoginCallback() {
+    public void loginAsGuest() {
+        mSessionManager.loginAsGuest(new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
                 handleSuccessfulLogin();

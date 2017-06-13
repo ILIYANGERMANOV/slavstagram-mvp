@@ -27,7 +27,7 @@ public interface LandingContract {
 
         void handleEmailClick();
 
-        void loginAsGuest(@NonNull Activity activity);
+        void loginAsGuest();
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
 

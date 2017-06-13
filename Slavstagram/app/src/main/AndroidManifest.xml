@@ -44,7 +44,12 @@
 
         <activity
             android:name=".ui.screens.landing.login.view.LoginActivity"
-            android:label="@string/activtiy_login"
+            android:label="@string/activity_login"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.screens.landing.register.view.RegisterActivity"
+            android:label="@string/activity_register"
             android:screenOrientation="portrait"/>
 
         <activity

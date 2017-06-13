@@ -110,9 +110,9 @@ public class SessionManager {
                 .addOnCompleteListener(new DefaultSignInCompleteListener(loginCallback));
     }
 
-    public void loginAsGuest(@NonNull Activity activity, @NonNull FirebaseLoginCallback loginCallback) {
+    public void loginAsGuest(@NonNull FirebaseLoginCallback loginCallback) {
         mAuth.signInAnonymously()
-                .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
+                .addOnCompleteListener(new DefaultSignInCompleteListener(loginCallback));
     }
 
     public void logout() {

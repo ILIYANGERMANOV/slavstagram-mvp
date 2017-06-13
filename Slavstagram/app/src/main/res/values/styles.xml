@@ -45,6 +45,13 @@
 
     </style>
 
+    <style name="LoginScreenButton" parent="LandingButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/landing_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/landing_side_margin</item>
+    </style>
+
     <style name="LandingInput">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

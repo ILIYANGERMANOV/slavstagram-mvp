@@ -16,6 +16,7 @@ import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.landing.login.LoginContract;
 import com.babushka.slav_squad.ui.screens.landing.login.presenter.LoginPresenter;
+import com.babushka.slav_squad.ui.screens.landing.register.view.RegisterActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 
 import butterknife.BindView;
@@ -91,6 +92,11 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
         mPresenter.login(userDetails);
     }
 
+    @OnClick(R.id.login_register_button)
+    public void onRegisterButtonClicked() {
+        mPresenter.handleRegisterButtonClick();
+    }
+
     @NonNull
     private UserDetails getUserDetailsFromInput() {
         String email = vEmailInput.getText().toString();
@@ -117,6 +123,11 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
     @Override
     public void disableLoginButton() {
         vLoginButton.setEnabled(false);
+    }
+
+    @Override
+    public void startRegisterScreen() {
+        RegisterActivity.startScreen(this);
     }
 
     @Override

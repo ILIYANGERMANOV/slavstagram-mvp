@@ -21,13 +21,15 @@
 
     <Button
         android:id="@+id/login_login_button"
-        style="@style/LandingButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/landing_side_margin"
-        android:layout_marginRight="@dimen/landing_side_margin"
+        style="@style/LoginScreenButton"
         android:layout_marginTop="20dp"
         android:enabled="false"
         android:text="LOGIN"/>
+
+    <Button
+        android:id="@+id/login_register_button"
+        style="@style/LoginScreenButton"
+        android:layout_marginTop="5dp"
+        android:text="REGISTER"/>
 
 </LinearLayout>

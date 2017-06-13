@@ -16,6 +16,8 @@ public interface LoginContract {
 
         void disableLoginButton();
 
+        void startRegisterScreen();
+
         void showToast(@NonNull String message);
     }
 
@@ -25,5 +27,7 @@ public interface LoginContract {
         boolean isValidInput(@NonNull UserDetails userDetails);
 
         void login(@NonNull UserDetails userDetails);
+
+        void handleRegisterButtonClick();
     }
 }
