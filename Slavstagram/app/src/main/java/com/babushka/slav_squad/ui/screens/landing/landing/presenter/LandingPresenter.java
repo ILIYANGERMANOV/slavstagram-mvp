@@ -10,9 +10,8 @@ import com.babushka.slav_squad.session.FacebookLoginCallback;
 import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.LoginAdapter;
 import com.babushka.slav_squad.session.SessionManager;
-import com.babushka.slav_squad.session.UserDetails;
+import com.babushka.slav_squad.ui.screens.landing.LandingModel;
 import com.babushka.slav_squad.ui.screens.landing.landing.LandingContract;
-import com.babushka.slav_squad.ui.screens.landing.landing.model.LandingModel;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -70,20 +69,6 @@ public class LandingPresenter implements LandingContract.Presenter {
             @Override
             public void onError(@Nullable Exception exception) {
                 handleLoginError("Error while signIn with Google: ", exception);
-            }
-        });
-    }
-
-    private void loginWithValidatedUserDetails(@NonNull Activity activity, @NonNull UserDetails userDetails) {
-        mSessionManager.loginWithEmailAndPassword(activity, userDetails, new FirebaseLoginCallback() {
-            @Override
-            public void onSuccess(@NonNull FirebaseUser user) {
-                saveUserAndHandleSuccessfulLogin(user);
-            }
-
-            @Override
-            public void onError(@Nullable Exception exception) {
-                handleLoginError("Login error: ", exception);
             }
         });
     }

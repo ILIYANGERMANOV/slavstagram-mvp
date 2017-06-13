@@ -104,10 +104,10 @@ public class SessionManager {
         return loginAdapter;
     }
 
-    public void loginWithEmailAndPassword(@NonNull Activity activity, @NonNull UserDetails userDetails,
+    public void loginWithEmailAndPassword(@NonNull UserDetails userDetails,
                                           @NonNull FirebaseLoginCallback loginCallback) {
         mAuth.signInWithEmailAndPassword(userDetails.getEmail(), userDetails.getPassword())
-                .addOnCompleteListener(activity, new DefaultSignInCompleteListener(loginCallback));
+                .addOnCompleteListener(new DefaultSignInCompleteListener(loginCallback));
     }
 
     public void loginAsGuest(@NonNull Activity activity, @NonNull FirebaseLoginCallback loginCallback) {

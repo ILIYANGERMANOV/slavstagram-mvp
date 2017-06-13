@@ -39,7 +39,12 @@
         <!-- Screens -->
         <activity
             android:name=".ui.screens.landing.landing.view.LandingActivity"
-            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"/>
+
+        <activity
+            android:name=".ui.screens.landing.login.view.LoginActivity"
+            android:label="@string/activtiy_login"
             android:screenOrientation="portrait"/>
 
         <activity

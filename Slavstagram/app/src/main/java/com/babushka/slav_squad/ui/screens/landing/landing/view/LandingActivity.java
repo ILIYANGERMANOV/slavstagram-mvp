@@ -7,9 +7,10 @@ import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.landing.landing.LandingContract;
-import com.babushka.slav_squad.ui.screens.landing.landing.model.LandingModel;
 import com.babushka.slav_squad.ui.screens.landing.landing.presenter.LandingPresenter;
+import com.babushka.slav_squad.ui.screens.landing.login.view.LoginActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
@@ -38,7 +39,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @NonNull
     @Override
     protected LandingContract.Presenter initializePresenter() {
-        return new LandingPresenter(this, new LandingModel());
+        return new LandingPresenter(this, new LandingModelImpl());
     }
 
     @Override
@@ -68,7 +69,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @Override
     public void startLoginScreen() {
-        //TODO: Implement method
+        LoginActivity.startScreen(this);
     }
 
     @Override

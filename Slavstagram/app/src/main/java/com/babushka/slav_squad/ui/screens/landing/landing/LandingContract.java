@@ -6,19 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.ui.BasePresenter;
-import com.babushka.slav_squad.ui.BaseView;
+import com.babushka.slav_squad.ui.screens.landing.LandingView;
 import com.facebook.login.widget.LoginButton;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by iliyan on 22.05.17.
  */
 
 public interface LandingContract {
-    interface View extends BaseView {
+    interface View extends LandingView {
         void startLoginScreen();
-
-        void restartApp();
 
         void showToast(@NonNull String message);
 
@@ -34,9 +31,5 @@ public interface LandingContract {
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
-    }
-
-    interface Model {
-        void saveUser(@NonNull FirebaseUser user);
     }
 }
