@@ -158,8 +158,11 @@ public class Database {
     public void addComment(@NonNull Post post, @NonNull Comment comment) {
         //TODO: Consider error handling
         //Add comment in COMMENTS table
-        mDatabase.child(Table.COMMENTS_TABLE).child(post.getUid())
-                .push().setValue(comment);
+        DatabaseReference newCommentRef = mDatabase.child(Table.COMMENTS_TABLE)
+                .child(post.getUid())
+                .push();
+        comment.setUid(newCommentRef.getKey());
+        newCommentRef.setValue(comment);
         //Increment post's comments_count in POSTS AND USER-POSTS tables
         String postId = post.getUid();
         String postAuthorId = post.getAuthor().getUid();

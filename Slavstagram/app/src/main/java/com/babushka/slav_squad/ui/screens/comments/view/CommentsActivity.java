@@ -81,7 +81,7 @@ public class CommentsActivity extends BaseActionBarActivity<CommentsContract.Pre
     @OnClick(R.id.comments_send_image_button)
     public void onSendComment() {
         String commentText = vCommentInput.getText().toString();
-        if (TextUtils.isEmpty(commentText)) {
+        if (TextUtils.isEmpty(commentText.trim())) {
             Toast.makeText(this, "Cannot send empty comments", Toast.LENGTH_LONG).show();
             return;
         }
