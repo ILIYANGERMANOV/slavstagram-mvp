@@ -104,9 +104,9 @@ public class SessionManager {
         return loginAdapter;
     }
 
-    public void loginWithEmailAndPassword(@NonNull UserDetails userDetails,
+    public void loginWithEmailAndPassword(@NonNull LoginDetails loginDetails,
                                           @NonNull FirebaseLoginCallback loginCallback) {
-        mAuth.signInWithEmailAndPassword(userDetails.getEmail(), userDetails.getPassword())
+        mAuth.signInWithEmailAndPassword(loginDetails.getEmail(), loginDetails.getPassword())
                 .addOnCompleteListener(new DefaultSignInCompleteListener(loginCallback));
     }
 

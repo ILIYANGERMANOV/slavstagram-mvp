@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.session.UserDetails;
+import com.babushka.slav_squad.session.LoginDetails;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
@@ -58,8 +58,8 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mPresenter != null) {
-                    UserDetails userDetails = getUserDetailsFromInput();
-                    mPresenter.handleInput(userDetails);
+                    LoginDetails loginDetails = getUserDetailsFromInput();
+                    mPresenter.handleInput(loginDetails);
                 }
             }
 
@@ -74,9 +74,9 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
         vPasswordInput.setOnEditorActionListener(new EditorGoListener() {
             @Override
             protected boolean onAction() {
-                UserDetails userDetails = getUserDetailsFromInput();
-                if (mPresenter != null && mPresenter.isValidInput(userDetails)) {
-                    mPresenter.login(userDetails);
+                LoginDetails loginDetails = getUserDetailsFromInput();
+                if (mPresenter != null && mPresenter.isValidInput(loginDetails)) {
+                    mPresenter.login(loginDetails);
                     return true;
                 } else {
                     showToast("Invalid input!");
@@ -88,8 +88,8 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
 
     @OnClick(R.id.login_login_button)
     public void onLoginButtonClicked() {
-        UserDetails userDetails = getUserDetailsFromInput();
-        mPresenter.login(userDetails);
+        LoginDetails loginDetails = getUserDetailsFromInput();
+        mPresenter.login(loginDetails);
     }
 
     @OnClick(R.id.login_register_button)
@@ -98,10 +98,10 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
     }
 
     @NonNull
-    private UserDetails getUserDetailsFromInput() {
+    private LoginDetails getUserDetailsFromInput() {
         String email = vEmailInput.getText().toString();
         String password = vPasswordInput.getText().toString();
-        return new UserDetails(email, password);
+        return new LoginDetails(email, password);
     }
 
     @NonNull

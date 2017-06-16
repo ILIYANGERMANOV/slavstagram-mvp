@@ -15,7 +15,7 @@ import com.babushka.slav_squad.ui.screens.landing.register.presenter.RegisterPre
  */
 
 public class RegisterActivity extends BaseActionBarActivity<RegisterContract.Presenter>
-        implements RegisterContract.View {
+        implements RegisterContract.View, RegisterSupport {
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);

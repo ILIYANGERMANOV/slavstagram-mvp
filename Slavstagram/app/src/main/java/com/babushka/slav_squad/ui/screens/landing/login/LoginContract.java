@@ -2,7 +2,7 @@ package com.babushka.slav_squad.ui.screens.landing.login;
 
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.session.UserDetails;
+import com.babushka.slav_squad.session.LoginDetails;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.landing.LandingView;
 
@@ -22,11 +22,11 @@ public interface LoginContract {
     }
 
     interface Presenter extends BasePresenter {
-        void handleInput(@NonNull UserDetails userDetails);
+        void handleInput(@NonNull LoginDetails loginDetails);
 
-        boolean isValidInput(@NonNull UserDetails userDetails);
+        boolean isValidInput(@NonNull LoginDetails loginDetails);
 
-        void login(@NonNull UserDetails userDetails);
+        void login(@NonNull LoginDetails loginDetails);
 
         void handleRegisterButtonClick();
     }

@@ -1,35 +1,23 @@
 package com.babushka.slav_squad.session;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 /**
- * Created by iliyan on 23.05.17.
+ * Created by iliyan on 16.06.17.
  */
 
-public class UserDetails {
+public class UserDetails extends LoginDetails {
     @NonNull
-    private final String mEmail;
-    @NonNull
-    private final String mPassword;
+    private final String mDisplayName;
 
-    public UserDetails(@NonNull String email, @NonNull String password) {
-
-        mEmail = email;
-        mPassword = password;
+    public UserDetails(@NonNull String email, @NonNull String password,
+                       @NonNull String displayName) {
+        super(email, password);
+        mDisplayName = displayName;
     }
 
     @NonNull
-    public String getEmail() {
-        return mEmail;
-    }
-
-    @NonNull
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public boolean validate() {
-        return !TextUtils.isEmpty(mEmail) && !TextUtils.isEmpty(mPassword);
+    public String getDisplayName() {
+        return mDisplayName;
     }
 }
