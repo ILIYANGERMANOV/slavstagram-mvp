@@ -1,7 +1,9 @@
-package com.babushka.slav_squad.ui;
+package com.babushka.slav_squad.ui.wizard;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+
+import com.babushka.slav_squad.ui.BaseFragment;
 
 /**
  * Created by iliyan on 16.06.17.

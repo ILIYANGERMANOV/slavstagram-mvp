@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.session.LoginDetails;
+import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;

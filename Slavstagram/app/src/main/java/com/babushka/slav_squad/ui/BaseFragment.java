@@ -22,7 +22,6 @@ public abstract class BaseFragment extends Fragment {
     @LayoutRes
     protected abstract int getContentView();
 
-    protected abstract void onInitialized();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +44,16 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onSetupUI();
         onInitialized();
+    }
+
+    protected void onSetupUI() {
+        //empty stub
+    }
+
+    protected void onInitialized() {
+        //empty stub
     }
 
     @Override

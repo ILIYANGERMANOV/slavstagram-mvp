@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:text="Choose profile photo or we'll select one for you"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/register_second_step_circle_image_view"
+        style="@style/Button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <Button
+        android:id="@+id/register_second_step_gallery_button"
+        style="@style/LandingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="pick from gallery"/>
+
+    <Button
+        android:id="@+id/register_second_step_register_button"
+        style="@style/LandingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="REGISTER"/>
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.babushka.slav_squad.ui.screens.upload_post.view;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +20,7 @@ import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;
+import com.babushka.slav_squad.util.IntentBuilder;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
@@ -77,10 +77,10 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @NeedsPermission(Manifest.permission.CAMERA)
     public void openCamera(int requestCode) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            createPhotoFileAndStartCameraApp(takePictureIntent, requestCode);
-        } else {
+        try {
+            Intent takePictureIntent = IntentBuilder.buildOpenCameraIntent(this);
+            startActivityForResult(takePictureIntent, requestCode);
+        } catch (IntentBuilder.ResolveActivityException e) {
             showToast("Camera app not found on device, please install one :)");
         }
     }
@@ -122,21 +122,12 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
         UploadPostActivityPermissionsDispatcher.openGalleryWithCheck(this, requestCode);
     }
 
-    @SuppressLint("NewApi")
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
-
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
-
-        if (chooserIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(chooserIntent, requestCode);
-        } else {
+        try {
+            Intent intent = IntentBuilder.buildOpenGalleryIntent(this);
+            startActivityForResult(intent, requestCode);
+        } catch (IntentBuilder.ResolveActivityException e) {
             showToast("Gallery app not found on device, please install one :)");
         }
     }
@@ -188,16 +179,17 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
         dismissProgressDialog();
     }
 
+    @Override
+    public void showSuccessAndCloseScreen() {
+        dismissProgressDialog();
+        showToast("Post uploaded");
+        finish();
+    }
+
     private void dismissProgressDialog() {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void showSuccessAndCloseScreen() {
-        showToast("Post uploaded");
-        finish();
     }
 
     private void showToast(@NonNull String message) {

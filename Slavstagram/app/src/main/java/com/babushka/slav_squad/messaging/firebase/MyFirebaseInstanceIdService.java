@@ -2,6 +2,7 @@ package com.babushka.slav_squad.messaging.firebase;
 
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.session.SessionManager;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -24,7 +25,10 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     }
 
     private void sendNotificationTokenToServer(String refreshedToken) {
-        String userId = SessionManager.getInstance().getCurrentFirebaseUser().getUid();
-        Database.getInstance().updateUserNotificationToken(userId, refreshedToken);
+        FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
+        if (user != null) {
+            String userId = user.getUid();
+            Database.getInstance().updateUserNotificationToken(userId, refreshedToken);
+        }
     }
 }

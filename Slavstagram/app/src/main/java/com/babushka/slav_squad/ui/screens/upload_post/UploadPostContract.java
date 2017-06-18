@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.BaseView;
+import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 
 import java.io.File;
@@ -65,6 +66,6 @@ public interface UploadPostContract {
 
         @NonNull
         Uri getSelectedImageFromGallery(@NonNull Intent data)
-                throws UploadPostModel.SelectedImageNotFoundException;
+                throws GalleryResult.SelectedImageNotFoundException;
     }
 }

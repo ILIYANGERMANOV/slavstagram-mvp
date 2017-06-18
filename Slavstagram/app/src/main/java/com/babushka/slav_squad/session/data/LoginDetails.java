@@ -1,13 +1,13 @@
-package com.babushka.slav_squad.session;
+package com.babushka.slav_squad.session.data;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 /**
  * Created by iliyan on 23.05.17.
  */
 
 public class LoginDetails {
+    public static final int MIN_PASSWORD_LENGTH = 6;
     @NonNull
     private final String mEmail;
     @NonNull
@@ -30,11 +30,15 @@ public class LoginDetails {
     }
 
     public boolean validate() {
-        return isValidEmail() && !TextUtils.isEmpty(mPassword);
+        return isValidEmail() && isValidPassword();
     }
 
     private boolean isValidEmail() {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches();
+    }
+
+    private boolean isValidPassword() {
+        return mPassword.length() >= MIN_PASSWORD_LENGTH;
     }
 
 }

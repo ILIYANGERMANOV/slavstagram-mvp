@@ -20,6 +20,7 @@ import java.util.UUID;
  */
 
 public class Storage {
+    //TODO: Refactor post and profiel image uploading
     private static final String IMAGE_FOLDER = "image";
     private static Storage sStorage;
 
@@ -103,21 +104,20 @@ public class Storage {
         void onError(@NonNull Exception e);
     }
 
-    public static class ImageSize {
+    private static class ImageSize {
         private final double mWidth;
         private final double mHeight;
 
-        public ImageSize(double width, double height) {
-
+        private ImageSize(double width, double height) {
             mWidth = width;
             mHeight = height;
         }
 
-        public double getWidth() {
+        private double getWidth() {
             return mWidth;
         }
 
-        public double getHeight() {
+        private double getHeight() {
             return mHeight;
         }
     }

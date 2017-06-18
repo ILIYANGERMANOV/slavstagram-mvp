@@ -2,7 +2,7 @@ package com.babushka.slav_squad.ui.screens.landing.login;
 
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.session.LoginDetails;
+import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.landing.LandingView;
 

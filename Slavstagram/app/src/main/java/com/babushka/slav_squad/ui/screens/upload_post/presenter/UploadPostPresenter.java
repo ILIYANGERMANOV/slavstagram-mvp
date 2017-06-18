@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.yalantis.ucrop.UCrop;
@@ -118,7 +119,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
             try {
                 Uri selectedImage = mModel.getSelectedImageFromGallery(data);
                 mCropHandler.cropPhoto(selectedImage);
-            } catch (UploadPostModel.SelectedImageNotFoundException e) {
+            } catch (GalleryResult.SelectedImageNotFoundException e) {
                 e.printStackTrace();
                 mView.showError("Selected image path not found :(");
             } catch (IOException e) {

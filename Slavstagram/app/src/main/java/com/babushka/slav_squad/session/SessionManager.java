@@ -1,12 +1,15 @@
 package com.babushka.slav_squad.session;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.session.data.LoginDetails;
+import com.babushka.slav_squad.session.data.UserDetails;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -18,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * Created by iliyan on 21.05.17.
@@ -113,6 +117,42 @@ public class SessionManager {
     public void loginAsGuest(@NonNull FirebaseLoginCallback loginCallback) {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(new DefaultSignInCompleteListener(loginCallback));
+    }
+
+    public void registerUser(@NonNull final UserDetails userDetails,
+                             @NonNull final FirebaseLoginCallback callback) {
+        mAuth.createUserWithEmailAndPassword(userDetails.getEmail(), userDetails.getPassword())
+                .addOnCompleteListener(new DefaultSignInCompleteListener(new FirebaseLoginCallback() {
+                    @Override
+                    public void onSuccess(@NonNull FirebaseUser user) {
+                        updateUserProfile(user, userDetails, callback);
+                    }
+
+                    @Override
+                    public void onError(@Nullable Exception exception) {
+                        callback.onError(exception);
+                    }
+                }));
+    }
+
+    private void updateUserProfile(@NonNull final FirebaseUser user, @NonNull UserDetails userDetails,
+                                   @NonNull final FirebaseLoginCallback callback) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(userDetails.getDisplayName())
+                .setPhotoUri(Uri.parse(userDetails.getPhotoUrl()))
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            callback.onSuccess(user);
+                        } else {
+                            callback.onError(task.getException());
+                        }
+                    }
+                });
     }
 
     public void logout() {

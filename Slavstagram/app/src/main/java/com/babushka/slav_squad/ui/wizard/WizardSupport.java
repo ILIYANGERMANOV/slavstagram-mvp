@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui;
+package com.babushka.slav_squad.ui.wizard;
 
 /**
  * Created by iliyan on 16.06.17.
