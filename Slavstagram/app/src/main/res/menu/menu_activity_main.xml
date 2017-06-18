@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_account_white_24dp"
+        android:icon="@drawable/ic_account_black_24dp"
         android:title="Profile"
         app:showAsAction="ifRoom"/>
 </menu>
