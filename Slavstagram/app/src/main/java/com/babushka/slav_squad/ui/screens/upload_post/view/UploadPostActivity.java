@@ -78,10 +78,13 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     @NeedsPermission(Manifest.permission.CAMERA)
     public void openCamera(int requestCode) {
         try {
-            Intent takePictureIntent = IntentBuilder.buildOpenCameraIntent(this);
+            File photoFile = mPresenter.providePhotoFile();
+            Intent takePictureIntent = IntentBuilder.buildOpenCameraIntent(this, photoFile);
             startActivityForResult(takePictureIntent, requestCode);
         } catch (IntentBuilder.ResolveActivityException e) {
             showToast("Camera app not found on device, please install one :)");
+        } catch (IOException e) {
+            showToast("IOException while creating photo file");
         }
     }
 

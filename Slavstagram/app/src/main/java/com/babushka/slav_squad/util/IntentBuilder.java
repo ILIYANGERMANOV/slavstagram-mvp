@@ -2,17 +2,25 @@ package com.babushka.slav_squad.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
+
+import java.io.File;
 
 /**
  * Created by iliyan on 18.06.17.
  */
 
 public class IntentBuilder {
-    public static Intent buildOpenCameraIntent(@NonNull Context context)
+    public static Intent buildOpenCameraIntent(@NonNull Context context, @NonNull File photoFile)
             throws ResolveActivityException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri photoURI = FileProvider.getUriForFile(context,
+                "com.babushka.slav_squad.fileprovider",
+                photoFile);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         resolveActivity(context, takePictureIntent);
         return takePictureIntent;
     }

@@ -13,8 +13,6 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
 
-import timber.log.Timber;
-
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -104,9 +102,9 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     }
 
     private void handleCameraOkResult() {
-        Timber.d("Photo taken successfully");
         try {
-            mCropHandler.cropPhoto(mModel.getCurrentPhotoFile());
+            Uri photoFile = mModel.getCurrentPhotoFile();
+            mCropHandler.cropPhoto(photoFile);
         } catch (IOException e) {
             e.printStackTrace();
             mModel.deleteCurrentPhotoFileIfExists();
