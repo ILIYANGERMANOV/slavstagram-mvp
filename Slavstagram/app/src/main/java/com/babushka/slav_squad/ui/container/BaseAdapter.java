@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,6 +34,10 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
 
     protected abstract VH initializeViewHolder(@NonNull View layoutView);
 
+    protected List<T> buildDataList() {
+        return new LinkedList<>();
+    }
+
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = mInflater.inflate(getItemLayout(), parent, false);
@@ -47,7 +51,7 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
     }
 
     public void add(int position, @NonNull T item) {
-        ensureDataIsInitialzied();
+        ensureDataListIsInitialized();
         mData.add(position, item);
         notifyItemInserted(position);
     }
@@ -56,20 +60,20 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
         if (mData != null) {
             mData.clear();
         } else {
-            mData = new ArrayList<>();
+            mData = buildDataList();
         }
         mData.addAll(data);
         notifyDataSetChanged();
     }
 
     void add(@NonNull T item) {
-        ensureDataIsInitialzied();
+        ensureDataListIsInitialized();
         mData.add(item);
         notifyItemInserted(mData.size() - 1);
     }
 
     void update(@NonNull T item) {
-        ensureDataIsInitialzied();
+        ensureDataListIsInitialized();
         try {
             int itemPosition = findItemPosition(item);
             mData.set(itemPosition, item);
@@ -80,7 +84,7 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
     }
 
     void remove(@NonNull T item) {
-        ensureDataIsInitialzied();
+        ensureDataListIsInitialized();
         try {
             int itemPosition = findItemPosition(item);
             mData.remove(itemPosition);
@@ -102,9 +106,9 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
     }
 
 
-    private void ensureDataIsInitialzied() {
+    private void ensureDataListIsInitialized() {
         if (mData == null) {
-            mData = new ArrayList<>();
+            mData = buildDataList();
         }
     }
 

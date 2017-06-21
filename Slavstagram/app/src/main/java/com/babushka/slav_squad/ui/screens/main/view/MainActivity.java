@@ -3,8 +3,11 @@ package com.babushka.slav_squad.ui.screens.main.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.babushka.slav_squad.R;
@@ -25,6 +28,14 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
+    //TODO: Refactor and optimize post loading by moving it on another thread
+
+    @BindView(R.id.main_drawer_layout)
+    DrawerLayout vDrawerLayout;
+    @BindView(R.id.main_navigation_view)
+    NavigationView vNavigation;
+    @BindView(R.id.main_toolbar)
+    Toolbar vToolbar;
     @BindView(R.id.main_posts_container)
     MainPostsContainer vPostsContainer;
 
@@ -41,6 +52,35 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     protected void onSetupUI() {
         vPostsContainer.setup(this);
+        setSupportActionBar(vToolbar);
+        setupNavDrawer();
+    }
+
+    private void setupNavDrawer() {
+        vNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //TODO: Migrate to MVP
+                switch (item.getItemId()) {
+                    case R.id.nav_drawer_action_profile:
+                        ProfileActivity.startScreen(MainActivity.this);
+                        vDrawerLayout.closeDrawer(Gravity.LEFT, false);
+                        break;
+                    case R.id.nav_drawer_action_log_out:
+                        SessionManager.getInstance().logout();
+                        SplashActivity.startScreenAsEntryPoint(MainActivity.this);
+                        break;
+                }
+                return false;
+            }
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, vDrawerLayout, vToolbar,
+                R.string.open_nav_drawer, R.string.close_nav_drawer);
+
+        vDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
@@ -55,27 +95,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         return new MainPresenter(this, new MainModel(user));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO: Migrate to MVP
-        switch (item.getItemId()) {
-            case R.id.action_profile:
-                ProfileActivity.startScreen(this);
-                break;
-            case R.id.action_logout:
-                SessionManager.getInstance().logout();
-                SplashActivity.startScreenAsEntryPoint(this);
-                return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_activity_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        return false;
+//    }
 
     @OnClick(R.id.main_add_post_fab)
     public void onAddPostFabClicked() {
