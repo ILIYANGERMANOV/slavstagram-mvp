@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -52,8 +53,16 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     protected void onSetupUI() {
         vPostsContainer.setup(this);
-        setSupportActionBar(vToolbar);
+        setupToolbar();
         setupNavDrawer();
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(vToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
     }
 
     private void setupNavDrawer() {
