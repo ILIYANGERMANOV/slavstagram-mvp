@@ -3,7 +3,6 @@ package com.babushka.slav_squad.ui.screens.upload_post.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +18,6 @@ import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;
 import com.babushka.slav_squad.util.IntentBuilder;
-import com.yalantis.ucrop.UCrop;
-import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,16 +136,10 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @Override
     public void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
-        UCrop.Options options = new UCrop.Options();
-        //TODO: Customize cropper
-        options.setFreeStyleCropEnabled(true);
-        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ALL, UCropActivity.SCALE);
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        options.setMaxBitmapSize(1000);
-        UCrop.of(sourceUri, destinationUri)
-                .withOptions(options)
-                .start(this);
+        ImageCropper cropper = new ImageCropper(this);
+        cropper.crop(sourceUri, destinationUri);
     }
+
 
     @Override
     public void setUploading() {
