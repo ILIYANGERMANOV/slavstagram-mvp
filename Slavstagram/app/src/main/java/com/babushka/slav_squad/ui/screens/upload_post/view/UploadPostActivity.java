@@ -178,18 +178,18 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @Override
     public void showError(@NonNull String message) {
+        dismissProgressDialogIfShown();
         showToast(message);
-        dismissProgressDialog();
     }
 
     @Override
     public void showSuccessAndCloseScreen() {
-        dismissProgressDialog();
+        dismissProgressDialogIfShown();
         showToast("Post uploaded");
         finish();
     }
 
-    private void dismissProgressDialog() {
+    private void dismissProgressDialogIfShown() {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
@@ -225,5 +225,11 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissProgressDialogIfShown();
     }
 }
