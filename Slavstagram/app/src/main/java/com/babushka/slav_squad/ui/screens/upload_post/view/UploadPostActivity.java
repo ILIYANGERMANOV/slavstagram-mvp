@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -85,20 +83,6 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
             showToast("Camera app not found on device, please install one :)");
         } catch (IOException e) {
             showToast("IOException while creating photo file");
-        }
-    }
-
-    private void createPhotoFileAndStartCameraApp(Intent takePictureIntent, int requestCode) {
-        try {
-            File photoFile = mPresenter.providePhotoFile();
-            Uri photoURI = FileProvider.getUriForFile(this,
-                    "com.babushka.slav_squad.fileprovider",
-                    photoFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, requestCode);
-        } catch (IOException ex) {
-            // Error occurred while creating the File
-            ex.printStackTrace();
         }
     }
 
