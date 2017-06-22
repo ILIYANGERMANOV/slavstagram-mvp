@@ -14,4 +14,8 @@ public class AppUtil {
     public static boolean isLollipopOrAbove() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
+    public static boolean isPreNougat() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
+    }
 }

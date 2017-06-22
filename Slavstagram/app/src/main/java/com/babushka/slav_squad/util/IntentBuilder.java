@@ -17,9 +17,14 @@ public class IntentBuilder {
     public static Intent buildOpenCameraIntent(@NonNull Context context, @NonNull File photoFile)
             throws ResolveActivityException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri photoURI = FileProvider.getUriForFile(context,
-                "com.babushka.slav_squad.fileprovider",
-                photoFile);
+        Uri photoURI;
+        if (AppUtil.isPreNougat()) {
+            photoURI = Uri.fromFile(photoFile);
+        } else {
+            photoURI = FileProvider.getUriForFile(context,
+                    "com.babushka.slav_squad.fileprovider",
+                    photoFile);
+        }
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         resolveActivity(context, takePictureIntent);
         return takePictureIntent;
