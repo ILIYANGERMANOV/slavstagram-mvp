@@ -32,8 +32,17 @@
     </style>
 
     <!-- Post -->
-    <style name="PostNumberTextAppearance" parent="TextAppearance.AppCompat.Caption">
+    <style name="PostNumberTextStyle" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/post_number_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/post_number_vertical_padding</item>
+        <item name="android:paddingRight">@dimen/post_number_padding_right</item>
+        <item name="android:paddingLeft">@dimen/post_number_padding_left</item>
+        <item name="android:layout_marginLeft">@dimen/post_number_margin_left</item>
+        <item name="android:background">@drawable/post_text_extension_background</item>
     </style>
 
     <style name="PostImageButton" parent="Button">
@@ -41,8 +50,9 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">5dp</item>
         <item name="android:scaleType">fitCenter</item>
-        <item name="android:background">@drawable/post_image_background_selector</item>
+        <item name="android:background">@drawable/post_button_background_selector</item>
     </style>
+
     <!-- Post -->
 
 
