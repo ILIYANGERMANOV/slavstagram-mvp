@@ -16,33 +16,43 @@
         android:layout_marginRight="16dp"
         tools:src="@mipmap/ic_launcher"/>
 
-    <TextView
-        android:id="@+id/comment_author_name_text_view"
+
+    <LinearLayout
+        android:id="@+id/comment_header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/comment_date_text_view"
         android:layout_toRightOf="@+id/comment_author_circle_image_view"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="16sp"
-        tools:text="Boris"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/comment_author_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="16sp"
+            tools:text="Boris"/>
+
+
+        <TextView
+            android:id="@+id/comment_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="2d ago"/>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/comment_content_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/comment_author_name_text_view"
-        android:layout_toLeftOf="@id/comment_date_text_view"
+        android:layout_below="@id/comment_header_layout"
         android:layout_toRightOf="@id/comment_author_circle_image_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Cyka blyat!"/>
 
-    <TextView
-        android:id="@+id/comment_date_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        tools:text="2d ago"/>
 
 </RelativeLayout>

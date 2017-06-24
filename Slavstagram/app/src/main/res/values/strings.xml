@@ -11,11 +11,11 @@
     <string name="activity_image_preview">Preview</string>
 
     <string name="just_now">just now</string>
-    <string name="minutes_ago">%dm</string>
-    <string name="hours_ago">%dh</string>
-    <string name="days_ago">%dd</string>
-    <string name="weeks_ago">%dw</string>
-    <string name="months_ago">%dm</string>
+    <string name="minutes_ago">%dm ago</string>
+    <string name="hours_ago">%dh ago</string>
+    <string name="days_ago">%dd ago</string>
+    <string name="weeks_ago">%dw ago</string>
+    <string name="months_ago">%dm ago</string>
 
     <string name="open_nav_drawer">Open navigation drawer</string>
     <string name="close_nav_drawer">Close navigation drawer</string>

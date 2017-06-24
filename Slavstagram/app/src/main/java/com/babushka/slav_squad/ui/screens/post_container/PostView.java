@@ -119,7 +119,7 @@ public class PostView extends LinearLayout {
         displayDescription(post.getDescription());
         displayLikes(post);
         displayComments(post.getCommentsCount());
-//        displayCreationDate(post.getTimestamp());
+        displayCreationDate(post.getTimestamp());
     }
 
     private void displayCreationDate(long timestamp) {
