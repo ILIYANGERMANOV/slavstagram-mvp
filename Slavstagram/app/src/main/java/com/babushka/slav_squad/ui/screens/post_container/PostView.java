@@ -24,6 +24,7 @@ import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
+import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
@@ -58,6 +59,8 @@ public class PostView extends LinearLayout {
     ImageButton vLikeButton;
     @BindView(R.id.post_comment_image_button)
     ImageButton vCommentButton;
+    @BindView(R.id.post_date_text_view)
+    TextView vDateText;
 
     @Nullable
     private Post mPost;
@@ -116,6 +119,12 @@ public class PostView extends LinearLayout {
         displayDescription(post.getDescription());
         displayLikes(post);
         displayComments(post.getCommentsCount());
+//        displayCreationDate(post.getTimestamp());
+    }
+
+    private void displayCreationDate(long timestamp) {
+        TimeAgo timeAgo = new TimeAgo(getContext(), timestamp);
+        timeAgo.display(vDateText);
     }
 
     private void displayPostImage(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader) {

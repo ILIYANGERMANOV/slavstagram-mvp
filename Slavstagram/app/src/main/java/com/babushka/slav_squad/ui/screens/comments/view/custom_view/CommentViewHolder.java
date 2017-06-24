@@ -10,10 +10,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
-import com.babushka.slav_squad.util.datetime.DateType;
-import com.babushka.slav_squad.util.datetime.periods.PastTimePeriod;
-
-import java.util.Date;
+import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,37 +57,8 @@ public class CommentViewHolder extends BaseAdapter.BaseViewHolder<Comment> {
     }
 
     private void displayCreationDate(long timestamp) {
-        PastTimePeriod timePeriod = new PastTimePeriod(new Date(timestamp));
-        DateType dateType = timePeriod.getDateType();
-        if (dateType != null) {
-            int stringResId;
-            switch (dateType) {
-                case SECONDS:
-                    vDateText.setText(R.string.just_now);
-                    return;
-                case MINUTES:
-                    stringResId = R.string.minutes_ago;
-                    break;
-                case HOURS:
-                    stringResId = R.string.hours_ago;
-                    break;
-                case DAYS:
-                    stringResId = R.string.days_ago;
-                    break;
-                case WEEKS:
-                    stringResId = R.string.weeks_ago;
-                    break;
-                case MONTHS:
-                    stringResId = R.string.months_ago;
-                    break;
-                default:
-                    //UNKNOWN, do nothing
-                    return;
-            }
-            int quantity = timePeriod.getQuantity();
-            String formattedTime = mContext.getString(stringResId, quantity);
-            vDateText.setText(formattedTime);
-        }
+        TimeAgo timeAgo = new TimeAgo(mContext, timestamp);
+        timeAgo.display(vDateText);
     }
 
     @Override
