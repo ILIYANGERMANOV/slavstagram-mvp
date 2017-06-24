@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.babushka.slav_squad.BuildConfig;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
@@ -19,7 +20,7 @@ public class ProfilePostViewHolder extends PostViewHolder {
     ProfilePostViewHolder(View itemView, @NonNull GlideRequests imageLoader,
                           boolean isMyProfile) {
         super(itemView, imageLoader);
-        if (isMyProfile) {
+        if (isMyProfile || BuildConfig.DEBUG) {
             addPostDeleteOption(itemView);
         }
     }

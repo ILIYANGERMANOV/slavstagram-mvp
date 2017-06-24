@@ -190,7 +190,7 @@ public class PostView extends LinearLayout {
     }
 
 
-    @OnClick(R.id.post_like_image_button)
+    @OnClick({R.id.post_like_image_button, R.id.post_like_click_area})
     public void onLikeClicked() {
         if (mPost != null) {
             if (mPost.isLiked()) {
@@ -223,19 +223,19 @@ public class PostView extends LinearLayout {
         Database.getInstance().toggleLike(post, user.getUid());
     }
 
-    @OnClick(R.id.post_comment_image_button)
+    @OnClick({R.id.post_comment_image_button, R.id.post_comment_click_area})
     public void onCommentsClicked() {
         if (mPost != null) {
             CommentsActivity.startScreen(getContext(), mPost);
         }
     }
 
-    @OnClick(R.id.post_share_image_button)
+    @OnClick({R.id.post_share_image_button, R.id.post_share_click_area})
     public void onShareClicked() {
         //TODO: Implement method
     }
 
-    @OnClick(R.id.post_download_image_button)
+    @OnClick({R.id.post_download_image_button, R.id.post_download_click_area})
     public void onDownloadClicked() {
         if (mPost != null) {
             //TODO: Implement method
