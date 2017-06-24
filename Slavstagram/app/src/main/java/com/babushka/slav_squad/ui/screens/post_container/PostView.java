@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -49,12 +50,14 @@ public class PostView extends LinearLayout {
     ImageView vMainImage;
     @BindView(R.id.post_likes_count_text_view)
     TextView vLikesCountText;
-    @BindView(R.id.post_comments_count_text_view)
+    @BindView(R.id.post_comment_count_text_view)
     TextView vCommentsCountText;
     @BindView(R.id.post_description_text_view)
     TextView vDescriptionText;
     @BindView(R.id.post_like_image_button)
     ImageButton vLikeButton;
+    @BindView(R.id.post_comment_image_button)
+    ImageButton vCommentButton;
 
     @Nullable
     private Post mPost;
@@ -132,17 +135,17 @@ public class PostView extends LinearLayout {
     }
 
     private void displayDescription(@Nullable String description) {
-        if (description != null) {
-            vDescriptionText.setText(description);
-        } else {
+        if (TextUtils.isEmpty(description)) {
             vDescriptionText.setVisibility(GONE);
+        } else {
+            vDescriptionText.setText(description);
         }
     }
 
     private void displayLikes(@NonNull Post post) {
         vLikesCountText.setText(String.valueOf(post.getLikesCount()));
-        int likeImageRID = post.isLiked() ? R.drawable.ic_favorite_black_36dp
-                : R.drawable.ic_favorite_border_black_36dp;
+        int likeImageRID = post.isLiked() ? R.drawable.ic_like_filled
+                : R.drawable.ic_like;
         vLikeButton.setImageResource(likeImageRID);
     }
 
@@ -156,6 +159,9 @@ public class PostView extends LinearLayout {
 
     private void displayComments(int commentsCount) {
         vCommentsCountText.setText(String.valueOf(commentsCount));
+        int commentIconRID = commentsCount > 0 ? R.drawable.ic_comment_filled
+                : R.drawable.ic_comment;
+        vCommentButton.setImageResource(commentIconRID);
     }
 
     private void resizeImageViewAndLoadImage(@NonNull Post.Image postImage, @NonNull GlideRequests imageLoader) {
@@ -199,14 +205,14 @@ public class PostView extends LinearLayout {
 
     private void likePost(@NonNull Post post) {
         if (!post.isLiked()) {
-            vLikeButton.setImageResource(R.drawable.ic_favorite_black_36dp);
+            vLikeButton.setImageResource(R.drawable.ic_like_filled);
             setPostLikedState(post, true);
         }
     }
 
     private void unlikePost(@NonNull Post post) {
         if (post.isLiked()) {
-            vLikeButton.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+            vLikeButton.setImageResource(R.drawable.ic_like);
             setPostLikedState(post, false);
         }
     }
@@ -217,7 +223,7 @@ public class PostView extends LinearLayout {
         Database.getInstance().toggleLike(post, user.getUid());
     }
 
-    @OnClick(R.id.post_comments_image_button)
+    @OnClick(R.id.post_comment_image_button)
     public void onCommentsClicked() {
         if (mPost != null) {
             CommentsActivity.startScreen(getContext(), mPost);

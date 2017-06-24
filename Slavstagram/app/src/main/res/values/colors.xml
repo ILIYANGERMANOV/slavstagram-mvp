@@ -5,6 +5,7 @@
     <color name="colorAccent">@color/black</color>
 
     <color name="posts_divider_color">#EEEEEE</color>
+    <color name="post_image_background_color">#f3f1f1</color>
 
     <!-- Common colors -->
     <color name="white">#FFFFFF</color>

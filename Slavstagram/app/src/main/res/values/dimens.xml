@@ -7,6 +7,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_vertical_margin_half">8dp</dimen>
 
+    <!-- Post -->
+    <dimen name="post_margin_small">8dp</dimen>
+    <dimen name="post_margin_big">16dp</dimen>
+
     <!-- Landing -->
     <dimen name="fb_button_vertical_padding">12dp</dimen>
     <dimen name="fb_button_horizontal_padding">20dp</dimen>
