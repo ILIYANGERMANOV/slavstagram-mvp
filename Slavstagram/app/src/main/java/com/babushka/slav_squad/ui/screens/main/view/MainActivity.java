@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
-    public static final int SCROLL_SENSITIVITY = 50;
+    public static final int SCROLL_SENSITIVITY = 30;
     //TODO: Refactor and optimize post loading by moving it on another thread
 
     @BindView(R.id.main_drawer_layout)
