@@ -3,10 +3,12 @@ package com.babushka.slav_squad.ui.screens.main.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
+    public static final int SCROLL_SENSITIVITY = 50;
     //TODO: Refactor and optimize post loading by moving it on another thread
 
     @BindView(R.id.main_drawer_layout)
@@ -39,6 +42,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     Toolbar vToolbar;
     @BindView(R.id.main_posts_container)
     MainPostsContainer vPostsContainer;
+    @BindView(R.id.main_add_post_fab)
+    FloatingActionButton vAddPostFab;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -52,9 +57,24 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     protected void onSetupUI() {
-        vPostsContainer.setup(this);
+        setupPostsContainer();
         setupToolbar();
         setupNavDrawer();
+    }
+
+    private void setupPostsContainer() {
+        vPostsContainer.setup(this);
+        vPostsContainer.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                boolean isShown = vAddPostFab.isShown();
+                if (dy > SCROLL_SENSITIVITY && isShown) {
+                    vAddPostFab.hide();
+                } else if (dy < -SCROLL_SENSITIVITY && !isShown) {
+                    vAddPostFab.show();
+                }
+            }
+        });
     }
 
     private void setupToolbar() {
