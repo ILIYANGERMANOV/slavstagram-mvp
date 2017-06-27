@@ -11,9 +11,9 @@
     <dimen name="post_margin_small">8dp</dimen>
     <dimen name="post_margin_big">16dp</dimen>
     <dimen name="post_number_vertical_padding">4dp</dimen>
-    <dimen name="post_number_padding_right">10dp</dimen>
-    <dimen name="post_number_padding_left">14dp</dimen>
-    <dimen name="post_number_margin_left">-14dp</dimen>
+    <dimen name="post_number_padding_right">14dp</dimen>
+    <dimen name="post_number_padding_left">34dp</dimen>
+    <dimen name="post_number_margin_left">-30dp</dimen>
 
     <!-- Landing -->
     <dimen name="fb_button_vertical_padding">12dp</dimen>

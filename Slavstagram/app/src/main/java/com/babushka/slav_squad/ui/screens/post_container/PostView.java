@@ -37,6 +37,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class PostView extends LinearLayout {
+    private static final int MILLION = 1000000;
+    private static final int THOUSAND = 1000;
     private static int sPostViewWidth = 0;
     @NonNull
     private final GestureDetector mGestureDetector;
@@ -152,7 +154,16 @@ public class PostView extends LinearLayout {
     }
 
     private void displayLikes(@NonNull Post post) {
-        vLikesCountText.setText(String.valueOf(post.getLikesCount()));
+        int likesCount = post.getLikesCount();
+        String likesLabel;
+        if (likesCount >= MILLION) {
+            likesLabel = String.valueOf(likesCount / MILLION) + "m";
+        } else if (likesCount > THOUSAND) {
+            likesLabel = String.valueOf(likesCount / THOUSAND) + "k";
+        } else {
+            likesLabel = String.valueOf(likesCount);
+        }
+        vLikesCountText.setText(likesLabel);
         int likeImageRID = post.isLiked() ? R.drawable.ic_like_filled
                 : R.drawable.ic_like;
         vLikeButton.setImageResource(likeImageRID);
