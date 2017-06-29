@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
-    public static final int SCROLL_SENSITIVITY = 30;
+    public static final int SCROLL_THRESHOLD = 30;
     //TODO: Refactor and optimize post loading by moving it on another thread
 
     @BindView(R.id.main_drawer_layout)
@@ -68,9 +68,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 boolean isShown = vAddPostFab.isShown();
-                if (dy > SCROLL_SENSITIVITY && isShown) {
+                if (dy > SCROLL_THRESHOLD && isShown) {
                     vAddPostFab.hide();
-                } else if (dy < -SCROLL_SENSITIVITY && !isShown) {
+                } else if (dy < -SCROLL_THRESHOLD && !isShown) {
                     vAddPostFab.show();
                 }
             }
