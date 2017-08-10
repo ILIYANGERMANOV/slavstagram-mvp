@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.ui.screens.GalleryResult;
+import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.yalantis.ucrop.UCrop;
@@ -30,11 +31,11 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     private final CropHandler mCropHandler;
     private UploadPostContract.View mView;
 
-    public UploadPostPresenter(@NonNull UploadPostContract.View view,
-                               @NonNull UploadPostContract.Model model) {
+    public UploadPostPresenter(@NonNull UploadPostContract.View view, @NonNull UploadPostContract.Model model,
+                               @NonNull CropHandler cropHandler) {
         mView = view;
         mModel = model;
-        mCropHandler = new CropHandler(view, model);
+        mCropHandler = cropHandler;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
 
     @Override
     public void handleUpload(@NonNull String description) {
-        Uri croppedImageUri = mCropHandler.getCroppedImageUri();
+        Uri croppedImageUri = mCropHandler.getCroppedImage();
         if (croppedImageUri != null) {
             mView.setUploading();
             mModel.uploadPost(croppedImageUri, description, new UploadPostModel.UploadPostListener() {
@@ -102,34 +103,54 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     }
 
     private void handleCameraOkResult() {
-        try {
-            Uri photoFile = mModel.getCurrentPhotoFile();
-            mCropHandler.cropPhoto(photoFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            mModel.deleteCurrentPhotoFileIfExists();
-            mView.showError("Error while trying to crop image");
-        }
+        Uri photoFile = mModel.getCurrentPhotoFile();
+        cropPhoto(photoFile);
     }
 
     private void handleGalleryResult(int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK && data != null) {
             try {
                 Uri selectedImage = mModel.getSelectedImageFromGallery(data);
-                mCropHandler.cropPhoto(selectedImage);
+                cropPhoto(selectedImage);
             } catch (GalleryResult.SelectedImageNotFoundException e) {
                 e.printStackTrace();
                 mView.showError("Selected image path not found :(");
-            } catch (IOException e) {
-                e.printStackTrace();
-                mView.showError("Error while trying to crop image");
             }
         }
     }
 
+    private void cropPhoto(Uri photo) {
+        mCropHandler.cropPhoto(photo, new CropHandler.Result() {
+            @Override
+            public void onStartCropActivity(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
+                if (mView != null) {
+                    mView.openImageCropScreen(sourceUri, destinationUri);
+                }
+            }
+
+            @Override
+            public void onCropped(@NonNull Uri croppedImage) {
+                if (mView != null) {
+                    mView.displayPostImage(croppedImage);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull String message) {
+                if (mView != null) {
+                    mView.showError(message);
+                }
+            }
+
+            @Override
+            public void onDeleteCurrentPhotoFile() {
+                mModel.deleteCurrentPhotoFileIfExists();
+            }
+        });
+    }
+
     @Override
     public void onDestroy() {
-        mCropHandler.destroy();
         mView = null;
     }
 }

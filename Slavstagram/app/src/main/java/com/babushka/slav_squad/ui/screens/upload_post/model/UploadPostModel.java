@@ -1,10 +1,8 @@
 package com.babushka.slav_squad.ui.screens.upload_post.model;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -15,12 +13,11 @@ import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
+import com.babushka.slav_squad.ui.screens.util.FileUtil;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import timber.log.Timber;
 
@@ -33,8 +30,6 @@ public class UploadPostModel implements UploadPostContract.Model {
     private final Context mContext;
     @Nullable
     private Uri mPhotoPath;
-    @Nullable
-    private String mCroppedImagePath;
 
     public UploadPostModel(@NonNull Context context) {
         mContext = context;
@@ -49,7 +44,7 @@ public class UploadPostModel implements UploadPostContract.Model {
     @NonNull
     @Override
     public File createNewPhotoFile() throws IOException {
-        File photoFile = createTempFile(FileType.JPEG);
+        File photoFile = FileUtil.createTempFile(mContext, FileUtil.FileType.PNG);
         mPhotoPath = Uri.fromFile(photoFile);
         return photoFile;
     }
@@ -57,27 +52,11 @@ public class UploadPostModel implements UploadPostContract.Model {
     @Override
     public void deleteCurrentPhotoFileIfExists() {
         if (mPhotoPath != null) {
-            File file = new File(mPhotoPath.getPath());
-            if (file.exists()) {
-                deleteFile(file);
-            }
+            FileUtil.deleteFile(mPhotoPath);
         }
     }
 
-    @NonNull
-    @Override
-    public File createCroppedImageFile() throws IOException {
-        File photoFile = createTempFile(FileType.PNG);
-        mCroppedImagePath = photoFile.getAbsolutePath();
-        return photoFile;
-    }
 
-    @Override
-    public void deleteCroppedImageFile() {
-        if (mCroppedImagePath != null) {
-            deleteFile(new File(mCroppedImagePath));
-        }
-    }
 
     @NonNull
     @Override
@@ -86,40 +65,6 @@ public class UploadPostModel implements UploadPostContract.Model {
         return galleryResult.getSelectedImageFromGallery();
     }
 
-
-    private void deleteFile(@NonNull File file) {
-        if (!file.delete()) {
-            Timber.d("Error while deleting file: %s", file.getAbsolutePath());
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    @NonNull
-    private File createTempFile(@NonNull FileType fileType) throws IOException {
-        String prefix;
-        String extension;
-        switch (fileType) {
-            case JPEG:
-                prefix = "JPEG_";
-                extension = ".jpg";
-                break;
-            case PNG:
-                prefix = "PNG_";
-                extension = ".png";
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported file type");
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = prefix + timeStamp + "_";
-        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return File.createTempFile(
-                imageFileName,  /* file name */
-                extension,         /* extension */
-                storageDir      /* directory */
-        );
-    }
 
     @Override
     public void uploadPost(@NonNull final Uri imageUri, @NonNull final String description,
@@ -157,10 +102,6 @@ public class UploadPostModel implements UploadPostContract.Model {
         });
     }
 
-    private enum FileType {
-        JPEG,
-        PNG
-    }
 
     public interface UploadPostListener {
         void onPostUploaded();

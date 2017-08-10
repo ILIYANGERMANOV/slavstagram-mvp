@@ -60,11 +60,6 @@ public interface UploadPostContract {
         void deleteCurrentPhotoFileIfExists();
 
         @NonNull
-        File createCroppedImageFile() throws IOException;
-
-        void deleteCroppedImageFile();
-
-        @NonNull
         Uri getSelectedImageFromGallery(@NonNull Intent data)
                 throws GalleryResult.SelectedImageNotFoundException;
     }

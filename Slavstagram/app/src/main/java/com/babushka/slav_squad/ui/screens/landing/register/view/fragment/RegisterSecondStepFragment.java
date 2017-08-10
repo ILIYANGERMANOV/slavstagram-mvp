@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
+import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
+import com.babushka.slav_squad.ui.screens.cropping.ProfilePictureCropper;
 import com.babushka.slav_squad.ui.screens.landing.register.view.RegisterSupport;
 import com.babushka.slav_squad.ui.wizard.WizardFragment;
 import com.babushka.slav_squad.util.IntentBuilder;
+import com.yalantis.ucrop.UCrop;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +39,9 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
     CircleImageView vCircleImage;
 
     @Nullable
-    private Uri mPhotoUri;
+    private Uri mCroppedPhoto;
+    @Nullable
+    private CropHandler mCropHandler;
 
     public static RegisterSecondStepFragment newInstance() {
         return new RegisterSecondStepFragment();
@@ -91,27 +97,65 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_OPEN_GALLERY && resultCode == Activity.RESULT_OK
-                && data != null) {
-            GalleryResult galleryResult = new GalleryResult(getContext(), data);
-            try {
-                mPhotoUri = galleryResult.getSelectedImageFromGallery();
-                displayPhoto();
-            } catch (GalleryResult.SelectedImageNotFoundException ignored) {
-                //TODO: Handle gallery result exception
-            }
+        switch (requestCode) {
+            case RC_OPEN_GALLERY:
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    GalleryResult galleryResult = new GalleryResult(getContext(), data);
+                    try {
+                        Uri selectedImageFromGallery = galleryResult.getSelectedImageFromGallery();
+                        cropPhoto(selectedImageFromGallery);
+                    } catch (GalleryResult.SelectedImageNotFoundException ignored) {
+                        //TODO: Handle gallery result excep+tion
+                    }
+                }
+                break;
+            case UCrop.REQUEST_CROP:
+                if (mCropHandler != null) {
+                    mCropHandler.handleCropResult(resultCode, data);
+                }
+                break;
+
         }
+
+    }
+
+    private void cropPhoto(Uri selectedImageFromGallery) {
+        mCropHandler = new CropHandler(getContext());
+        mCropHandler.cropPhoto(selectedImageFromGallery, new CropHandler.Result() {
+            @Override
+            public void onStartCropActivity(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
+                ProfilePictureCropper cropper = new ProfilePictureCropper(getContext());
+                cropper.crop(RegisterSecondStepFragment.this, sourceUri, destinationUri);
+            }
+
+            @Override
+            public void onCropped(@NonNull Uri croppedImage) {
+                mCroppedPhoto = croppedImage;
+                displayPhoto();
+            }
+
+            @Override
+            public void onError(@NonNull String message) {
+                Toast.makeText(getContext(), "Error while while cropping image: " + message,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDeleteCurrentPhotoFile() {
+                //nothing to do here
+            }
+        });
     }
 
     private void displayPhoto() {
         GlideApp.with(this)
-                .load(mPhotoUri)
+                .load(mCroppedPhoto)
                 .dontAnimate()
                 .into(vCircleImage);
     }
 
     @OnClick(R.id.register_second_step_register_button)
     public void onRegisterButtonClicked() {
-        next(mPhotoUri);
+        next(mCroppedPhoto);
     }
 }

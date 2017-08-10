@@ -22,7 +22,7 @@ ext {
 
     supportLibVersion = "25.3.1"
     butterKnifeVersion = "8.6.0"
-    playServicesVersion = "10.2.6"
+    playServicesVersion = "11.0.1"
     glideVersion = "4.0.0-RC0"
     permissionsDispatcherVersion = "2.4.0"
     leakCanaryVersion = "1.5.1"

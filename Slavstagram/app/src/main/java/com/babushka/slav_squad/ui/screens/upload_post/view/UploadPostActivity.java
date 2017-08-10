@@ -14,6 +14,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
+import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
+import com.babushka.slav_squad.ui.screens.cropping.ImageCropper;
+import com.babushka.slav_squad.ui.screens.cropping.UploadPostCropper;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;
@@ -55,7 +58,7 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     @NonNull
     @Override
     protected UploadPostContract.Presenter initializePresenter() {
-        return new UploadPostPresenter(this, new UploadPostModel(this));
+        return new UploadPostPresenter(this, new UploadPostModel(this), new CropHandler(this));
     }
 
     @Override
@@ -136,8 +139,8 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @Override
     public void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
-        ImageCropper cropper = new ImageCropper(this);
-        cropper.crop(sourceUri, destinationUri);
+        ImageCropper cropper = new UploadPostCropper(this);
+        cropper.crop(this, sourceUri, destinationUri);
     }
 
 
