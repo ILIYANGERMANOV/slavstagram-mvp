@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -27,6 +28,8 @@ import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -267,7 +270,7 @@ public class PostView extends LinearLayout {
     @OnClick({R.id.post_download_image_button, R.id.post_download_click_area})
     public void onDownloadClicked() {
         if (mPost != null) {
-            //TODO: Implement method
+            EventBus.getDefault().post(new DownloadPostEvent(mPost.getImage().getImageUrl()));
         }
     }
 

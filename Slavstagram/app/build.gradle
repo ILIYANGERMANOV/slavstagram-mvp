@@ -54,6 +54,9 @@ dependencies {
     }
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$rootProject.permissionsDispatcherVersion"
 
+    //other
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     //extras
     debugCompile "com.squareup.leakcanary:leakcanary-android:$project.leakCanaryVersion"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$project.leakCanaryVersion"

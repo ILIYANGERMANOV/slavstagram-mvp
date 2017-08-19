@@ -62,7 +62,7 @@ public class CropHandler {
 
     @NonNull
     private File createCroppedImageFile() throws IOException {
-        File photoFile = FileUtil.createTempFile(mContext, FileUtil.FileType.PNG);
+        File photoFile = FileUtil.createTempPrivateFile(mContext, FileUtil.FileType.PNG);
         mCroppedImageDestPath = photoFile.getAbsolutePath();
         return photoFile;
     }

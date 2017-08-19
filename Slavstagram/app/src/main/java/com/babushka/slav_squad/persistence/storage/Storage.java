@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -25,7 +26,7 @@ public class Storage {
     private static Storage sStorage;
 
     @NonNull
-    private final FirebaseStorage mFirebaseStorage;
+    private final FirebaseStorage mStorage;
     @NonNull
     private final StorageReference mStorageRef;
     @NonNull
@@ -33,8 +34,8 @@ public class Storage {
 
 
     private Storage() {
-        mFirebaseStorage = FirebaseStorage.getInstance();
-        mStorageRef = mFirebaseStorage.getReference();
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReference();
         mImagesRef = mStorageRef.child(IMAGE_FOLDER);
     }
 
@@ -91,11 +92,16 @@ public class Storage {
     public void deleteImage(@NonNull String imageUrl) {
         //secure that nothing wil crash
         try {
-            StorageReference imageRef = mFirebaseStorage.getReferenceFromUrl(imageUrl);
+            StorageReference imageRef = mStorage.getReferenceFromUrl(imageUrl);
             imageRef.delete();
-        } catch (Exception e) {
-            //ignored
+        } catch (Exception ignored) {
         }
+    }
+
+    public void downloadToFile(@NonNull File destinationFile, @NonNull String sourceFileUrl,
+                               @NonNull OnSuccessListener<FileDownloadTask.TaskSnapshot> successListener) {
+        StorageReference fileReference = mStorage.getReferenceFromUrl(sourceFileUrl);
+        fileReference.getFile(destinationFile).addOnSuccessListener(successListener);
     }
 
     public interface UploadImageListener {

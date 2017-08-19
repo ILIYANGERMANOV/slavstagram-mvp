@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +19,26 @@ import timber.log.Timber;
  */
 
 public class FileUtil {
+    @NonNull
+    public static File createPublicImageFile(@NonNull Context context) throws IOException {
+        // Get the directory for the app's private pictures directory.
+        File imagesDirectory = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Slav Squad");
+        if (!imagesDirectory.mkdirs()) {
+            Timber.e("Pictures directory not created");
+        }
+        return createTempFile(imagesDirectory, FileType.JPEG);
+    }
+
+    @NonNull
+    public static File createTempPrivateFile(@NonNull Context context, @NonNull FileType fileType) throws IOException {
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return createTempFile(storageDir, fileType);
+    }
+
     @SuppressLint("SimpleDateFormat")
     @NonNull
-    public static File createTempFile(@NonNull Context context, @NonNull FileType fileType) throws IOException {
+    private static File createTempFile(@Nullable File directory, @NonNull FileType fileType) throws IOException {
         String prefix;
         String extension;
         switch (fileType) {
@@ -37,12 +55,11 @@ public class FileUtil {
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = prefix + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String fileName = prefix + timeStamp + "_";
         return File.createTempFile(
-                imageFileName,  /* file name */
+                fileName,  /* file name */
                 extension,         /* extension */
-                storageDir      /* directory */
+                directory      /* directory */
         );
     }
 

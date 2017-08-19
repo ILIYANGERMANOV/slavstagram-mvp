@@ -44,7 +44,7 @@ public class UploadPostModel implements UploadPostContract.Model {
     @NonNull
     @Override
     public File createNewPhotoFile() throws IOException {
-        File photoFile = FileUtil.createTempFile(mContext, FileUtil.FileType.PNG);
+        File photoFile = FileUtil.createTempPrivateFile(mContext, FileUtil.FileType.PNG);
         mPhotoPath = Uri.fromFile(photoFile);
         return photoFile;
     }

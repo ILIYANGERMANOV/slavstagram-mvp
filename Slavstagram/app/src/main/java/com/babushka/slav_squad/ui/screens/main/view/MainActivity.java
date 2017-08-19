@@ -1,8 +1,11 @@
 package com.babushka.slav_squad.ui.screens.main.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -12,7 +15,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
@@ -26,9 +31,18 @@ import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
     public static final int SCROLL_THRESHOLD = 30;
@@ -44,6 +58,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     MainPostsContainer vPostsContainer;
     @BindView(R.id.main_add_post_fab)
     FloatingActionButton vAddPostFab;
+
+    @Nullable
+    private MaterialDialog mProgressDialog;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -121,20 +138,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     protected MainContract.Presenter initializePresenter() {
         FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
-        return new MainPresenter(this, new MainModel(user));
+        return new MainPresenter(this, new MainModel(this, user));
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_activity_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return false;
-//    }
 
     @OnClick(R.id.main_add_post_fab)
     public void onAddPostFabClicked() {
@@ -155,5 +160,80 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     public void removePost(@NonNull Post post) {
         vPostsContainer.remove(post);
+    }
+
+    @Override
+    public void downloadPostWithPermissionCheck(@NonNull String imageUrl) {
+        MainActivityPermissionsDispatcher.downloadPostWithCheck(this, imageUrl);
+    }
+
+    @Override
+    public void showDownloadPostLoading() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title("Downloading post")
+                .content("Will take a moment :)")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
+    }
+
+    @Override
+    public void showDownloadPostSuccess() {
+        dismissProgressDialogIfShown();
+        Toast.makeText(this, "Post downloaded successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDownloadPostError() {
+        dismissProgressDialogIfShown();
+        Toast.makeText(this, "Error while downloading post", Toast.LENGTH_SHORT).show();
+    }
+
+    private void dismissProgressDialogIfShown() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void downloadPost(@NonNull String imageUrl) {
+        mPresenter.downloadPost(imageUrl);
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void showRationaleForWriteStorage(@NonNull PermissionRequest request) {
+        //TODO: Implement method
+        request.proceed();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void showDeniedForWriteStorage() {
+        //TODO: Implement method
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void showNeverAskForWriteStorage() {
+        //TODO: Implement method
+    }
+
+
+    @Override
+    public void addImageToGallery(@NonNull File imageFile) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(imageFile);
+        mediaScanIntent.setData(contentUri);
+        sendBroadcast(mediaScanIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissProgressDialogIfShown();
     }
 }
