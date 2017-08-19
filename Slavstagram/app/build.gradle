@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: "../artifacts.gradle"
 
 android {
     compileSdkVersion project.compileSdk
@@ -11,10 +12,35 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            keyAlias new File("../../keystores/releaseAlias").text.trim()
+            keyPassword new File("../../keystores/releaseKeyPass").text.trim()
+            storeFile new File("../../keystores/release.jks")
+            storePassword new File("../../keystores/releaseStorePass").text.trim()
+        }
+        debug {
+            keyAlias new File("../../keystores/debugAlias").text.trim()
+            keyPassword new File("../../keystores/debugKeyPass").text.trim()
+            storeFile new File("../../keystores/debug.jks")
+            storePassword new File("../../keystores/debugStorePass").text.trim()
+        }
+    }
+
     buildTypes {
         release {
+            debuggable true
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Slav Squad"
+        }
+        debug {
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            resValue "string", "app_name", "Slav Squad Debug"
         }
     }
 }

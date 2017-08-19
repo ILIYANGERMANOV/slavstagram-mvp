@@ -1,0 +1,13 @@
+android.applicationVariants.all { variant ->
+    def appName = "Slav Squad"
+
+    variant.outputs.each { output ->
+        def newApkName
+        def file = output.outputFile
+//        def dateNow = new Date()
+//        def formattedDate = dateNow.format('dd-MMMM-yyyy:HH:mm')
+        String parent = file.parent
+        newApkName = "${appName}${variant.flavorName} ${variant.versionName}.apk"
+        output.outputFile = new File(parent, newApkName)
+    }
+}

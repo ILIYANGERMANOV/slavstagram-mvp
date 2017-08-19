@@ -7,6 +7,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
+import com.babushka.slav_squad.R;
+
 import java.io.File;
 
 /**
@@ -22,7 +24,7 @@ public class IntentBuilder {
             photoURI = Uri.fromFile(photoFile);
         } else {
             photoURI = FileProvider.getUriForFile(context,
-                    "com.babushka.slav_squad.fileprovider",
+                    context.getString(R.string.file_provider_authority),
                     photoFile);
         }
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
