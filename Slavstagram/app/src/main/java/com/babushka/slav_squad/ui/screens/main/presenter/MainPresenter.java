@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.event.DownloadPostEvent;
+import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 
@@ -17,6 +18,7 @@ import java.io.File;
  */
 
 public class MainPresenter implements MainContract.Presenter {
+    public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.gepardy.gamena";
     @NonNull
     private final MainContract.Model mModel;
     private MainContract.View mView;
@@ -59,6 +61,22 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void handleMyProfileClick() {
+        mView.openProfileScreen();
+    }
+
+    @Override
+    public void handleShareClick() {
+        mView.fireShareIntent("Every true slav has its squad. Join the squad at: " + GOOGLE_PLAY_DOWNLOAD_URL);
+    }
+
+    @Override
+    public void handleLogoutClick() {
+        SessionManager.getInstance().logout();
+        mView.startSplashScreenAsEntry();
     }
 
     @Override

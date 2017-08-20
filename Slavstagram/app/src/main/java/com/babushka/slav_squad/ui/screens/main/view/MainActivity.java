@@ -106,15 +106,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         vNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //TODO: Migrate to MVP
                 switch (item.getItemId()) {
                     case R.id.nav_drawer_action_profile:
-                        ProfileActivity.startScreen(MainActivity.this);
+                        mPresenter.handleMyProfileClick();
+                        vDrawerLayout.closeDrawer(Gravity.LEFT, false);
+                        break;
+                    case R.id.nav_drawer_action_share:
+                        mPresenter.handleShareClick();
                         vDrawerLayout.closeDrawer(Gravity.LEFT, false);
                         break;
                     case R.id.nav_drawer_action_log_out:
-                        SessionManager.getInstance().logout();
-                        SplashActivity.startScreenAsEntryPoint(MainActivity.this);
+                        mPresenter.handleLogoutClick();
                         break;
                 }
                 return false;
@@ -223,6 +225,25 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         Uri contentUri = Uri.fromFile(imageFile);
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
+    }
+
+    @Override
+    public void openProfileScreen() {
+        ProfileActivity.startScreen(MainActivity.this);
+    }
+
+    @Override
+    public void fireShareIntent(@NonNull String textToShare) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+        shareIntent.setType("text/plain");
+        startActivity(shareIntent);
+    }
+
+    @Override
+    public void startSplashScreenAsEntry() {
+        SplashActivity.startScreenAsEntryPoint(MainActivity.this);
     }
 
     @Override

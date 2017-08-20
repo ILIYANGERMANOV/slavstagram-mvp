@@ -23,12 +23,24 @@ public interface MainContract {
         void showDownloadPostError();
 
         void addImageToGallery(@NonNull File imageFile);
+
+        void openProfileScreen();
+
+        void fireShareIntent(@NonNull String textToShare);
+
+        void startSplashScreenAsEntry();
     }
 
     interface Presenter extends BasePresenter {
         void displayAllPostsInRealTime();
 
         void downloadPost(@NonNull String imageUrl);
+
+        void handleMyProfileClick();
+
+        void handleShareClick();
+
+        void handleLogoutClick();
     }
 
     interface Model {
