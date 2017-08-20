@@ -16,6 +16,7 @@ import java.io.File;
  */
 
 public class IntentBuilder {
+    @NonNull
     public static Intent buildOpenCameraIntent(@NonNull Context context, @NonNull File photoFile)
             throws ResolveActivityException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -32,6 +33,7 @@ public class IntentBuilder {
         return takePictureIntent;
     }
 
+    @NonNull
     public static Intent buildOpenGalleryIntent(@NonNull Context context)
             throws ResolveActivityException {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -46,6 +48,15 @@ public class IntentBuilder {
         resolveActivity(context, chooserIntent);
 
         return chooserIntent;
+    }
+
+    @NonNull
+    public static Intent buildShareIntent(@NonNull String textToShare) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+        shareIntent.setType("text/plain");
+        return Intent.createChooser(shareIntent, "Shave via");
     }
 
     private static void resolveActivity(@NonNull Context context, Intent intent)

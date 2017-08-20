@@ -64,6 +64,16 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void handleUploadPostClick() {
+        boolean isGuest = SessionManager.getInstance().getCurrentFirebaseUser().isAnonymous();
+        if (isGuest) {
+            mView.promptGuestToLogin();
+        } else {
+            mView.openUploadPostScreen();
+        }
+    }
+
+    @Override
     public void handleMyProfileClick() {
         mView.openProfileScreen();
     }

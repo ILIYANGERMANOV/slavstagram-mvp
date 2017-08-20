@@ -25,6 +25,7 @@ import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
+import com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
@@ -32,6 +33,7 @@ import com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContain
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
+import com.babushka.slav_squad.util.IntentBuilder;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
@@ -148,9 +150,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.main_add_post_fab)
     public void onAddPostFabClicked() {
-        UploadPostActivity.startScreen(this);
+        mPresenter.handleUploadPostClick();
     }
-
 
     @Override
     public void addPostAsFirst(@NonNull Post post) {
@@ -234,16 +235,23 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
+    public void openUploadPostScreen() {
+        UploadPostActivity.startScreen(this);
+    }
+
+    @Override
+    public void promptGuestToLogin() {
+        LandingActivity.startScreen(this);
+    }
+
+    @Override
     public void openProfileScreen() {
         ProfileActivity.startScreen(MainActivity.this);
     }
 
     @Override
     public void fireShareIntent(@NonNull String textToShare) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
-        shareIntent.setType("text/plain");
+        Intent shareIntent = IntentBuilder.buildShareIntent(textToShare);
         startActivity(shareIntent);
     }
 

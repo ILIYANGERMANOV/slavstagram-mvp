@@ -27,6 +27,7 @@ import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
+import com.babushka.slav_squad.util.IntentBuilder;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.greenrobot.eventbus.EventBus;
@@ -259,11 +260,8 @@ public class PostView extends LinearLayout {
         if (mPost != null) {
             Context context = getContext();
             String imageUrl = mPost.getImage().getImageUrl();
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, imageUrl);
-            shareIntent.setType("text/plain");
-            context.startActivity(Intent.createChooser(shareIntent, "Shave via"));
+            Intent shareIntent = IntentBuilder.buildShareIntent(imageUrl);
+            context.startActivity(shareIntent);
         }
     }
 

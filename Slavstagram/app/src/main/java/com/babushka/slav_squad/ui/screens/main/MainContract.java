@@ -24,6 +24,10 @@ public interface MainContract {
 
         void addImageToGallery(@NonNull File imageFile);
 
+        void openUploadPostScreen();
+
+        void promptGuestToLogin();
+
         void openProfileScreen();
 
         void fireShareIntent(@NonNull String textToShare);
@@ -35,6 +39,8 @@ public interface MainContract {
         void displayAllPostsInRealTime();
 
         void downloadPost(@NonNull String imageUrl);
+
+        void handleUploadPostClick();
 
         void handleMyProfileClick();
 
