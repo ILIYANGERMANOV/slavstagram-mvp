@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto"
-       xmlns:tools="http://schemas.android.com/tools"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       tools:parentTag="LinearLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="LinearLayout">
 
     <LinearLayout
         android:id="@+id/post_author_layout"
@@ -20,7 +20,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/post_author_circle_image_view"
             android:layout_width="@dimen/profile_pic_size"
-            android:layout_height="@dimen/profile_pic_size"/>
+            android:layout_height="@dimen/profile_pic_size" />
 
         <TextView
             android:id="@+id/post_author_name_text_view"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center|left"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="Boris"/>
+            tools:text="Boris" />
 
         <TextView
             android:id="@+id/post_date_text_view"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            tools:text="2m"/>
+            tools:text="2m" />
 
     </LinearLayout>
 
@@ -47,7 +47,7 @@
         android:id="@+id/post_main_image_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -141,6 +141,6 @@
         android:layout_marginTop="@dimen/post_margin_small"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textSize="16sp"
-        tools:text="Slav level - Putin"/>
+        tools:text="Slav level - Putin" />
 
 </merge>

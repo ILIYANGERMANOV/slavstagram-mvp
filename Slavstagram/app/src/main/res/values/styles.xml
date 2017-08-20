@@ -48,7 +48,10 @@
     <style name="PostImageButton" parent="Button">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">7dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@drawable/post_button_background_selector</item>
     </style>
