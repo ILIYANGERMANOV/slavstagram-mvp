@@ -16,6 +16,32 @@
     <string name="weeks_ago">%dw ago</string>
     <string name="months_ago">%dm ago</string>
 
+    <string name="ok">OK</string>
+
     <string name="open_nav_drawer">Open navigation drawer</string>
     <string name="close_nav_drawer">Close navigation drawer</string>
+
+    <!-- Runtime permissions -->
+    <string name="permission_write_storage_deny_title">Storage permission needed</string>
+    <string name="permission_write_storage_deny_content">We save post\'s photo to your pictures directory.</string>
+    <string name="permission_write_storage_rationale_title">Storage permission needed</string>
+    <string name="permission_write_storage_rationale_content">In order to download post to your device we need permission write on it.</string>
+    <string name="permission_write_storage_never_ask_title">Unable download post</string>
+    <string name="permission_write_storage_never_ask_content">Without permission to storage photo cannot be saved.</string>
+
+    <string name="permission_read_storage_deny_title">Read storage permission needed</string>
+    <string name="permission_read_storage_deny_content">Don\'t worry! We won\'t read your secret kompot recipes ;)</string>
+    <string name="permission_read_storage_rationale_title">Read storage permission required</string>
+    <string name="permission_read_storage_rationale_content">To select an image from gallery we need storage permission</string>
+    <string name="permission_read_storage_never_ask_title">Can\'t pick images from gallery</string>
+    <string name="permission_read_storage_never_ask_content">Without storage permission you can\'t post images and become a Slav Superstar!</string>
+
+    <string name="permission_camera_deny_title">Camera needed</string>
+    <string name="permission_camera_deny_content">To take a photo we need access to camera.</string>
+    <string name="permission_camera_rationale_title">Camera required</string>
+    <string name="permission_camera_rationale_content">Don\'t worry, you control when we can use your camera.</string>
+    <string name="permission_camera_never_ask_title">Cannot take photo</string>
+    <string name="permission_camera_never_ask_content">We cannot take photo without access to camera.</string>
+
+
 </resources>

@@ -14,6 +14,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
+import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
 import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
 import com.babushka.slav_squad.ui.screens.cropping.ImageCropper;
 import com.babushka.slav_squad.ui.screens.cropping.UploadPostCropper;
@@ -88,19 +91,20 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @OnShowRationale(Manifest.permission.CAMERA)
     public void showRationaleForCamera(@NonNull PermissionRequest request) {
-        //TODO: Implement method
-        showToast("Cyka, we need your camera to take pictures!");
-        request.proceed();
+        new PermissionRationaleDialog(getString(R.string.permission_camera_rationale_title),
+                getString(R.string.permission_camera_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     public void showDeniedForCamera() {
-        //TODO: Implement method
+        new PermissionDenyDialog(getString(R.string.permission_camera_deny_title),
+                getString(R.string.permission_camera_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     public void showNeverAskForCamera() {
-        //TODO: Implement method
+        new PermissionNeverAskDialog(getString(R.string.permission_camera_never_ask_title),
+                getString(R.string.permission_camera_never_ask_content)).show(this);
     }
 
 
@@ -121,19 +125,20 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
-        //TODO: Implement method
-        showToast("Cyka, we need your storage to pick up a picture!");
-        request.proceed();
+        new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
+                getString(R.string.permission_read_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
-        //TODO: Implement method
+        new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
+                getString(R.string.permission_read_storage_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
-        //TODO: Implement method
+        new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
+                getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }
 
 

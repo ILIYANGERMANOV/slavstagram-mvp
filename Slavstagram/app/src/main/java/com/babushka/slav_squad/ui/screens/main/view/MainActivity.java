@@ -22,6 +22,9 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
@@ -204,18 +207,21 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showRationaleForWriteStorage(@NonNull PermissionRequest request) {
-        //TODO: Implement method
-        request.proceed();
+        new PermissionRationaleDialog(getString(R.string.permission_write_storage_rationale_title),
+                getString(R.string.permission_write_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showDeniedForWriteStorage() {
-        //TODO: Implement method
+        new PermissionDenyDialog(getString(R.string.permission_write_storage_deny_title),
+                getString(R.string.permission_write_storage_deny_content)).show(this);
+
     }
 
     @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showNeverAskForWriteStorage() {
-        //TODO: Implement method
+        new PermissionNeverAskDialog(getString(R.string.permission_write_storage_never_ask_title),
+                getString(R.string.permission_write_storage_never_ask_content)).show(this);
     }
 
 
