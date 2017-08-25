@@ -8,6 +8,7 @@
     <color name="post_image_background_color">#f3f1f1</color>
 
     <!-- Common colors -->
+    <color name="transparent">#00FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 </resources>

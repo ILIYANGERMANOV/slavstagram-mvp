@@ -14,10 +14,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
@@ -40,6 +41,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -53,12 +55,16 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     public static final int SCROLL_THRESHOLD = 30;
     //TODO: Refactor and optimize post loading by moving it on another thread
 
+    @BindView(R.id.main_toolbar)
+    Toolbar vToolbar;
     @BindView(R.id.main_drawer_layout)
     DrawerLayout vDrawerLayout;
     @BindView(R.id.main_navigation_view)
     NavigationView vNavigation;
-    @BindView(R.id.main_toolbar)
-    Toolbar vToolbar;
+    @BindView(R.id.nav_drawer_profile_picture_circle_image_view)
+    CircleImageView vNavDrawerProfileImage;
+    @BindView(R.id.nav_drawer_display_name_text_view)
+    TextView vNavDrawerDisplayNameText;
     @BindView(R.id.main_posts_container)
     MainPostsContainer vPostsContainer;
     @BindView(R.id.main_add_post_fab)
@@ -108,26 +114,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     private void setupNavDrawer() {
-        vNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_drawer_action_profile:
-                        mPresenter.handleMyProfileClick();
-                        vDrawerLayout.closeDrawer(Gravity.LEFT, false);
-                        break;
-                    case R.id.nav_drawer_action_share:
-                        mPresenter.handleShareClick();
-                        vDrawerLayout.closeDrawer(Gravity.LEFT, false);
-                        break;
-                    case R.id.nav_drawer_action_log_out:
-                        mPresenter.handleLogoutClick();
-                        break;
-                }
-                return false;
-            }
-        });
-
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, vDrawerLayout, vToolbar,
                 R.string.open_nav_drawer, R.string.close_nav_drawer);
 
@@ -136,16 +122,50 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         actionBarDrawerToggle.syncState();
     }
 
+    @OnClick(R.id.nav_drawer_header_layout)
+    public void onNavDrawerHeaderClick() {
+        mPresenter.handleMyProfileClick();
+    }
+
+    @OnClick(R.id.nav_drawer_share_layout)
+    public void onNavDrawerShareClick() {
+        mPresenter.handleShareClick();
+    }
+
+    @OnClick(R.id.nav_drawer_feedback_layout)
+    public void onNavDrawerFeedbackClick() {
+        Toast.makeText(this, "Feedback click", Toast.LENGTH_SHORT).show();
+        closeNavDrawer(true);
+    }
+
+    @OnClick(R.id.nav_drawer_about_layout)
+    public void onNavDrawerAboutClick() {
+        Toast.makeText(this, "About click", Toast.LENGTH_SHORT).show();
+        closeNavDrawer(true);
+    }
+
+    @OnClick(R.id.nav_drawer_logout_layout)
+    public void onNavDrawerLogoutClick() {
+        mPresenter.handleLogoutClick();
+        closeNavDrawer(false);
+    }
+
+    private void closeNavDrawer(boolean animate) {
+        vDrawerLayout.closeDrawer(Gravity.LEFT, animate);
+    }
+
     @Override
     protected void onSetupFinished() {
         mPresenter.displayAllPostsInRealTime();
+        mPresenter.displayUserProfile();
     }
 
     @NonNull
     @Override
     protected MainContract.Presenter initializePresenter() {
-        FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
-        return new MainPresenter(this, new MainModel(this, user));
+        SessionManager sessionManager = SessionManager.getInstance();
+        FirebaseUser user = sessionManager.getCurrentFirebaseUser();
+        return new MainPresenter(this, new MainModel(this, user), sessionManager);
     }
 
     @OnClick(R.id.main_add_post_fab)
@@ -166,6 +186,18 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     public void removePost(@NonNull Post post) {
         vPostsContainer.remove(post);
+    }
+
+    @Override
+    public void displayUserProfilePicture(@NonNull String url) {
+        GlideApp.with(this)
+                .load(url)
+                .into(vNavDrawerProfileImage);
+    }
+
+    @Override
+    public void displayUserName(@NonNull String displayName) {
+        vNavDrawerDisplayNameText.setText(displayName);
     }
 
     @Override

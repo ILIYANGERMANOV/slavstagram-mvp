@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/nav_drawer_margin_half"
+    android:paddingRight="@dimen/nav_drawer_margin"
+    android:paddingTop="@dimen/nav_drawer_margin"
+    android:paddingBottom="@dimen/nav_drawer_margin">
+    <!-- TODO: optimize nested layouts and remove unnecessary IDs -->
+
+    <LinearLayout
+        android:id="@+id/nav_drawer_share_layout"
+        style="@style/NavDrawerMenuLayout">
+
+        <ImageView
+            android:id="@+id/nav_drawer_share_image_view"
+            style="@style/NavDrawerMenuIcon"
+            android:src="@drawable/ic_share_drawer"/>
+
+        <TextView
+            android:id="@+id/nav_drawer_share_text_view"
+            style="@style/NavDrawerMenuText"
+            android:text="Share Us"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/nav_drawer_share_divider"
+        style="@style/NavDrawerMenuDivider"/>
+
+
+    <LinearLayout
+        android:id="@+id/nav_drawer_feedback_layout"
+        style="@style/NavDrawerMenuLayout">
+
+        <ImageView
+            android:id="@+id/nav_drawer_feedback_image_view"
+            style="@style/NavDrawerMenuIcon"
+            android:src="@drawable/ic_feedback"/>
+
+        <TextView
+            android:id="@+id/nav_drawer_feedback_text_view"
+            style="@style/NavDrawerMenuText"
+            android:text="Feedback"/>
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/nav_drawer_feedback_divier"
+        style="@style/NavDrawerMenuDivider"/>
+
+
+    <LinearLayout
+        android:id="@+id/nav_drawer_about_layout"
+        style="@style/NavDrawerMenuLayout">
+
+        <ImageView
+            android:id="@+id/nav_drawer_about_image_view"
+            style="@style/NavDrawerMenuIcon"
+            android:src="@drawable/ic_about"/>
+
+        <TextView
+            android:id="@+id/nav_drawer_about_text_view"
+            style="@style/NavDrawerMenuText"
+            android:text="About Us"/>
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/nav_drawer_about_divider"
+        style="@style/NavDrawerMenuDivider"/>
+
+
+    <LinearLayout
+        android:id="@+id/nav_drawer_logout_layout"
+        style="@style/NavDrawerMenuLayout">
+
+        <ImageView
+            android:id="@+id/nav_drawer_logout_image_view"
+            style="@style/NavDrawerMenuIcon"
+            android:src="@drawable/ic_logout"/>
+
+        <TextView
+            android:id="@+id/nav_drawer_logout_text_view"
+            style="@style/NavDrawerMenuText"
+            android:text="Logout"/>
+    </LinearLayout>
+
+
+</LinearLayout>

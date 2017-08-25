@@ -14,6 +14,10 @@ import java.io.File;
 
 public interface MainContract {
     interface View extends PostsView {
+        void displayUserProfilePicture(@NonNull String url);
+
+        void displayUserName(@NonNull String displayName);
+
         void downloadPostWithPermissionCheck(@NonNull String imageUrl);
 
         void showDownloadPostLoading();
@@ -38,6 +42,8 @@ public interface MainContract {
     interface Presenter extends BasePresenter {
         void displayAllPostsInRealTime();
 
+        void displayUserProfile();
+
         void downloadPost(@NonNull String imageUrl);
 
         void handleUploadPostClick();
@@ -50,6 +56,7 @@ public interface MainContract {
     }
 
     interface Model {
+
         void addPostsListener(@NonNull PostsListener postsListener);
 
         void removePostsListener();

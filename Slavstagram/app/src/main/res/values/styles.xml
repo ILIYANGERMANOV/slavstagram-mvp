@@ -55,9 +55,41 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@drawable/post_button_background_selector</item>
     </style>
-
     <!-- Post -->
 
+    <!-- Navigation drawer -->
+    <style name="NavDrawerMenuLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/nav_drawer_menu_item_selector</item>
+    </style>
+
+    <style name="NavDrawerMenuIcon">
+        <item name="android:layout_width">@dimen/nav_drawer_menu_icon_size</item>
+        <item name="android:layout_height">@dimen/nav_drawer_menu_icon_size</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="NavDrawerMenuText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/nav_drawer_margin_half</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="NavDrawerMenuDivider">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">#BDBDBD</item>
+        <item name="android:layout_marginTop">@dimen/nav_drawer_margin_half</item>
+        <item name="android:layout_marginBottom">@dimen/nav_drawer_margin_half</item>
+    </style>
+    <!-- Navigation drawer -->
 
     <!-- Landing -->
     <style name="FacebookLoginButton">

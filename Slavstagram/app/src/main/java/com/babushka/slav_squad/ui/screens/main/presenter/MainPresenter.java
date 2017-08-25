@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.event.DownloadPostEvent;
+import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
@@ -21,13 +22,17 @@ public class MainPresenter implements MainContract.Presenter {
     public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.gepardy.gamena";
     @NonNull
     private final MainContract.Model mModel;
+    @NonNull
+    private final SessionManager mSessionManager;
     private MainContract.View mView;
     @Nullable
     private DefaultDisplayPostsListener mPostsListener;
 
-    public MainPresenter(@NonNull MainContract.View view, @NonNull MainContract.Model model) {
+    public MainPresenter(@NonNull MainContract.View view, @NonNull MainContract.Model model,
+                         @NonNull SessionManager sessionManager) {
         mView = view;
         mModel = model;
+        mSessionManager = sessionManager;
         EventBus.getDefault().register(this);
     }
 
@@ -40,6 +45,21 @@ public class MainPresenter implements MainContract.Presenter {
     public void displayAllPostsInRealTime() {
         mPostsListener = new DefaultDisplayPostsListener(mView);
         mModel.addPostsListener(mPostsListener);
+    }
+
+    @Override
+    public void displayUserProfile() {
+        User currentUser = mSessionManager.getCurrentUser();
+        String displayName = currentUser.getDisplayName();
+        if (displayName == null) {
+            displayName = currentUser.getEmail();
+        }
+        mView.displayUserName(displayName);
+
+        String photoUrl = currentUser.getPhotoUrl();
+        if (photoUrl != null) {
+            mView.displayUserProfilePicture(photoUrl);
+        }
     }
 
     @Override
@@ -65,7 +85,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void handleUploadPostClick() {
-        boolean isGuest = SessionManager.getInstance().getCurrentFirebaseUser().isAnonymous();
+        boolean isGuest = mSessionManager.getCurrentFirebaseUser().isAnonymous();
         if (isGuest) {
             mView.promptGuestToLogin();
         } else {

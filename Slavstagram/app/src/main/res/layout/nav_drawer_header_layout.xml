@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:background="@color/white"
+              android:id="@+id/nav_drawer_header_layout"
               android:layout_width="match_parent"
-              android:layout_height="200dp">
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:gravity="top"
+              android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_marginTop="32dp"
+        android:id="@+id/nav_drawer_profile_picture_circle_image_view"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
+        android:id="@+id/nav_drawer_display_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="Slav Superstar"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_height="wrap_content"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"/>
 
 </LinearLayout>

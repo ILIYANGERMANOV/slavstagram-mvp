@@ -62,8 +62,19 @@
         android:id="@+id/main_navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
-        app:headerLayout="@layout/nav_drawer_header_layout"
-        app:menu="@menu/menu_nav_drawer"/>
+        android:layout_gravity="left">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/nav_drawer_header_layout"/>
+
+            <include layout="@layout/nav_drawer_menu_layout"/>
+
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
 
