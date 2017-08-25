@@ -104,6 +104,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void handleAboutClick() {
+        mView.openAboutScreen();
+    }
+
+    @Override
     public void handleLogoutClick() {
         SessionManager.getInstance().logout();
         mView.startSplashScreenAsEntry();

@@ -34,6 +34,8 @@ public interface MainContract {
 
         void openProfileScreen();
 
+        void openAboutScreen();
+
         void fireShareIntent(@NonNull String textToShare);
 
         void startSplashScreenAsEntry();
@@ -51,6 +53,8 @@ public interface MainContract {
         void handleMyProfileClick();
 
         void handleShareClick();
+
+        void handleAboutClick();
 
         void handleLogoutClick();
     }

@@ -72,6 +72,11 @@
             android:label="@string/activity_image_preview"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".ui.screens.about.view.AboutActivity"
+            android:label="@string/activity_about"
+            android:screenOrientation="portrait"/>
+
         <!-- Image cropper -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

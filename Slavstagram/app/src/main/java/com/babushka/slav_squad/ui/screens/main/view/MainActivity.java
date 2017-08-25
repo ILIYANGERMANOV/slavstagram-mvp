@@ -26,6 +26,7 @@ import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
+import com.babushka.slav_squad.ui.screens.about.view.AboutActivity;
 import com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
@@ -140,8 +141,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.nav_drawer_about_layout)
     public void onNavDrawerAboutClick() {
-        Toast.makeText(this, "About click", Toast.LENGTH_SHORT).show();
-        closeNavDrawer(true);
+        AboutActivity.startScreen(this);
     }
 
     @OnClick(R.id.nav_drawer_logout_layout)
@@ -279,6 +279,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     public void openProfileScreen() {
         ProfileActivity.startScreen(MainActivity.this);
+    }
+
+    @Override
+    public void openAboutScreen() {
+        AboutActivity.startScreen(this);
     }
 
     @Override
