@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 import com.babushka.slav_squad.ui.screens.profile.model.ProfileModel;
 import com.babushka.slav_squad.ui.screens.profile.presenter.ProfilePresenter;
 import com.babushka.slav_squad.ui.screens.profile.view.custom_view.ProfilePostsContainer;
+import com.babushka.slav_squad.util.AppUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -88,6 +90,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     protected void onSetupUI() {
         super.onSetupUI();
         vPostsContainer.setup(this, mIsMyProfile);
+        ViewCompat.setElevation(vProfileCircleImage, AppUtil.dpToPx(this, 15));
     }
 
     @Override
