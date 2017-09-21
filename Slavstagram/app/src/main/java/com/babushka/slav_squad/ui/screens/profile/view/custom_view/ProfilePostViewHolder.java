@@ -3,7 +3,6 @@ package com.babushka.slav_squad.ui.screens.profile.view.custom_view;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -13,6 +12,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
+import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
 
 import butterknife.BindView;
 
@@ -24,7 +24,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     @NonNull
     private final GlideRequests mImageLoader;
     @BindView(R.id.adapter_profile_post_image_view)
-    ImageView vPostImage;
+    AspectRatioImageView vPostImage;
     @Nullable
     private Post mPost;
 
@@ -62,8 +62,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     @Override
     public void display(@NonNull Post post) {
         mPost = post;
-        mImageLoader.load(mPost.getImage().getImageUrl())
-                .into(vPostImage);
+        vPostImage.display(post.getImage(), mImageLoader);
     }
 
     @Override
