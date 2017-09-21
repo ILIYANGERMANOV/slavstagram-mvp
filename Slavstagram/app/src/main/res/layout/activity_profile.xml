@@ -1,81 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="190dp">
-
-        <ImageView
-            android:id="@+id/profile_blurred_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
-
-        <com.wonderkiln.blurkit.BlurLayout
-            android:id="@+id/profile_blur_layout"
-            android:layout_width="match_parent"
-            app:blurRadius="7"
-            app:fps="0"
-            android:layout_height="match_parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_circle_image_view"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:elevation="10dp"
-                app:civ_border_color="@color/black"
-                app:civ_border_width="0.5dp"
-                tools:src="@mipmap/ic_launcher"/>
-
-        </com.wonderkiln.blurkit.BlurLayout>
-    </FrameLayout>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:fillViewport="true"
+                                            android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp">
+
+            <ImageView
+                android:id="@+id/profile_blurred_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
+
+            <com.wonderkiln.blurkit.BlurLayout
+                android:id="@+id/profile_blur_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:blurRadius="7"
+                app:fps="0">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_circle_image_view"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:elevation="10dp"
+                    app:civ_border_color="@color/black"
+                    app:civ_border_width="0.5dp"
+                    tools:src="@mipmap/ic_launcher"/>
+
+            </com.wonderkiln.blurkit.BlurLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/profile_description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"/>
+
+            <ImageButton
+                android:id="@+id/profile_description_edit_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_mode_edit_black_18dp"/>
+
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/profile_description_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:text="Posts"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-        <ImageButton
-            android:id="@+id/profile_description_edit_image_button"
-            android:layout_width="wrap_content"
+        <com.babushka.slav_squad.ui.screens.profile.view.custom_view.ProfilePostsContainer
+            android:id="@+id/profile_posts_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_mode_edit_black_18dp"/>
-
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:text="Posts"/>
-
-    <com.babushka.slav_squad.ui.screens.profile.view.custom_view.ProfilePostsContainer
-        android:id="@+id/profile_posts_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="8dp"/>
-
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

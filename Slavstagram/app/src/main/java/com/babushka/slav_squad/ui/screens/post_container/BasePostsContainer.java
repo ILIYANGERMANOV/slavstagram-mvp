@@ -18,7 +18,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
  * Created by iliyan on 07.06.17.
  */
 
-public abstract class BasePostsContainer<A extends BaseAdapter<Post, VH>, VH extends PostViewHolder>
+public abstract class BasePostsContainer<A extends BaseAdapter<Post, VH>, VH extends BaseAdapter.BaseViewHolder<Post>>
         extends BaseContainer<Post, VH, A> {
     public BasePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

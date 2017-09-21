@@ -13,7 +13,6 @@ import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -37,7 +36,6 @@ public class CommentViewHolder extends BaseAdapter.BaseViewHolder<Comment> {
     public CommentViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
         mImageLoader = imageLoader;
-        ButterKnife.bind(this, itemView);
         mContext = itemView.getContext();
     }
 

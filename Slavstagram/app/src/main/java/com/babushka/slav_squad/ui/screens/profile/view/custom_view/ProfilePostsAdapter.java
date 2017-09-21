@@ -27,6 +27,11 @@ class ProfilePostsAdapter extends GlideAdapter<Post, ProfilePostViewHolder> {
         return R.layout.adapter_profile_post_view_holder;
     }
 
+    int calculateSpanSize(int position) {
+        Post.Image image = mData.get(position).getImage();
+        return image.getWidth() > image.getHeight() ? 2 : 1;
+    }
+
     @Override
     protected ProfilePostViewHolder initializeViewHolder(@NonNull View layoutView) {
         return new ProfilePostViewHolder(layoutView, mImageLoader, mIsMyProfile);

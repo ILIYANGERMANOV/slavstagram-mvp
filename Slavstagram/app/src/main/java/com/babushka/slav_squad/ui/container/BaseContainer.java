@@ -30,9 +30,14 @@ public abstract class BaseContainer<T extends Findable, VH extends BaseAdapter.B
     public void setup(@NonNull Activity activity) {
         mAdapter = initializeAdapter(activity, GlideApp.with(activity));
         setAdapter(mAdapter);
-        mLayoutManager = new LinearLayoutManager(activity);
+        mLayoutManager = buildLayoutManager(activity);
         setLayoutManager(mLayoutManager);
         onCustomSetup(activity);
+    }
+
+    @NonNull
+    protected LayoutManager buildLayoutManager(@NonNull Activity activity) {
+        return new LinearLayoutManager(activity);
     }
 
     protected void onCustomSetup(@NonNull Activity activity) {

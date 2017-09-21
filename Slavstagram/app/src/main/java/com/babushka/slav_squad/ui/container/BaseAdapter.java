@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by iliyan on 29.05.17.
  */
@@ -122,6 +124,7 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
 
         public BaseViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public abstract void display(@NonNull T item);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.AttributeSet;
 
 import com.babushka.slav_squad.GlideRequests;
@@ -18,6 +19,7 @@ public class ProfilePostsContainer extends BasePostsContainer<ProfilePostsAdapte
 
     public ProfilePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -29,5 +31,18 @@ public class ProfilePostsContainer extends BasePostsContainer<ProfilePostsAdapte
     public void setup(@NonNull Activity activity, boolean isMyProfile) {
         mIsMyProfile = isMyProfile;
         setup(activity);
+    }
+
+    @NonNull
+    @Override
+    protected LayoutManager buildLayoutManager(@NonNull Activity activity) {
+        GridLayoutManager layoutManager = new GridLayoutManager(activity, 4);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return mAdapter.calculateSpanSize(position);
+            }
+        });
+        return layoutManager;
     }
 }

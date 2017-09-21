@@ -9,7 +9,6 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by iliyan on 29.05.17.
@@ -24,7 +23,6 @@ public class PostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     protected PostViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
         mImageLoader = imageLoader;
-        ButterKnife.bind(this, itemView);
     }
 
     @Override

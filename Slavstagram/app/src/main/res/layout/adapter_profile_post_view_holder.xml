@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.babushka.slav_squad.ui.screens.post_container.PostView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/adapter_post_post_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
-    app:hideAuthor="true"/>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+           android:id="@+id/adapter_profile_post_image_view"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="5dp"
+           android:scaleType="fitXY"/>
