@@ -11,6 +11,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //Required by com.wonderkiln:blurkit
+        renderscriptTargetApi 24
+        renderscriptSupportModeEnabled true
     }
 
     signingConfigs {
@@ -69,6 +73,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
     compile 'com.github.yalantis:ucrop:2.2.1'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile 'com.wonderkiln:blurkit:1.0.0'
 
     //make life easy
     compile "com.jakewharton:butterknife:$project.butterKnifeVersion"
