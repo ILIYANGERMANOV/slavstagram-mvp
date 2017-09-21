@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,7 +92,8 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
 
     @Override
     protected void onSetupFinished() {
-        mPresenter.displayUserAndLoadHisPosts();
+        mPresenter.displayUser();
+        mPresenter.displayUserPosts();
     }
 
     @NonNull
@@ -99,7 +101,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     protected ProfileContract.Presenter initializePresenter() {
         String userId = SessionManager.getInstance().getCurrentFirebaseUser().getUid();
         ProfileModel model = new ProfileModel(mProfileUser.getUid(), userId);
-        return new ProfilePresenter(this, model, mProfileUser);
+        return new ProfilePresenter(this, model, mProfileUser, mIsMyProfile);
     }
 
     @Override
@@ -107,7 +109,18 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
         if (!mIsMyProfile) {
             setActionBarTitle(displayName);
         }
+        loadBlurredHeaderBackground(imageUrl);
+        GlideApp.with(this)
+                .load(imageUrl)
+                .into(vProfileCircleImage);
+    }
 
+    @Override
+    public void showEditMode() {
+        vDescEditButton.setVisibility(View.VISIBLE);
+    }
+
+    private void loadBlurredHeaderBackground(@NonNull String imageUrl) {
         Glide.with(this)
                 .load(imageUrl)
                 .listener(new RequestListener<Drawable>() {
@@ -128,9 +141,6 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
                     }
                 })
                 .into(vBlurredImage);
-        GlideApp.with(this)
-                .load(imageUrl)
-                .into(vProfileCircleImage);
     }
 
     @Override

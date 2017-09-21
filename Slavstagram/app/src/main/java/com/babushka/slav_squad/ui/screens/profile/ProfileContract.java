@@ -13,10 +13,16 @@ import com.babushka.slav_squad.ui.screens.PostsView;
 public interface ProfileContract {
     interface View extends PostsView {
         void displayUser(@NonNull String imageUrl, @NonNull String displayName);
+
+        void showEditMode();
     }
 
     interface Presenter extends BasePresenter {
-        void displayUserAndLoadHisPosts();
+        void setupUI();
+
+        void displayUser();
+
+        void displayUserPosts();
     }
 
     interface Model {

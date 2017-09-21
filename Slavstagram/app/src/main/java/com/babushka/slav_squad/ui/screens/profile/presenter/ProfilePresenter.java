@@ -16,34 +16,39 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     private final ProfileContract.Model mModel;
     @NonNull
     private final User mUser;
+    private final boolean mIsMyProfile;
     private ProfileContract.View mView;
     @Nullable
     private DefaultDisplayPostsListener mPostsListener;
 
     public ProfilePresenter(@NonNull ProfileContract.View view, @NonNull ProfileContract.Model model,
-                            @NonNull User user) {
+                            @NonNull User user, boolean isMyProfile) {
         mView = view;
         mModel = model;
         mUser = user;
+        mIsMyProfile = isMyProfile;
     }
 
     @Override
-    public void displayUserAndLoadHisPosts() {
-        displayUser();
-        displayUserPosts();
+    public void setupUI() {
+        if (mIsMyProfile) {
+            mView.showEditMode();
+        }
     }
 
-    private void displayUserPosts() {
-        mPostsListener = new DefaultDisplayPostsListener(mView);
-        mModel.addUserPostsListener(mPostsListener);
-    }
-
-    private void displayUser() {
+    @Override
+    public void displayUser() {
         String photoUrl = mUser.getPhotoUrl();
         String displayName = mUser.getDisplayName();
         if (photoUrl != null && displayName != null) {
             mView.displayUser(photoUrl, displayName);
         }
+    }
+
+    @Override
+    public void displayUserPosts() {
+        mPostsListener = new DefaultDisplayPostsListener(mView);
+        mModel.addUserPostsListener(mPostsListener);
     }
 
     @Override
