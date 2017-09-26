@@ -24,9 +24,9 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
     @Override
-    public void displayCurrentUser() {
+    public void setupUI() {
         User currentUser = SessionManager.getInstance().getCurrentUser();
-        mView.displayAuthorImage(currentUser.getPhotoUrl());
+        mView.setupAddCommentUI(currentUser.getPhotoUrl());
     }
 
     @Override

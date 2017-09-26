@@ -13,6 +13,7 @@ import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
+import com.babushka.slav_squad.ui.screens.preview_post.view.PreviewPostActivity;
 
 import butterknife.BindView;
 
@@ -20,7 +21,7 @@ import butterknife.BindView;
  * Created by iliyan on 08.06.17.
  */
 
-public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
+public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> implements View.OnClickListener {
     @NonNull
     private final GlideRequests mImageLoader;
     @BindView(R.id.adapter_profile_post_image_view)
@@ -32,7 +33,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
                           boolean isMyProfile) {
         super(itemView);
         mImageLoader = imageLoader;
-
+        itemView.setOnClickListener(this);
         if (isMyProfile || BuildConfig.DEBUG) {
             addPostDeleteOption(itemView);
         }
@@ -68,5 +69,12 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> {
     @Override
     public void resetState() {
         vPostImage.setImageDrawable(null);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mPost != null) {
+            PreviewPostActivity.startScreen(v.getContext(), mPost);
+        }
     }
 }

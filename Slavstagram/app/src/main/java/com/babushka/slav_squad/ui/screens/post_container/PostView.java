@@ -89,7 +89,7 @@ public class PostView extends LinearLayout {
 
     private void setupUI(Context context) {
         setupRootView();
-        inflate(context, R.layout.post_view_layout, this);
+        inflate(context, R.layout.post_view, this);
         ButterKnife.bind(this);
     }
 

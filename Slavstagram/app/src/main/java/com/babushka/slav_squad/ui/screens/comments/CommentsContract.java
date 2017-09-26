@@ -20,11 +20,11 @@ public interface CommentsContract {
 
         void removeComment(@NonNull Comment comment);
 
-        void displayAuthorImage(@Nullable String imageUrl);
+        void setupAddCommentUI(@Nullable String authorImageUrl);
     }
 
     interface Presenter extends BasePresenter {
-        void displayCurrentUser();
+        void setupUI();
 
         void displayCommentsInRealTime();
 

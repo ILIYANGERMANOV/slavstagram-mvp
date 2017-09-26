@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       tools:parentTag="LinearLayout">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/add_comment_author_circle_image_view"
+        android:layout_width="@dimen/profile_pic_size"
+        android:layout_height="@dimen/profile_pic_size"
+        android:layout_marginRight="16dp"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <EditText
+        android:id="@+id/add_comment_comment_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:hint="Add comment..."
+        android:imeOptions="actionSend"
+        android:inputType="textMultiLine"
+        android:textSize="16sp"/>
+
+    <ImageButton
+        android:id="@+id/add_comment_send_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:minHeight="@dimen/min_clickable_area"
+        android:minWidth="@dimen/min_clickable_area"
+        android:src="@drawable/ic_send_black_24dp"/>
+</merge>
