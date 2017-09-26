@@ -154,6 +154,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         vDrawerLayout.closeDrawer(Gravity.LEFT, animate);
     }
 
+    @OnClick(R.id.main_toolbar_slav_squad_logo_image_view)
+    public void onToolbarLogoClick() {
+        vPostsContainer.scrollToPosition(0);
+    }
+
     @Override
     protected void onSetupFinished() {
         mPresenter.displayAllPostsInRealTime();

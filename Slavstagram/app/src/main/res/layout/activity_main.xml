@@ -32,6 +32,7 @@
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
                 <ImageView
+                    android:id="@+id/main_toolbar_slav_squad_logo_image_view"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
