@@ -24,7 +24,7 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
-import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
+import com.babushka.slav_squad.ui.screens.preview_post.view.PreviewPostActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 import com.babushka.slav_squad.util.IntentBuilder;
@@ -309,8 +309,7 @@ public class PostView extends LinearLayout {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             if (mPost != null) {
-                String imageUrl = mPost.getImage().getImageUrl();
-                ImagePreviewActivity.startScreen(getContext(), imageUrl);
+                PreviewPostActivity.startScreen(getContext(), mPost);
             }
             return true;
         }

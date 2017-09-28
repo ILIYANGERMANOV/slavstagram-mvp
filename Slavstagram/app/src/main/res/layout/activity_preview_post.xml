@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                            android:id="@+id/activity_preview_post"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
+<com.babushka.slav_squad.ui.custom_view.LockableNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                                 android:id="@+id/activity_preview_post"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <com.babushka.slav_squad.ui.custom_view.AspectRatioPhotoView
+            android:id="@+id/preview_post_aspect_ratio_photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/preview_post_likes_count_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/post_margin_big"
+            android:layout_marginRight="@dimen/post_margin_big"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="Likes: 124"/>
+
+        <TextView
+            android:id="@+id/preview_post_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/post_margin_big"
+            android:layout_marginRight="@dimen/post_margin_big"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:layout_marginBottom="@dimen/post_margin_small"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            tools:text="Slav level - Putin"/>
 
         <com.babushka.slav_squad.ui.screens.comments.view.custom_view.CommentsContainer
             android:id="@+id/preview_post_comments_container"
@@ -23,4 +51,4 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"/>
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</com.babushka.slav_squad.ui.custom_view.LockableNestedScrollView>
