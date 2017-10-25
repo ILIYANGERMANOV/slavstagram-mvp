@@ -15,7 +15,6 @@ import com.babushka.slav_squad.ui.screens.landing.landing.presenter.LandingPrese
 import com.babushka.slav_squad.ui.screens.landing.login.view.LoginActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.SignInButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,10 +22,8 @@ import butterknife.OnClick;
 public class LandingActivity extends BaseActivity<LandingContract.Presenter>
         implements LandingContract.View {
 
-    @BindView(R.id.landing_fb_login_button)
-    LoginButton vFBLoginButton;
-    @BindView(R.id.landing_google_login_button)
-    SignInButton vGoogleLoginButton;
+    @BindView(R.id.landing_fb_login_invisible_button)
+    LoginButton vInvisibleFbButton;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -58,18 +55,18 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     }
 
     @Override
-    protected void onSetupUI() {
-        vGoogleLoginButton.setSize(SignInButton.SIZE_WIDE);
-    }
-
-    @Override
     protected void onSetupFinished() {
-        mPresenter.setupFacebookLogin(this, vFBLoginButton);
+        mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
     }
 
     @OnClick(R.id.landing_google_login_button)
-    public void onLoginWithGooglePlusClicked() {
+    public void onLoginWithGoogleClicked() {
         mPresenter.loginWithGoogle(this);
+    }
+
+    @OnClick(R.id.landing_fb_login_button)
+    public void onLoginWithFbClicked() {
+        vInvisibleFbButton.callOnClick();
     }
 
     @OnClick(R.id.landing_email_button)
@@ -77,10 +74,10 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
         mPresenter.handleEmailClick();
     }
 
-    @OnClick(R.id.landing_skip_button)
-    public void onSkipButtonClicked() {
-        mPresenter.loginAsGuest();
-    }
+//    @OnClick(R.id.landing_skip_button)
+//    public void onSkipButtonClicked() {
+//        mPresenter.loginAsGuest();
+//    }
 
     @Override
     public void startLoginScreen() {

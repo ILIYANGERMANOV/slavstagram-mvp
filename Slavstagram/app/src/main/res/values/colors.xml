@@ -7,6 +7,9 @@
     <color name="posts_divider_color">#EEEEEE</color>
     <color name="post_image_background_color">#f3f1f1</color>
 
+    <color name="fb_button_color">#3b5998</color>
+    <color name="google_button_color">@color/white</color>
+
     <!-- Common colors -->
     <color name="transparent">#00FFFFFF</color>
     <color name="white">#FFFFFF</color>

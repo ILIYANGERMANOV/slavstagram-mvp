@@ -20,9 +20,11 @@ public interface LandingContract {
         void showToast(@NonNull String message);
 
     }
+
     interface Presenter extends BasePresenter {
 
         void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton);
+
         void loginWithGoogle(@NonNull AppCompatActivity activity);
 
         void handleEmailClick();
