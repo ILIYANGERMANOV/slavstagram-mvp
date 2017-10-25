@@ -19,9 +19,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
-        tools:replace="android:supportsRtl"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:supportsRtl">
 
         <!-- Entry point -->
         <activity
@@ -40,7 +40,7 @@
         <activity
             android:name=".ui.screens.landing.landing.view.LandingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/LandingTheme"/>
 
         <activity
             android:name=".ui.screens.landing.login.view.LoginActivity"
@@ -77,8 +77,8 @@
         <activity
             android:name=".ui.screens.preview_post.view.PreviewPostActivity"
             android:label="@string/activity_preview_post"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".ui.screens.about.view.AboutActivity"

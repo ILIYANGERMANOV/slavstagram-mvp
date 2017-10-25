@@ -34,9 +34,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         //empty stub
     }
 
+    protected void onBeforeSetContentView() {
+        //empty stub
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        onBeforeSetContentView();
         setContentView(getContentViewLayout());
         onReadArguments(getIntent());
         ButterKnife.bind(this);

@@ -18,8 +18,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
     <style name="SplashScreenTheme" parent="FullscreenTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <style name="LandingTheme" parent="FullscreenTheme">
+        <item name="android:windowBackground">@drawable/blurred_splash_screen</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
     </style>
 
     <style name="ImageButton" parent="Button">
