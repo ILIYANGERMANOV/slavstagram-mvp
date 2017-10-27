@@ -2,9 +2,13 @@ package com.babushka.slav_squad.ui.screens.landing.landing.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
@@ -24,6 +28,20 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @BindView(R.id.landing_fb_login_invisible_button)
     LoginButton vInvisibleFbButton;
+    @BindView(R.id.landing_welcome_text_view)
+    TextView vWelcomeText;
+    @BindView(R.id.landing_welcome_caption_text_view)
+    TextView vWelcomeCaptionText;
+    @BindView(R.id.landing_fb_login_button)
+    Button vFbButton;
+    @BindView(R.id.landing_google_login_button)
+    Button vGoogleButotn;
+    @BindView(R.id.landing_divider_view)
+    View vDivider;
+    @BindView(R.id.landing_or_text_view)
+    TextView vOrText;
+    @BindView(R.id.landing_email_button)
+    Button vEmailButton;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -52,6 +70,30 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
         if (actionBar != null) {
             actionBar.hide();
         }
+    }
+
+    @Override
+    protected void onSetupUI() {
+        vEmailButton.setPaintFlags(vEmailButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showControlsWithAnimation();
+            }
+        }, 1500);
+    }
+
+    private void showControlsWithAnimation() {
+        ChainAnimation animation = new ChainAnimation.Builder(this)
+                .add(vWelcomeText, R.anim.fade_in)
+                .add(vWelcomeCaptionText, R.anim.fade_in)
+                .add(vFbButton, R.anim.fade_in)
+                .add(vGoogleButotn, R.anim.fade_in)
+                .add(vDivider, R.anim.fade_in)
+                .add(vOrText, R.anim.fade_in)
+                .add(vEmailButton, R.anim.fade_in)
+                .build();
+        animation.run();
     }
 
     @Override
