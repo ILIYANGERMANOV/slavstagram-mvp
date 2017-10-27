@@ -78,20 +78,35 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                showSystemUI();
+            }
+        }, 500);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 showControlsWithAnimation();
             }
         }, 1500);
     }
 
+    // This snippet shows the system bars. It does this by removing all the flags
+    // except for the ones that make the content appear under the system bars.
+    private void showSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
     private void showControlsWithAnimation() {
         ChainAnimation animation = new ChainAnimation.Builder(this)
-                .add(vWelcomeText, R.anim.fade_in)
-                .add(vWelcomeCaptionText, R.anim.fade_in)
-                .add(vFbButton, R.anim.fade_in)
-                .add(vGoogleButotn, R.anim.fade_in)
-                .add(vDivider, R.anim.fade_in)
-                .add(vOrText, R.anim.fade_in)
-                .add(vEmailButton, R.anim.fade_in)
+                .add(vWelcomeText, R.anim.fade_in_slow)
+                .add(vWelcomeCaptionText, R.anim.fade_in_slow)
+                .add(vFbButton, R.anim.fade_in_slow)
+                .add(vGoogleButotn, R.anim.fade_in_slow)
+                .add(vDivider, R.anim.fade_in_fast)
+                .add(vOrText, R.anim.fade_in_fast)
+                .add(vEmailButton, R.anim.fade_in_fast)
                 .build();
         animation.run();
     }

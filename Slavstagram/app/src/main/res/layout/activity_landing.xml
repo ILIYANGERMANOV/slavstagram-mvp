@@ -92,7 +92,7 @@
         style="@style/LandingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="100dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="Log In or Sign In with Email"
         android:textAllCaps="false"
