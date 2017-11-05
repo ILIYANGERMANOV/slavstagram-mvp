@@ -27,7 +27,7 @@ import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
 import com.babushka.slav_squad.ui.screens.about.view.AboutActivity;
-import com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity;
+import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;

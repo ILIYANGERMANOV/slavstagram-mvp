@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.login;
+package com.babushka.slav_squad.ui.screens.login;
 
 import android.support.annotation.NonNull;
 

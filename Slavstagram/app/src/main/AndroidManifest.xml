@@ -38,17 +38,17 @@
 
         <!-- Screens -->
         <activity
-            android:name=".ui.screens.landing.landing.view.LandingActivity"
+            android:name=".ui.screens.landing.view.LandingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LandingTheme"/>
 
         <activity
-            android:name=".ui.screens.landing.login.view.LoginActivity"
+            android:name=".ui.screens.login.view.LoginActivity"
             android:label="@string/activity_login"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.screens.landing.register.view.RegisterActivity"
+            android:name=".ui.screens.register.view.RegisterActivity"
             android:label="@string/activity_register"
             android:screenOrientation="portrait"/>
 

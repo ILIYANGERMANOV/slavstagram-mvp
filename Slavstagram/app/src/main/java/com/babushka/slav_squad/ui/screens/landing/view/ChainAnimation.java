@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.landing.view;
+package com.babushka.slav_squad.ui.screens.landing.view;
 
 import android.content.Context;
 import android.support.annotation.AnimRes;

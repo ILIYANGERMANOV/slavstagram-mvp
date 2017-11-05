@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.SessionManager;
-import com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity;
+import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.view.MainActivity;
 import com.babushka.slav_squad.util.Constants;
 

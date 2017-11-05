@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.view;
+package com.babushka.slav_squad.ui.screens.register.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.data.UserDetails;
-import com.babushka.slav_squad.ui.screens.landing.register.RegisterContract;
-import com.babushka.slav_squad.ui.screens.landing.register.model.RegisterModel;
-import com.babushka.slav_squad.ui.screens.landing.register.presenter.RegisterPresenter;
-import com.babushka.slav_squad.ui.screens.landing.register.view.fragment.RegisterFirstStepFragment;
-import com.babushka.slav_squad.ui.screens.landing.register.view.fragment.RegisterSecondStepFragment;
+import com.babushka.slav_squad.ui.screens.register.RegisterContract;
+import com.babushka.slav_squad.ui.screens.register.model.RegisterModel;
+import com.babushka.slav_squad.ui.screens.register.presenter.RegisterPresenter;
+import com.babushka.slav_squad.ui.screens.register.view.fragment.RegisterFirstStepFragment;
+import com.babushka.slav_squad.ui.screens.register.view.fragment.RegisterSecondStepFragment;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.wizard.WizardActionBarActivity;
 

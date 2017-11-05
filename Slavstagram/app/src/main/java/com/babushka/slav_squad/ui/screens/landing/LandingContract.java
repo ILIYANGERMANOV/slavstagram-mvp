@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.landing;
+package com.babushka.slav_squad.ui.screens.landing;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.ui.BasePresenter;
-import com.babushka.slav_squad.ui.screens.landing.LandingView;
 import com.facebook.login.widget.LoginButton;
 
 /**
@@ -19,6 +18,9 @@ public interface LandingContract {
 
         void showToast(@NonNull String message);
 
+        void showVolumeOn();
+
+        void showVolumeOff();
     }
 
     interface Presenter extends BasePresenter {
@@ -33,5 +35,12 @@ public interface LandingContract {
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
+        void playMusic();
+
+        void pauseMusic();
+
+        void volumeOn();
+
+        void volumeOff();
     }
 }

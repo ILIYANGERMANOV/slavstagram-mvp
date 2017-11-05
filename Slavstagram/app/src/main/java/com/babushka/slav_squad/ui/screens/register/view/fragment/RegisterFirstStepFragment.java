@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.view.fragment;
+package com.babushka.slav_squad.ui.screens.register.view.fragment;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.data.UserDetails;
-import com.babushka.slav_squad.ui.screens.landing.register.view.RegisterSupport;
+import com.babushka.slav_squad.ui.screens.register.view.RegisterSupport;
 import com.babushka.slav_squad.ui.wizard.WizardFragment;
 import com.babushka.slav_squad.util.KeyboardUtil;
 

@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.model;
+package com.babushka.slav_squad.ui.screens.register.model;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.persistence.storage.Storage;
-import com.babushka.slav_squad.ui.screens.landing.register.RegisterContract;
+import com.babushka.slav_squad.ui.screens.register.RegisterContract;
 import com.google.firebase.auth.FirebaseUser;
 
 /**

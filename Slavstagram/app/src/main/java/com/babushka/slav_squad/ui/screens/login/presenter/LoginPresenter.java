@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.login.presenter;
+package com.babushka.slav_squad.ui.screens.login.presenter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.screens.landing.LandingModel;
-import com.babushka.slav_squad.ui.screens.landing.login.LoginContract;
+import com.babushka.slav_squad.ui.screens.login.LoginContract;
 import com.google.firebase.auth.FirebaseUser;
 
 /**

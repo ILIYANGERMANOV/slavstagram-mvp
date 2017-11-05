@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="bottom|center_horizontal"
-              android:orientation="vertical"
-              tools:context="com.babushka.slav_squad.ui.screens.landing.landing.view.LandingActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.babushka.slav_squad.ui.screens.landing.view.LandingActivity">
 
+    <ImageButton
+        android:id="@+id/landing_volume_button"
+        style="@style/ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:src="@drawable/ic_volume_on"/>
 
     <TextView
         android:id="@+id/landing_welcome_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_welcome_caption_text_view"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/landing_side_margin"
         android:layout_marginRight="@dimen/landing_side_margin"
@@ -20,18 +30,22 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/black"
         android:textSize="24sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/landing_welcome_caption_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_fb_login_button"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="Please log in or sign in"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/landing_fb_login_invisible_button"
@@ -43,6 +57,8 @@
         android:id="@+id/landing_fb_login_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_google_login_button"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:background="@drawable/fb_button_selector"
         android:drawableLeft="@drawable/ic_fb_logo"
@@ -51,12 +67,15 @@
         android:text="Sign In with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <Button
         android:id="@+id/landing_google_login_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_divider_view"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
         android:background="@drawable/google_button_selector"
         android:drawableLeft="@drawable/ic_google_logo"
@@ -65,37 +84,47 @@
         android:text="Sign In with Google"
         android:textAllCaps="false"
         android:textColor="#686868"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <View
         android:id="@+id/landing_divider_view"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_above="@+id/landing_or_text_view"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:background="#9E9E9E"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/landing_or_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/landing_email_button"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
         android:text="or"
         android:textColor="#757575"
         android:textSize="20sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
     <Button
         android:id="@+id/landing_email_button"
         style="@style/LandingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="Log In or Sign In with Email"
         android:textAllCaps="false"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.presenter;
+package com.babushka.slav_squad.ui.screens.register.presenter;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.session.data.UserDetails;
-import com.babushka.slav_squad.ui.screens.landing.register.RegisterContract;
+import com.babushka.slav_squad.ui.screens.register.RegisterContract;
 import com.google.firebase.auth.FirebaseUser;
 
 /**

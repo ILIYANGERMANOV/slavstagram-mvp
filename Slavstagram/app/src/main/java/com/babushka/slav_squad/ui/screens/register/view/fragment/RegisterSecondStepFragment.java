@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.view.fragment;
+package com.babushka.slav_squad.ui.screens.register.view.fragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,7 +13,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
 import com.babushka.slav_squad.ui.screens.cropping.ProfilePictureCropper;
-import com.babushka.slav_squad.ui.screens.landing.register.view.RegisterSupport;
+import com.babushka.slav_squad.ui.screens.register.view.RegisterSupport;
 import com.babushka.slav_squad.ui.wizard.WizardFragment;
 import com.babushka.slav_squad.util.IntentBuilder;
 import com.yalantis.ucrop.UCrop;

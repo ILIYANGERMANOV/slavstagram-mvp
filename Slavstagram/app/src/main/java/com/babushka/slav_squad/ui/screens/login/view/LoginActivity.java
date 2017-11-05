@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.login.view;
+package com.babushka.slav_squad.ui.screens.login.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
-import com.babushka.slav_squad.ui.screens.landing.login.LoginContract;
-import com.babushka.slav_squad.ui.screens.landing.login.presenter.LoginPresenter;
-import com.babushka.slav_squad.ui.screens.landing.register.view.RegisterActivity;
+import com.babushka.slav_squad.ui.screens.login.LoginContract;
+import com.babushka.slav_squad.ui.screens.login.presenter.LoginPresenter;
+import com.babushka.slav_squad.ui.screens.register.view.RegisterActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 
 import butterknife.BindView;

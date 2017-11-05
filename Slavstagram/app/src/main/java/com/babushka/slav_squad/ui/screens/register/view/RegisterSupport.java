@@ -1,4 +1,4 @@
-package com.babushka.slav_squad.ui.screens.landing.register.view;
+package com.babushka.slav_squad.ui.screens.register.view;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
