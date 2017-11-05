@@ -44,6 +44,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void setupFacebookLogin(@NonNull Activity activity, @NonNull LoginButton fbLoginButton) {
+        //!NOTE: progress dialog is showed internal by the view
         mLoginAdapter = mSessionManager.loginWithFacebook(activity, fbLoginButton,
                 new FacebookLoginCallback() {
                     @Override
@@ -54,6 +55,7 @@ public class LandingPresenter implements LandingContract.Presenter {
                     @Override
                     public void onCancel() {
                         if (mView != null) {
+                            mView.hideProgress();
                             mView.showToast("Facebook signIn canceled");
                         }
                     }
@@ -67,6 +69,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void loginWithGoogle(@NonNull AppCompatActivity activity) {
+        mView.showProgress();
         mLoginAdapter = mSessionManager.loginWithGoogle(activity, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
@@ -87,6 +90,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void loginAsGuest() {
+        mView.showProgress();
         mSessionManager.loginAsGuest(new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
@@ -107,12 +111,14 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     private void handleSuccessfulLogin() {
         if (mView != null) {
+            mView.hideProgress();
             mView.restartApp();
         }
     }
 
     private void handleLoginError(@NonNull String localizedMessage, @Nullable Exception exception) {
         if (mView != null) {
+            mView.hideProgress();
             String message = "unknown error";
             if (exception != null) {
                 message = exception.getMessage();
@@ -152,6 +158,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void onDestroy() {
+        mView.hideProgress();
         mView = null;
         mLoginAdapter = null;
         mPlayer.stop();

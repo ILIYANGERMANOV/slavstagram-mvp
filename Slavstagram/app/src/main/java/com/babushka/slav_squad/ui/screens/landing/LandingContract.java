@@ -21,6 +21,10 @@ public interface LandingContract {
         void showVolumeOn();
 
         void showVolumeOff();
+
+        void showProgress();
+
+        void hideProgress();
     }
 
     interface Presenter extends BasePresenter {

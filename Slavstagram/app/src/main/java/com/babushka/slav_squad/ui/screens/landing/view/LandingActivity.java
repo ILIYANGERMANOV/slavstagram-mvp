@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.landing.LandingContract;
@@ -48,6 +50,9 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     ImageButton vVolumeButton;
 
     private boolean mIsVolumeOn = true;
+
+    @Nullable
+    private MaterialDialog mProgressDialog;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -142,6 +147,8 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @OnClick(R.id.landing_fb_login_button)
     public void onLoginWithFbClick() {
+        //TODO: Refacor this internal call of showProgress(), it's work for the Presenter
+        showProgress();
         vInvisibleFbButton.callOnClick();
     }
 
@@ -190,6 +197,23 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     public void showVolumeOff() {
         vVolumeButton.setImageResource(R.drawable.ic_volume_off);
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title("Logging in")
+                .content("Will take a moment...")
+                .cancelable(false)
+                .progress(true, 0)
+                .show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override
