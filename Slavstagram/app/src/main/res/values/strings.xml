@@ -16,7 +16,7 @@
     <string name="hours_ago">%dh ago</string>
     <string name="days_ago">%dd ago</string>
     <string name="weeks_ago">%dw ago</string>
-    <string name="months_ago">%dm ago</string>
+    <string name="months_ago">%dmo ago</string>
 
     <string name="ok">OK</string>
 
