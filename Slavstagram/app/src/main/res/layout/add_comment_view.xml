@@ -5,7 +5,7 @@
        android:layout_height="wrap_content"
        android:gravity="center_vertical"
        android:orientation="horizontal"
-       tools:parentTag="LinearLayout">
+       tools:parentTag="android.widget.LinearLayout">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/add_comment_author_circle_image_view"

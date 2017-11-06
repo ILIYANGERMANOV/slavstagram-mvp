@@ -1,10 +1,10 @@
 package com.babushka.slav_squad.ui.screens.comments;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.listeners.CommentsListener;
 import com.babushka.slav_squad.persistence.database.model.Comment;
+import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.BaseView;
 
@@ -20,7 +20,7 @@ public interface CommentsContract {
 
         void removeComment(@NonNull Comment comment);
 
-        void setupAddCommentUI(@Nullable String authorImageUrl);
+        void setupAddCommentUI(@NonNull User currentUser);
     }
 
     interface Presenter extends BasePresenter {

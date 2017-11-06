@@ -19,6 +19,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/post_author_circle_image_view"
+            android:padding="2dp"
             android:layout_width="@dimen/profile_pic_size"
             android:layout_height="@dimen/profile_pic_size" />
 

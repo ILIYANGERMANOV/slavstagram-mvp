@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.widget.ScrollView;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.comments.CommentsContract;
 import com.babushka.slav_squad.ui.screens.comments.model.CommentsModel;
@@ -94,8 +94,8 @@ public class CommentsActivity extends BaseActionBarActivity<CommentsContract.Pre
     }
 
     @Override
-    public void setupAddCommentUI(@Nullable String authorImageUrl) {
-        vAddComment.setup(authorImageUrl);
+    public void setupAddCommentUI(@NonNull User currentUser) {
+        vAddComment.setup(currentUser);
     }
 
     @Override

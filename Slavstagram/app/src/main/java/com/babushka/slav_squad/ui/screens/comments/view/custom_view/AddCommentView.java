@@ -16,6 +16,7 @@ import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.listeners.editor.EditorSendListener;
+import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.util.KeyboardUtil;
 
 import butterknife.BindView;
@@ -35,6 +36,7 @@ public class AddCommentView extends LinearLayout {
 
     @Nullable
     private Listener mListener;
+    private User mUser;
 
     public AddCommentView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -56,6 +58,13 @@ public class AddCommentView extends LinearLayout {
 
     public void setListener(@Nullable Listener listener) {
         mListener = listener;
+    }
+
+    @OnClick(R.id.add_comment_author_circle_image_view)
+    public void onProfilePicClick() {
+        if (mUser != null) {
+            ProfileActivity.startScreen(getContext(), mUser);
+        }
     }
 
     @OnClick(R.id.add_comment_send_image_button)
@@ -82,9 +91,10 @@ public class AddCommentView extends LinearLayout {
         KeyboardUtil.hideKeyboard(getContext(), this);
     }
 
-    public void setup(@Nullable String authorImageUrl) {
+    public void setup(@NonNull User user) {
+        mUser = user;
         GlideApp.with(this)
-                .load(authorImageUrl)
+                .load(user.getPhotoUrl())
                 .dontAnimate()
                 .into(vAuthorImage);
     }

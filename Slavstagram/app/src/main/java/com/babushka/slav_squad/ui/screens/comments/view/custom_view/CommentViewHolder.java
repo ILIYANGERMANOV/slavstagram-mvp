@@ -2,6 +2,7 @@ package com.babushka.slav_squad.ui.screens.comments.view.custom_view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,9 +11,11 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
+import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -33,15 +36,26 @@ public class CommentViewHolder extends BaseAdapter.BaseViewHolder<Comment> {
     @BindView(R.id.comment_date_text_view)
     TextView vDateText;
 
+    @Nullable
+    private User mAuthor;
+
     public CommentViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
         mImageLoader = imageLoader;
         mContext = itemView.getContext();
     }
 
+    @OnClick(R.id.comment_author_circle_image_view)
+    public void onProfilePicClick() {
+        if (mAuthor != null) {
+            ProfileActivity.startScreen(mContext, mAuthor);
+        }
+    }
+
     @Override
     public void display(@NonNull Comment comment) {
-        displayAuthor(comment.getAuthor());
+        mAuthor = comment.getAuthor();
+        displayAuthor(mAuthor);
         vCommentText.setText(comment.getText());
         displayCreationDate(comment.getTimestamp());
     }

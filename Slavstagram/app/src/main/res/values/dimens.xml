@@ -22,7 +22,7 @@
     <dimen name="landing_side_margin">32dp</dimen>
 
     <!-- Main -->
-    <dimen name="profile_pic_size">40dp</dimen>
+    <dimen name="profile_pic_size">48dp</dimen>
     <dimen name="posts_divider_height">0.5dp</dimen>
     <dimen name="nav_drawer_margin">16dp</dimen>
     <dimen name="nav_drawer_margin_half">8dp</dimen>
