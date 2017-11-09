@@ -1,5 +1,6 @@
 package com.babushka.slav_squad.ui;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
  */
 
 public abstract class BaseActionBarActivity<P extends BasePresenter> extends BaseActivity<P> {
+    @CallSuper
     @Override
     protected void onSetupUI() {
         super.onSetupUI();
@@ -26,6 +28,7 @@ public abstract class BaseActionBarActivity<P extends BasePresenter> extends Bas
         }
     }
 
+    @CallSuper
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

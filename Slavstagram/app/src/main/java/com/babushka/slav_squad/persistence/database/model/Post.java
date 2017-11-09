@@ -29,7 +29,7 @@ public class Post implements Findable {
     @PropertyName(value = Table.Post.LIKES_COUNT)
     private int mLikesCount;
     @PropertyName(value = Table.Post.LIKES)
-    private Map<String, Boolean> mLikes;
+    private Map<String, User> mLikes;
     @PropertyName(value = Table.Post.COMMENTS_COUNT)
     private int mCommentsCount;
     @PropertyName(value = Table.Post.TIMESTAMP)
@@ -111,11 +111,11 @@ public class Post implements Findable {
 
     @Nullable
     @PropertyName(value = Table.Post.LIKES)
-    public Map<String, Boolean> getLikes() {
+    public Map<String, User> getLikes() {
         return mLikes;
     }
 
-    public void setLikes(Map<String, Boolean> likes) {
+    public void setLikes(Map<String, User> likes) {
         mLikes = likes;
     }
 

@@ -69,6 +69,12 @@
             android:name=".ui.screens.comments.view.CommentsActivity"
             android:label="@string/activity_comments"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.screens.likes.view.LikesActivity"
+            android:label="@string/activity_likes"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.screens.image_preview.ImagePreviewActivity"
             android:label="@string/activity_image_preview"
@@ -113,9 +119,9 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
             android:theme="@style/FullyTranslucent"
-            tools:replace="android:theme"
-            android:label="@string/app_name"/>
+            tools:replace="android:theme"/>
 
         <activity
             android:name="com.facebook.CustomTabActivity"

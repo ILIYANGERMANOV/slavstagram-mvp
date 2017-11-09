@@ -101,7 +101,7 @@ public class Database {
         commentsOnPostRef.setValue(null);
     }
 
-    public void toggleLike(@NonNull Post post, @NonNull String userId) {
+    public void toggleLike(@NonNull Post post, @NonNull User user) {
         String postId = post.getUid();
         String authorId = post.getAuthor().getUid();
 
@@ -111,12 +111,12 @@ public class Database {
                 .child(authorId)
                 .child(postId);
 
-        postRef.runTransaction(buildLikeToggleHandler(userId));
-        userPostRef.runTransaction(buildLikeToggleHandler(userId));
+        postRef.runTransaction(buildLikeToggleHandler(user));
+        userPostRef.runTransaction(buildLikeToggleHandler(user));
     }
 
     @NonNull
-    private Transaction.Handler buildLikeToggleHandler(@NonNull final String userId) {
+    private Transaction.Handler buildLikeToggleHandler(@NonNull final User user) {
         return new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -124,12 +124,14 @@ public class Database {
                 if (post == null) {
                     return Transaction.success(mutableData);
                 }
-                Map<String, Boolean> likes = post.getLikes();
+                Map<String, User> likes = post.getLikes();
                 if (likes == null) {
                     //secure that likes are initialized
                     likes = new HashMap<>();
                     post.setLikes(likes);
                 }
+
+                String userId = user.getUid();
                 if (likes.containsKey(userId)) {
                     //User has liked this post, unlike it
                     post.setLikesCount(post.getLikesCount() - 1);
@@ -137,7 +139,7 @@ public class Database {
                 } else {
                     //User has NOT like this post, like it
                     post.setLikesCount(post.getLikesCount() + 1);
-                    likes.put(userId, true);
+                    likes.put(userId, user);
                 }
 
                 mutableData.setValue(post);

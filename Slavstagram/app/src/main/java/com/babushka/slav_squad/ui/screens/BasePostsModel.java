@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.persistence.database.model.User;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.Map;
@@ -48,13 +49,13 @@ public class BasePostsModel {
     }
 
     private void setPostLiked(@NonNull Post post) {
-        Map<String, Boolean> likes = post.getLikes();
+        Map<String, User> likes = post.getLikes();
         if (likes != null) {
             iterateLikes(post, likes);
         }
     }
 
-    private void iterateLikes(@NonNull Post post, @NonNull Map<String, Boolean> likes) {
+    private void iterateLikes(@NonNull Post post, @NonNull Map<String, User> likes) {
         for (String likedUserId : likes.keySet()) {
             if (likedUserId.equals(mUserId)) {
                 post.setLiked(true);

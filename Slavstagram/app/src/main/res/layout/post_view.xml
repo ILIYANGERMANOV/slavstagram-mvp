@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:parentTag="LinearLayout">
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       tools:parentTag="LinearLayout">
 
     <LinearLayout
         android:id="@+id/post_author_layout"
@@ -19,9 +19,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/post_author_circle_image_view"
-            android:padding="2dp"
             android:layout_width="@dimen/profile_pic_size"
-            android:layout_height="@dimen/profile_pic_size" />
+            android:layout_height="@dimen/profile_pic_size"
+            android:padding="2dp"/>
 
         <TextView
             android:id="@+id/post_author_name_text_view"
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:gravity="center|left"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="Boris" />
+            tools:text="Boris"/>
 
         <TextView
             android:id="@+id/post_date_text_view"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            tools:text="2m" />
+            tools:text="2m"/>
 
     </LinearLayout>
 
@@ -48,7 +48,7 @@
         android:id="@+id/post_main_image_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,20 +57,12 @@
         android:layout_marginRight="@dimen/post_margin_small"
         android:layout_marginTop="4dp">
 
-        <View
-            android:id="@+id/post_like_click_area"
-            android:layout_width="@dimen/min_clickable_area"
-            android:layout_height="@dimen/min_clickable_area"
-            android:layout_alignLeft="@+id/post_like_image_button"
-            android:layout_alignRight="@+id/post_likes_count_text_view" />
-
-
         <TextView
             android:id="@+id/post_likes_count_text_view"
             style="@style/PostNumberTextStyle"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/post_like_image_button"
-            tools:text="120" />
+            tools:text="12"/>
 
 
         <ImageButton
@@ -78,21 +70,36 @@
             style="@style/PostImageButton"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_like" />
+            app:srcCompat="@drawable/ic_like"/>
+
+        <View
+            android:id="@+id/post_like_click_area"
+            android:layout_width="@dimen/min_clickable_area"
+            android:layout_height="@dimen/min_clickable_area"
+            android:elevation="6dp"
+            android:layout_alignLeft="@+id/post_like_image_button"
+            android:layout_alignRight="@+id/post_like_image_button"/>
+
+        <View
+            android:id="@+id/post_likes_count_click_area"
+            android:layout_width="@dimen/min_clickable_area"
+            android:layout_height="@dimen/min_clickable_area"
+            android:elevation="6dp"
+            android:layout_toRightOf="@+id/post_like_image_button"/>
 
         <View
             android:id="@+id/post_comment_click_area"
             android:layout_width="@dimen/min_clickable_area"
             android:layout_height="@dimen/min_clickable_area"
             android:layout_alignLeft="@+id/post_comment_image_button"
-            android:layout_alignRight="@+id/post_comment_count_text_view" />
+            android:layout_alignRight="@+id/post_comment_count_text_view"/>
 
         <TextView
             android:id="@+id/post_comment_count_text_view"
             style="@style/PostNumberTextStyle"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/post_comment_image_button"
-            tools:text="8" />
+            tools:text="8"/>
 
         <ImageButton
             android:id="@+id/post_comment_image_button"
@@ -100,14 +107,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/post_margin_small"
             android:layout_toRightOf="@+id/post_likes_count_text_view"
-            app:srcCompat="@drawable/ic_comment" />
+            app:srcCompat="@drawable/ic_comment"/>
 
         <View
             android:id="@+id/post_share_click_area"
             android:layout_width="@dimen/min_clickable_area"
             android:layout_height="@dimen/min_clickable_area"
             android:layout_marginRight="@dimen/post_margin_small"
-            android:layout_toLeftOf="@+id/post_download_image_button" />
+            android:layout_toLeftOf="@+id/post_download_image_button"/>
 
         <ImageButton
             android:id="@+id/post_share_image_button"
@@ -115,20 +122,20 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/post_margin_small"
             android:layout_toLeftOf="@+id/post_download_image_button"
-            app:srcCompat="@drawable/ic_share" />
+            app:srcCompat="@drawable/ic_share"/>
 
         <View
             android:id="@+id/post_download_click_area"
             android:layout_width="@dimen/min_clickable_area"
             android:layout_height="@dimen/min_clickable_area"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"/>
 
         <ImageButton
             android:id="@+id/post_download_image_button"
             style="@style/PostImageButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_download" />
+            app:srcCompat="@drawable/ic_download"/>
 
     </RelativeLayout>
 
@@ -142,6 +149,6 @@
         android:layout_marginTop="@dimen/post_margin_small"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textSize="16sp"
-        tools:text="Slav level - Putin" />
+        tools:text="Slav level - Putin"/>
 
 </merge>

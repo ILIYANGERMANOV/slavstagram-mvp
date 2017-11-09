@@ -24,11 +24,11 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
+import com.babushka.slav_squad.ui.screens.likes.view.LikesActivity;
 import com.babushka.slav_squad.ui.screens.preview_post.view.PreviewPostActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 import com.babushka.slav_squad.util.IntentBuilder;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -216,7 +216,7 @@ public class PostView extends LinearLayout {
 
 
     @OnClick({R.id.post_like_image_button, R.id.post_like_click_area})
-    public void onLikeClicked() {
+    public void onLikeClick() {
         if (mPost != null) {
             if (mPost.isLiked()) {
                 //post is liked, unlike it
@@ -244,8 +244,15 @@ public class PostView extends LinearLayout {
 
     private void setPostLikedState(@NonNull Post post, boolean liked) {
         post.setLiked(liked);
-        FirebaseUser user = SessionManager.getInstance().getCurrentFirebaseUser();
-        Database.getInstance().toggleLike(post, user.getUid());
+        User user = SessionManager.getInstance().getCurrentUser();
+        Database.getInstance().toggleLike(post, user);
+    }
+
+    @OnClick({R.id.post_likes_count_text_view, R.id.post_likes_count_click_area})
+    public void onLikesCountClick() {
+        if (mPost != null) {
+            LikesActivity.startScreen(getContext(), mPost);
+        }
     }
 
     @OnClick({R.id.post_comment_image_button, R.id.post_comment_click_area})
@@ -256,7 +263,7 @@ public class PostView extends LinearLayout {
     }
 
     @OnClick({R.id.post_share_image_button, R.id.post_share_click_area})
-    public void onShareClicked() {
+    public void onShareClick() {
         if (mPost != null) {
             Context context = getContext();
             String imageUrl = mPost.getImage().getImageUrl();
@@ -266,14 +273,14 @@ public class PostView extends LinearLayout {
     }
 
     @OnClick({R.id.post_download_image_button, R.id.post_download_click_area})
-    public void onDownloadClicked() {
+    public void onDownloadClick() {
         if (mPost != null) {
             EventBus.getDefault().post(new DownloadPostEvent(mPost.getImage().getImageUrl()));
         }
     }
 
     @OnClick(R.id.post_author_layout)
-    public void onAuthorLayoutClicked() {
+    public void onAuthorLayoutClick() {
         if (mPost != null) {
             User author = mPost.getAuthor();
             ProfileActivity.startScreen(getContext(), author);
