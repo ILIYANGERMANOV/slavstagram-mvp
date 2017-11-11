@@ -40,18 +40,22 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(@NonNull LoginDetails loginDetails) {
+        mView.showProgress();
         SessionManager.getInstance().loginWithEmailAndPassword(loginDetails, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
                 mModel.saveUser(user);
                 if (mView != null) {
+                    mView.hideProgress();
                     mView.restartApp();
                 }
             }
 
             @Override
             public void onError(@Nullable Exception exception) {
-                if (exception != null && mView != null) {
+                if (mView != null)
+                    mView.hideProgress();
+                if (exception != null) {
                     mView.showToast(exception.getMessage());
                 }
             }
@@ -65,6 +69,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void onDestroy() {
+        mView.hideProgress();
         mView = null;
     }
 }

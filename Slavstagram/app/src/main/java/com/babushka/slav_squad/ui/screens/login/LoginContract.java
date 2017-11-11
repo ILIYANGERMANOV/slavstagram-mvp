@@ -19,6 +19,10 @@ public interface LoginContract {
         void startRegisterScreen();
 
         void showToast(@NonNull String message);
+
+        void showProgress();
+
+        void hideProgress();
     }
 
     interface Presenter extends BasePresenter {

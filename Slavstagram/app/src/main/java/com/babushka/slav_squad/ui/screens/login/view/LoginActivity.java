@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.data.LoginDetails;
@@ -41,6 +43,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     Button vLoginButton;
     @BindView(R.id.login_register_button)
     Button vRegisterButton;
+
+    @Nullable
+    private MaterialDialog mProgressDialog;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -154,5 +159,22 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     @Override
     public void showToast(@NonNull String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .title("Logging in")
+                .content("Will take a moment...")
+                .cancelable(false)
+                .progress(true, 0)
+                .show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 }
