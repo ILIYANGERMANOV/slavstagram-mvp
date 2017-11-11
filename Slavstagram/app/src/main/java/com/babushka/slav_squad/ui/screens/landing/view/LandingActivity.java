@@ -147,7 +147,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @OnClick(R.id.landing_fb_login_button)
     public void onLoginWithFbClick() {
-        //TODO: Refacor this internal call of showProgress(), it's work for the Presenter
+        //TODO: Refatcor this internal call of showProgress(), it's work for the Presenter
         showProgress();
         vInvisibleFbButton.callOnClick();
     }

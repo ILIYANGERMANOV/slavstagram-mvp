@@ -70,7 +70,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void initMusic() {
-        mIsPlayingMusic = mMusicPlayer.isLoaded();
+        mIsPlayingMusic = mMusicPlayer.isVolumeOn();
+        mMusicPlayer.volumeOn();
         if (mIsPlayingMusic) {
             playMusic();
         } else {

@@ -29,6 +29,7 @@ public class MusicPlayer {
     public void loadRepeatable(@RawRes int music) {
         release();
         mPlayer = newMediaRepeatablePlayer(music);
+        mIsVolumeOn = true;
     }
 
     @NonNull
@@ -49,7 +50,8 @@ public class MusicPlayer {
     }
 
     public boolean isPlaying() {
-        return mPlayer != null && mPlayer.isPlaying();
+        return mPlayer != null && mPlayer.isPlaying()
+                && mIsVolumeOn;
     }
 
     public boolean isVolumeOn() {
