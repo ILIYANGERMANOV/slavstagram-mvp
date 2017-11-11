@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,13 +46,11 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     TextView vOrText;
     @BindView(R.id.landing_email_button)
     Button vEmailButton;
-    @BindView(R.id.landing_volume_button)
-    ImageButton vVolumeButton;
-
-    private boolean mIsVolumeOn = true;
 
     @Nullable
     private MaterialDialog mProgressDialog;
+
+    private boolean mIsLoading = false;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -127,7 +124,20 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.playMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!mIsLoading) {
+            mPresenter.pauseMusic();
+        }
     }
 
     @OnClick(R.id.landing_google_login_button)
@@ -145,18 +155,6 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @OnClick(R.id.landing_email_button)
     public void onRegisterClick() {
         mPresenter.handleEmailClick();
-    }
-
-    @OnClick(R.id.landing_volume_button)
-    public void onVolumeButtonClick() {
-        if (mIsVolumeOn) {
-            //volume is ON, turn in off
-            mPresenter.volumeOff();
-        } else {
-            //volume is OFF, turn it on
-            mPresenter.volumeOn();
-        }
-        mIsVolumeOn = !mIsVolumeOn;
     }
 
 //    @OnClick(R.id.landing_skip_button)
@@ -180,17 +178,8 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     }
 
     @Override
-    public void showVolumeOn() {
-        vVolumeButton.setImageResource(R.drawable.ic_volume_on);
-    }
-
-    @Override
-    public void showVolumeOff() {
-        vVolumeButton.setImageResource(R.drawable.ic_volume_off);
-    }
-
-    @Override
     public void showProgress() {
+        mIsLoading = true;
         mProgressDialog = new MaterialDialog.Builder(this)
                 .title("Logging in")
                 .content("Will take a moment...")
@@ -201,6 +190,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @Override
     public void hideProgress() {
+        mIsLoading = false;
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }

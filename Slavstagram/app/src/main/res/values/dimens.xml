@@ -21,6 +21,9 @@
     <dimen name="landing_fb_button_side_margin">37dp</dimen>
     <dimen name="landing_side_margin">32dp</dimen>
 
+    <!-- Login -->
+    <dimen name="login_input_side_margin">80dp</dimen>
+
     <!-- Main -->
     <dimen name="profile_pic_size">48dp</dimen>
     <dimen name="posts_divider_height">0.5dp</dimen>

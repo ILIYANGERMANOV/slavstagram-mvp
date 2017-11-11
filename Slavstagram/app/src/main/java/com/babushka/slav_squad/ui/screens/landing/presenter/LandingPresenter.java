@@ -144,18 +144,6 @@ public class LandingPresenter implements LandingContract.Presenter {
     }
 
     @Override
-    public void volumeOn() {
-        mPlayer.volumeOn();
-        mView.showVolumeOn();
-    }
-
-    @Override
-    public void volumeOff() {
-        mPlayer.volumeOff();
-        mView.showVolumeOff();
-    }
-
-    @Override
     public void onDestroy() {
         mView.hideProgress();
         mView = null;

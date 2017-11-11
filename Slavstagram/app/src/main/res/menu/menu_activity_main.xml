@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--<item-->
     <!--android:id="@+id/action_logout"-->
@@ -8,8 +9,8 @@
     <!--app:showAsAction="never"/>-->
 
     <!--<item-->
-    <!--android:id="@+id/action_profile"-->
-    <!--android:icon="@drawable/ic_account_black_24dp"-->
-    <!--android:title="Profile"-->
-    <!--app:showAsAction="ifRoom"/>-->
+        <!--android:id="@+id/action_toggle_music"-->
+        <!--android:icon="@drawable/ic_volume_on"-->
+        <!--android:title="music"-->
+        <!--app:showAsAction="ifRoom"/>-->
 </menu>

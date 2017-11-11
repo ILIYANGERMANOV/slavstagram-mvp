@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 tools:context="com.babushka.slav_squad.ui.screens.landing.view.LandingActivity">
 
-    <ImageButton
+    <com.babushka.slav_squad.ui.custom_view.VolumeButton
         android:id="@+id/landing_volume_button"
         style="@style/ImageButton"
         android:layout_width="wrap_content"
@@ -13,8 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:src="@drawable/ic_volume_on"/>
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     <TextView
         android:id="@+id/landing_welcome_text_view"

@@ -14,11 +14,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
@@ -73,6 +76,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Nullable
     private MaterialDialog mProgressDialog;
+    private Menu mMenu;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -163,6 +167,26 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     protected void onSetupFinished() {
         mPresenter.displayAllPostsInRealTime();
         mPresenter.displayUserProfile();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApp.getMusicPlayer().play();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApp.getMusicPlayer().pause();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_main, menu);
+        return true;
     }
 
     @NonNull

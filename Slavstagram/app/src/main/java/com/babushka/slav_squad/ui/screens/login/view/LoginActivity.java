@@ -2,16 +2,20 @@ package com.babushka.slav_squad.ui.screens.login.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.data.LoginDetails;
-import com.babushka.slav_squad.ui.BaseActionBarActivity;
+import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.login.LoginContract;
@@ -26,7 +30,7 @@ import butterknife.OnClick;
  * Created by iliyan on 13.06.17.
  */
 
-public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter>
+public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         implements LoginContract.View {
 
     @BindView(R.id.login_email_edit_text)
@@ -35,6 +39,8 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
     EditText vPasswordInput;
     @BindView(R.id.login_login_button)
     Button vLoginButton;
+    @BindView(R.id.login_register_button)
+    Button vRegisterButton;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -84,6 +90,21 @@ public class LoginActivity extends BaseActionBarActivity<LoginContract.Presenter
                 return false;
             }
         });
+        Spanned htmlLabel = Html.fromHtml("Don't have an account? <b> Register </b>");
+        vRegisterButton.setText(htmlLabel);
+        vRegisterButton.setPaintFlags(vRegisterButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApp.getMusicPlayer().play();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApp.getMusicPlayer().pause();
     }
 
     @OnClick(R.id.login_login_button)

@@ -18,10 +18,6 @@ public interface LandingContract {
 
         void showToast(@NonNull String message);
 
-        void showVolumeOn();
-
-        void showVolumeOff();
-
         void showProgress();
 
         void hideProgress();
@@ -42,9 +38,5 @@ public interface LandingContract {
         void playMusic();
 
         void pauseMusic();
-
-        void volumeOn();
-
-        void volumeOff();
     }
 }

@@ -19,8 +19,11 @@ public class MusicPlayer {
     @Nullable
     private MediaPlayer mPlayer;
 
+    private boolean mIsVolumeOn;
+
     public MusicPlayer(@NonNull Application application) {
         mApplication = application;
+        mIsVolumeOn = true;
     }
 
     public void load(@RawRes int music) {
@@ -41,6 +44,14 @@ public class MusicPlayer {
         return mediaPlayer;
     }
 
+    public boolean isPlaying() {
+        return mPlayer != null && mPlayer.isPlaying();
+    }
+
+    public boolean isVolumeOn() {
+        return mIsVolumeOn;
+    }
+
     public void play() {
         if (mPlayer != null) {
             mPlayer.start();
@@ -57,12 +68,14 @@ public class MusicPlayer {
         if (mPlayer != null) {
             mPlayer.setVolume(MAX_VOLUME, MAX_VOLUME);
         }
+        mIsVolumeOn = true;
     }
 
     public void volumeOff() {
         if (mPlayer != null) {
             mPlayer.setVolume(NO_VOLUME, NO_VOLUME);
         }
+        mIsVolumeOn = false;
     }
 
     public void release() {

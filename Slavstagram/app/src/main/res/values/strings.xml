@@ -2,7 +2,6 @@
     <string name="facebook_app_id">687789921416963</string>
     <string name="fb_login_protocol_scheme">fb687789921416963</string>
 
-    <string name="activity_login">Login</string>
     <string name="activity_register">Register</string>
     <string name="activity_profile">My Profile</string>
     <string name="activity_upload_post">Upload post</string>
