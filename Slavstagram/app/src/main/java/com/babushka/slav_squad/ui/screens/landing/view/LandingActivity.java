@@ -52,6 +52,9 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     private boolean mIsLoading = false;
 
+    //TODO: Refactor this ugly shit
+    public static boolean sWasLanding = false;
+
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
         context.startActivity(intent);
@@ -124,6 +127,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
+        sWasLanding = true;
     }
 
     @Override

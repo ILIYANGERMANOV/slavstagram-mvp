@@ -9,6 +9,7 @@ import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
+import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,7 +71,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void initMusic() {
-        mIsPlayingMusic = mMusicPlayer.isVolumeOn();
+        mIsPlayingMusic = mMusicPlayer.isVolumeOn() &&
+                LandingActivity.sWasLanding;
         mMusicPlayer.volumeOn();
         if (mIsPlayingMusic) {
             playMusic();
