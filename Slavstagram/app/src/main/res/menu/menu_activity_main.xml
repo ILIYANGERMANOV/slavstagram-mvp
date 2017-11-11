@@ -8,9 +8,9 @@
     <!--android:title="Logout"-->
     <!--app:showAsAction="never"/>-->
 
-    <!--<item-->
-        <!--android:id="@+id/action_toggle_music"-->
-        <!--android:icon="@drawable/ic_volume_on"-->
-        <!--android:title="music"-->
-        <!--app:showAsAction="ifRoom"/>-->
+    <item
+        android:id="@+id/action_toggle_music"
+        android:icon="@drawable/ic_volume_on"
+        android:title="music"
+        app:showAsAction="ifRoom"/>
 </menu>

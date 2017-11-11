@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -172,13 +174,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     protected void onResume() {
         super.onResume();
-        MyApp.getMusicPlayer().play();
+        mPresenter.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MyApp.getMusicPlayer().pause();
+        mPresenter.onPause();
     }
 
     @Override
@@ -186,7 +188,18 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         mMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_main, menu);
+        mPresenter.initMusic();
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_toggle_music:
+                mPresenter.toggleMusic();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @NonNull
@@ -194,7 +207,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     protected MainContract.Presenter initializePresenter() {
         SessionManager sessionManager = SessionManager.getInstance();
         FirebaseUser user = sessionManager.getCurrentFirebaseUser();
-        return new MainPresenter(this, new MainModel(this, user), sessionManager);
+        return new MainPresenter(this, new MainModel(this, user),
+                sessionManager, MyApp.getMusicPlayer());
     }
 
     @OnClick(R.id.main_add_post_fab)
@@ -324,6 +338,23 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     public void startSplashScreenAsEntry() {
         SplashActivity.startScreenAsEntryPoint(MainActivity.this);
+    }
+
+    @Override
+    public void showMusicPlaying() {
+        setMusicMenuIcon(R.drawable.ic_volume_on);
+    }
+
+    @Override
+    public void showMusicStopped() {
+        setMusicMenuIcon(R.drawable.ic_volume_off);
+    }
+
+    private void setMusicMenuIcon(@DrawableRes int menuIcon) {
+        if (mMenu != null) {
+            MenuItem item = mMenu.findItem(R.id.action_toggle_music);
+            item.setIcon(menuIcon);
+        }
     }
 
     @Override

@@ -26,13 +26,13 @@ public class MusicPlayer {
         mIsVolumeOn = true;
     }
 
-    public void load(@RawRes int music) {
+    public void loadRepeatable(@RawRes int music) {
         release();
-        mPlayer = newMediaPlayer(music);
+        mPlayer = newMediaRepeatablePlayer(music);
     }
 
     @NonNull
-    private MediaPlayer newMediaPlayer(@RawRes int music) {
+    private MediaPlayer newMediaRepeatablePlayer(@RawRes int music) {
         //TODO: Optimize method to use one MediaPlayer instance
         MediaPlayer mediaPlayer = MediaPlayer.create(mApplication, music);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -42,6 +42,10 @@ public class MusicPlayer {
             }
         });
         return mediaPlayer;
+    }
+
+    public boolean isLoaded() {
+        return mPlayer != null;
     }
 
     public boolean isPlaying() {
@@ -67,15 +71,15 @@ public class MusicPlayer {
     public void volumeOn() {
         if (mPlayer != null) {
             mPlayer.setVolume(MAX_VOLUME, MAX_VOLUME);
+            mIsVolumeOn = true;
         }
-        mIsVolumeOn = true;
     }
 
     public void volumeOff() {
         if (mPlayer != null) {
             mPlayer.setVolume(NO_VOLUME, NO_VOLUME);
+            mIsVolumeOn = false;
         }
-        mIsVolumeOn = false;
     }
 
     public void release() {

@@ -3,6 +3,8 @@ package com.babushka.slav_squad.ui.screens.main.presenter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.babushka.slav_squad.MusicPlayer;
+import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
@@ -24,15 +26,19 @@ public class MainPresenter implements MainContract.Presenter {
     private final MainContract.Model mModel;
     @NonNull
     private final SessionManager mSessionManager;
+    @NonNull
+    private final MusicPlayer mMusicPlayer;
     private MainContract.View mView;
     @Nullable
     private DefaultDisplayPostsListener mPostsListener;
+    private boolean mIsPlayingMusic;
 
     public MainPresenter(@NonNull MainContract.View view, @NonNull MainContract.Model model,
-                         @NonNull SessionManager sessionManager) {
+                         @NonNull SessionManager sessionManager, @NonNull MusicPlayer musicPlayer) {
         mView = view;
         mModel = model;
         mSessionManager = sessionManager;
+        mMusicPlayer = musicPlayer;
         EventBus.getDefault().register(this);
     }
 
@@ -60,6 +66,51 @@ public class MainPresenter implements MainContract.Presenter {
         if (photoUrl != null) {
             mView.displayUserProfilePicture(photoUrl);
         }
+    }
+
+    @Override
+    public void initMusic() {
+        mIsPlayingMusic = mMusicPlayer.isLoaded();
+        if (mIsPlayingMusic) {
+            playMusic();
+        } else {
+            pauseMusic();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        if (mIsPlayingMusic) {
+            playMusic();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        pauseMusic();
+    }
+
+    @Override
+    public void toggleMusic() {
+        if (mIsPlayingMusic) {
+            pauseMusic();
+        } else {
+            playMusic();
+        }
+        mIsPlayingMusic = !mIsPlayingMusic;
+    }
+
+    private void pauseMusic() {
+        mMusicPlayer.pause();
+        mView.showMusicStopped();
+    }
+
+    private void playMusic() {
+        if (!mMusicPlayer.isLoaded()) {
+            mMusicPlayer.loadRepeatable(R.raw.hardbass_mix);
+        }
+        mMusicPlayer.play();
+        mView.showMusicPlaying();
     }
 
     @Override

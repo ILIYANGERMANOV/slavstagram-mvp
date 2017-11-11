@@ -39,12 +39,24 @@ public interface MainContract {
         void fireShareIntent(@NonNull String textToShare);
 
         void startSplashScreenAsEntry();
+
+        void showMusicPlaying();
+
+        void showMusicStopped();
     }
 
     interface Presenter extends BasePresenter {
         void displayAllPostsInRealTime();
 
         void displayUserProfile();
+
+        void initMusic();
+
+        void onResume();
+
+        void onPause();
+
+        void toggleMusic();
 
         void downloadPost(@NonNull String imageUrl);
 

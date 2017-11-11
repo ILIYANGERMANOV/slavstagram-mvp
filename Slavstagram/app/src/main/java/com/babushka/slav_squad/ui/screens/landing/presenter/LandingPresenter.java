@@ -38,7 +38,7 @@ public class LandingPresenter implements LandingContract.Presenter {
         mModel = model;
         mSessionManager = SessionManager.getInstance();
         mPlayer = musicPlayer;
-        musicPlayer.load(R.raw.landing_music);
+        musicPlayer.loadRepeatable(R.raw.landing_mix);
     }
 
     @Override
