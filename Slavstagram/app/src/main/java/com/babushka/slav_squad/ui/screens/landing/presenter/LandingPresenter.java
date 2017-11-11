@@ -2,11 +2,12 @@ package com.babushka.slav_squad.ui.screens.landing.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.babushka.slav_squad.MusicPlayer;
+import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.FacebookLoginCallback;
 import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.LoginAdapter;
@@ -21,25 +22,23 @@ import com.google.firebase.auth.FirebaseUser;
  */
 
 public class LandingPresenter implements LandingContract.Presenter {
-    public static final float NO_VULUME = 0.0f;
-    public static final float MAX_VOLUME = 1.0f;
     @NonNull
     private final SessionManager mSessionManager;
     @NonNull
     private final LandingModel mModel;
-    private final MediaPlayer mPlayer;
+    private final MusicPlayer mPlayer;
     private LandingContract.View mView;
     @Nullable
     private LoginAdapter mLoginAdapter;
 
 
     public LandingPresenter(@NonNull LandingContract.View view, @NonNull LandingModel model,
-                            @NonNull MediaPlayer mediaPlayer) {
+                            @NonNull MusicPlayer musicPlayer) {
         mView = view;
         mModel = model;
         mSessionManager = SessionManager.getInstance();
-        mPlayer = mediaPlayer;
-        playMusic();
+        mPlayer = musicPlayer;
+        musicPlayer.load(R.raw.landing_music);
     }
 
     @Override
@@ -136,7 +135,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void playMusic() {
-        mPlayer.start();
+        mPlayer.play();
     }
 
     @Override
@@ -146,13 +145,13 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void volumeOn() {
-        mPlayer.setVolume(MAX_VOLUME, MAX_VOLUME);
+        mPlayer.volumeOn();
         mView.showVolumeOn();
     }
 
     @Override
     public void volumeOff() {
-        mPlayer.setVolume(NO_VULUME, NO_VULUME);
+        mPlayer.volumeOff();
         mView.showVolumeOff();
     }
 
@@ -161,7 +160,5 @@ public class LandingPresenter implements LandingContract.Presenter {
         mView.hideProgress();
         mView = null;
         mLoginAdapter = null;
-        mPlayer.stop();
-        mPlayer.release();
     }
 }

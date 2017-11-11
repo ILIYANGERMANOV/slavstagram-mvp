@@ -146,8 +146,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.nav_drawer_logout_layout)
     public void onNavDrawerLogoutClick() {
-        mPresenter.handleLogoutClick();
         closeNavDrawer(false);
+        mPresenter.handleLogoutClick();
     }
 
     private void closeNavDrawer(boolean animate) {

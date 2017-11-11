@@ -3,7 +3,6 @@ package com.babushka.slav_squad.ui.screens.landing.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.babushka.slav_squad.MusicPlayer;
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.screens.landing.LandingContract;
@@ -67,8 +68,8 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @NonNull
     @Override
     protected LandingContract.Presenter initializePresenter() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.landing_music);
-        return new LandingPresenter(this, new LandingModelImpl(), mediaPlayer);
+        MusicPlayer musicPlayer = MyApp.getMusicPlayer();
+        return new LandingPresenter(this, new LandingModelImpl(), musicPlayer);
     }
 
     @Override
@@ -126,18 +127,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         mPresenter.playMusic();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.pauseMusic();
     }
 
     @OnClick(R.id.landing_google_login_button)
