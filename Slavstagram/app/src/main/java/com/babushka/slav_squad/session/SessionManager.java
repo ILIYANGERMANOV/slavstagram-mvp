@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -67,6 +68,12 @@ public class SessionManager {
                             @Override
                             public void onResolveError(@Nullable Exception error) {
                                 logoutFacebook();
+                                if (error instanceof FirebaseAuthUserCollisionException) {
+                                    String message = "Email already associated with Google, login with Google instead!";
+                                    loginCallback.onError(new RuntimeException(message));
+                                } else {
+                                    loginCallback.onError(error);
+                                }
                             }
                         }));
             }
@@ -196,8 +203,9 @@ public class SessionManager {
                 }
                 if (mErrorResolution != null) {
                     mErrorResolution.onResolveError(exception);
+                } else {
+                    mLoginCallback.onError(exception);
                 }
-                mLoginCallback.onError(exception);
             }
         }
     }
