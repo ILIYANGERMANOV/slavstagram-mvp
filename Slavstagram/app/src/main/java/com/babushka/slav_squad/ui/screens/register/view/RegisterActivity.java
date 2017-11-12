@@ -2,14 +2,14 @@ package com.babushka.slav_squad.ui.screens.register.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.session.data.UserDetails;
+import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.screens.register.RegisterContract;
 import com.babushka.slav_squad.ui.screens.register.model.RegisterModel;
 import com.babushka.slav_squad.ui.screens.register.presenter.RegisterPresenter;
@@ -55,6 +55,18 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MyApp.getMusicPlayer().play();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApp.getMusicPlayer().pause();
+    }
+
+    @Override
     public void showFirstStep() {
         changeFragment(RegisterFirstStepFragment.newInstance(), false);
     }
@@ -93,12 +105,12 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
     }
 
     @Override
-    public void onUserDetailsEntered(@NonNull UserDetails userDetails) {
-        mPresenter.handleUserDetailsEntered(userDetails);
+    public void onFirstStepCompleted(@NonNull LoginDetails loginDetails) {
+        mPresenter.handleFirstStepCompleted(loginDetails);
     }
 
     @Override
-    public void onProfilePhotoSelected(@Nullable Uri photoUri) {
-        mPresenter.handleProfilePhotoSelected(photoUri);
+    public void onSecondStepCompleted(@NonNull RegisterSecondStepFragment.Input input) {
+        mPresenter.handleSecondStepCompleted(input);
     }
 }

@@ -8,14 +8,11 @@ import android.text.TextUtils;
  */
 
 public class UserDetails extends LoginDetails {
-    @NonNull
-    private final String mDisplayName;
+    private String mDisplayName;
     private String mPhotoUrl;
 
-    public UserDetails(@NonNull String email, @NonNull String password,
-                       @NonNull String displayName) {
+    public UserDetails(@NonNull String email, @NonNull String password) {
         super(email, password);
-        mDisplayName = displayName;
     }
 
     public String getPhotoUrl() {
@@ -34,5 +31,9 @@ public class UserDetails extends LoginDetails {
     @NonNull
     public String getDisplayName() {
         return mDisplayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        mDisplayName = displayName;
     }
 }

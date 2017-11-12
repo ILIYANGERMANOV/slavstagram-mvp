@@ -44,13 +44,14 @@
 
         <activity
             android:name=".ui.screens.login.view.LoginActivity"
-            android:theme="@style/LoginTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme"/>
 
         <activity
             android:name=".ui.screens.register.view.RegisterActivity"
             android:label="@string/activity_register"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"/>
 
         <activity
             android:name=".ui.screens.main.view.MainActivity"

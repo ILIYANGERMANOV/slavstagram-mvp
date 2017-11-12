@@ -6,10 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
+import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
+import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
 import com.babushka.slav_squad.ui.screens.cropping.ProfilePictureCropper;
@@ -32,11 +41,15 @@ import permissions.dispatcher.RuntimePermissions;
  * Created by iliyan on 16.06.17.
  */
 @RuntimePermissions
-public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupport> {
+public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondStepFragment.Input, RegisterSupport> {
     private static final int RC_OPEN_GALLERY = 1;
 
     @BindView(R.id.register_second_step_circle_image_view)
     CircleImageView vCircleImage;
+    @BindView(R.id.register_second_step_display_name_edit_text)
+    EditText vDisplayNameInput;
+    @BindView(R.id.register_second_step_register_button)
+    Button vRegisterButton;
 
     @Nullable
     private Uri mCroppedPhoto;
@@ -48,8 +61,8 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
     }
 
     @Override
-    protected void onNext(@NonNull RegisterSupport support, Uri input) {
-        support.onProfilePhotoSelected(input);
+    protected void onNext(@NonNull RegisterSupport support, Input input) {
+        support.onSecondStepCompleted(input);
     }
 
     @Override
@@ -57,8 +70,43 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
         return R.layout.fragment_register_second_step;
     }
 
-    @OnClick(R.id.register_second_step_gallery_button)
-    public void onGalleryButtonClicked() {
+    @Override
+    protected void onSetupUI() {
+        super.onSetupUI();
+        vDisplayNameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                vRegisterButton.setEnabled(validateInput());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        vDisplayNameInput.setOnEditorActionListener(new EditorGoListener() {
+            @Override
+            protected boolean onAction() {
+                if (validateInput()) {
+                    next(new Input(mCroppedPhoto, vDisplayNameInput.getText().toString()));
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private boolean validateInput() {
+        return !TextUtils.isEmpty(vDisplayNameInput.getText());
+    }
+
+    @OnClick(R.id.register_second_step_circle_image_view)
+    public void onSelectProfilePicture() {
         RegisterSecondStepFragmentPermissionsDispatcher.openGalleryWithCheck(this, RC_OPEN_GALLERY);
     }
 
@@ -75,24 +123,29 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
             Intent intent = IntentBuilder.buildOpenGalleryIntent(getContext());
             startActivityForResult(intent, requestCode);
         } catch (IntentBuilder.ResolveActivityException ignored) {
+            Toast.makeText(getContext(), "Gallery app not found on device, please install one :)",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
-        //TODO: Implement method
-        request.proceed();
+        new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
+                getString(R.string.permission_read_storage_rationale_content), request).show(getActivity());
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
-        //TODO: Implement method
+        new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
+                getString(R.string.permission_read_storage_deny_content)).show(getActivity());
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
-        //TODO: Implement method
+        new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
+                getString(R.string.permission_read_storage_never_ask_content)).show(getActivity());
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -156,6 +209,28 @@ public class RegisterSecondStepFragment extends WizardFragment<Uri, RegisterSupp
 
     @OnClick(R.id.register_second_step_register_button)
     public void onRegisterButtonClicked() {
-        next(mCroppedPhoto);
+        next(new Input(mCroppedPhoto, vDisplayNameInput.getText().toString()));
+    }
+
+    public class Input {
+        @Nullable
+        private final Uri mPhotoUri;
+        @NonNull
+        private final String mDisplayName;
+
+        public Input(@Nullable Uri photoUri, @NonNull String displayName) {
+            mPhotoUri = photoUri;
+            mDisplayName = displayName;
+        }
+
+        @Nullable
+        public Uri getPhotoUri() {
+            return mPhotoUri;
+        }
+
+        @NonNull
+        public String getDisplayName() {
+            return mDisplayName;
+        }
     }
 }

@@ -1,10 +1,9 @@
 package com.babushka.slav_squad.ui.screens.register.view;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.babushka.slav_squad.session.data.UserDetails;
+import com.babushka.slav_squad.session.data.LoginDetails;
+import com.babushka.slav_squad.ui.screens.register.view.fragment.RegisterSecondStepFragment;
 import com.babushka.slav_squad.ui.wizard.WizardSupport;
 
 /**
@@ -12,7 +11,7 @@ import com.babushka.slav_squad.ui.wizard.WizardSupport;
  */
 
 public interface RegisterSupport extends WizardSupport {
-    void onUserDetailsEntered(@NonNull UserDetails userDetails);
+    void onFirstStepCompleted(@NonNull LoginDetails loginDetails);
 
-    void onProfilePhotoSelected(@Nullable Uri photoUri);
+    void onSecondStepCompleted(@NonNull RegisterSecondStepFragment.Input input);
 }

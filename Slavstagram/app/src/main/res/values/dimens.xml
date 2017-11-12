@@ -23,6 +23,7 @@
 
     <!-- Login -->
     <dimen name="login_input_side_margin">80dp</dimen>
+    <dimen name="register_input_side_margin">80dp</dimen>
 
     <!-- Main -->
     <dimen name="profile_pic_size">48dp</dimen>

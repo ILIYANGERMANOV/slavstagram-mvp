@@ -8,8 +8,10 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.session.data.UserDetails;
 import com.babushka.slav_squad.ui.screens.register.RegisterContract;
+import com.babushka.slav_squad.ui.screens.register.view.fragment.RegisterSecondStepFragment;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
@@ -38,21 +40,23 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     }
 
     @Override
-    public void handleUserDetailsEntered(@NonNull UserDetails userDetails) {
-        mUserDetails = userDetails;
+    public void handleFirstStepCompleted(@NonNull LoginDetails loginDetails) {
+        mUserDetails = new UserDetails(loginDetails.getEmail(), loginDetails.getPassword());
         mView.showSecondStep();
     }
 
     @Override
-    public void handleProfilePhotoSelected(@Nullable Uri photoPath) {
+    public void handleSecondStepCompleted(@NonNull RegisterSecondStepFragment.Input input) {
         mView.setLoading();
-        if (photoPath == null) {
+        mUserDetails.setDisplayName(input.getDisplayName());
+        Uri profilePictureUri = input.getPhotoUri();
+        if (profilePictureUri == null) {
             //Randomize profile photo
             String profileImageUrl = mModel.getRandomProfileImageUrl();
             registerUser(profileImageUrl);
             return;
         }
-        mModel.uploadProfilePhoto(photoPath, new Storage.UploadImageListener() {
+        mModel.uploadProfilePhoto(profilePictureUri, new Storage.UploadImageListener() {
             @Override
             public void onImageUploaded(@NonNull Post.Image image) {
                 registerUser(image.getImageUrl());

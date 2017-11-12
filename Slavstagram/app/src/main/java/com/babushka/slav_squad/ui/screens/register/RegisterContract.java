@@ -2,13 +2,13 @@ package com.babushka.slav_squad.ui.screens.register;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.storage.Storage;
-import com.babushka.slav_squad.session.data.UserDetails;
+import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.landing.LandingModel;
 import com.babushka.slav_squad.ui.screens.landing.LandingView;
+import com.babushka.slav_squad.ui.screens.register.view.fragment.RegisterSecondStepFragment;
 
 /**
  * Created by iliyan on 13.06.17.
@@ -28,9 +28,9 @@ public interface RegisterContract {
     interface Presenter extends BasePresenter {
         void startRegisterWizard();
 
-        void handleUserDetailsEntered(@NonNull UserDetails userDetails);
+        void handleFirstStepCompleted(@NonNull LoginDetails loginDetails);
 
-        void handleProfilePhotoSelected(@Nullable Uri photoPath);
+        void handleSecondStepCompleted(@NonNull RegisterSecondStepFragment.Input input);
     }
 
     interface Model extends LandingModel {
