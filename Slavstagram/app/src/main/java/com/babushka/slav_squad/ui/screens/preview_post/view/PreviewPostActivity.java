@@ -77,7 +77,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
     @Override
     protected void onSetupUI() {
         super.onSetupUI();
-        vCommentsContainer.setup(this);
+        vCommentsContainer.setup(this, mPost);
         vAddComment.setListener(this);
     }
 

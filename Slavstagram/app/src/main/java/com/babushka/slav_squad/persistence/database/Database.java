@@ -29,6 +29,7 @@ import timber.log.Timber;
  */
 
 public class Database {
+    //TODO: Fix possible issues with concurrency and failed transactions
     private static Database sDatabase;
     private final DatabaseReference mDatabase;
     @Nullable
@@ -91,7 +92,7 @@ public class Database {
     private Map<String, Object> getPostUpdateMap(@NonNull String authorId, String postId, @Nullable Map<String, Object> postValues) {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put('/' + Table.POSTS_TABLE + '/' + postId, postValues);
-        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + authorId + "/" + postId, postValues);
+        childUpdates.put('/' + Table.USER_POSTS_TABLE + '/' + authorId + '/' + postId, postValues);
         return childUpdates;
     }
 
@@ -165,7 +166,20 @@ public class Database {
                 .push();
         comment.setUid(newCommentRef.getKey());
         newCommentRef.setValue(comment);
+
         //Increment post's comments_count in POSTS AND USER-POSTS tables
+        updateCommentsCount(post, true);
+    }
+
+    public void deleteComment(@NonNull Post post, @NonNull Comment comment) {
+        mDatabase.child(Table.COMMENTS_TABLE)
+                .child(post.getId())
+                .child(comment.getId())
+                .setValue(null);
+        updateCommentsCount(post, false);
+    }
+
+    private void updateCommentsCount(@NonNull Post post, boolean increment) {
         String postId = post.getUid();
         String postAuthorId = post.getAuthor().getUid();
 
@@ -177,11 +191,11 @@ public class Database {
                 .child(postId)
                 .child(Table.Post.COMMENTS_COUNT);
 
-        postCommentsCountRef.runTransaction(buildIncrementCommentsCountHandler());
-        userPostCommentsCountRef.runTransaction(buildIncrementCommentsCountHandler());
+        postCommentsCountRef.runTransaction(buildCommentsCountHandler(increment));
+        userPostCommentsCountRef.runTransaction(buildCommentsCountHandler(increment));
     }
 
-    private Transaction.Handler buildIncrementCommentsCountHandler() {
+    private Transaction.Handler buildCommentsCountHandler(final boolean increment) {
         return new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -190,7 +204,8 @@ public class Database {
                     return Transaction.success(mutableData);
                 }
 
-                mutableData.setValue(commentsCount + 1);
+                int newCommentsCount = increment ? commentsCount + 1 : commentsCount - 1;
+                mutableData.setValue(newCommentsCount);
                 return Transaction.success(mutableData);
             }
 

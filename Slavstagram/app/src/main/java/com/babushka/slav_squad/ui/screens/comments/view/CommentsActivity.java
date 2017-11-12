@@ -60,7 +60,7 @@ public class CommentsActivity extends BaseActionBarActivity<CommentsContract.Pre
     @Override
     protected void onSetupUI() {
         super.onSetupUI();
-        vCommentsContainer.setup(this);
+        vCommentsContainer.setup(this, mPost);
         vAddComment.setListener(this);
     }
 

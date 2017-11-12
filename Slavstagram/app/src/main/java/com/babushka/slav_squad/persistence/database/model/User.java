@@ -106,6 +106,21 @@ public class User implements Findable {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return mUid.equals(user.mUid) && mEmail.equals(user.mEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mUid.hashCode();
+        result = 31 * result + mEmail.hashCode();
+        return result;
+    }
+
     @NonNull
     @Override
     public String getId() {

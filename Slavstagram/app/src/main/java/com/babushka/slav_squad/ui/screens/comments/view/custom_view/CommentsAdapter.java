@@ -7,6 +7,7 @@ import android.view.View;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Comment;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.GlideAdapter;
 
 /**
@@ -14,8 +15,13 @@ import com.babushka.slav_squad.ui.container.GlideAdapter;
  */
 
 public class CommentsAdapter extends GlideAdapter<Comment, CommentViewHolder> {
-    protected CommentsAdapter(@NonNull Context context, @NonNull GlideRequests imageLoader) {
+    @NonNull
+    private final Post mPost;
+
+    protected CommentsAdapter(@NonNull Context context, @NonNull GlideRequests imageLoader,
+                              @NonNull Post post) {
         super(context, imageLoader);
+        mPost = post;
     }
 
     @Override
@@ -25,6 +31,6 @@ public class CommentsAdapter extends GlideAdapter<Comment, CommentViewHolder> {
 
     @Override
     protected CommentViewHolder initializeViewHolder(@NonNull View layoutView) {
-        return new CommentViewHolder(layoutView, mImageLoader);
+        return new CommentViewHolder(layoutView, mImageLoader, mPost);
     }
 }
