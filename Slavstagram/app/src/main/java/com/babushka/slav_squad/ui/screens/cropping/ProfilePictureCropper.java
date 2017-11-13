@@ -10,7 +10,7 @@ import com.yalantis.ucrop.model.AspectRatio;
  */
 
 public class ProfilePictureCropper extends ImageCropper {
-    private static final int MAX_RESULT_SIZE = 200;
+    private static final int MAX_RESULT_SIZE = 450;
 
     public ProfilePictureCropper(@NonNull Context context) {
         super(context, MAX_RESULT_SIZE, buildAspectRatioOption());

@@ -38,10 +38,10 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void displayUser() {
-        String photoUrl = mUser.getPhotoUrl();
+        String highResPhotoUrl = mUser.getHighResPhotoUrl();
         String displayName = mUser.getDisplayName();
-        if (photoUrl != null && displayName != null) {
-            mView.displayUser(photoUrl, displayName);
+        if (displayName != null) {
+            mView.displayUser(highResPhotoUrl, displayName);
         }
     }
 

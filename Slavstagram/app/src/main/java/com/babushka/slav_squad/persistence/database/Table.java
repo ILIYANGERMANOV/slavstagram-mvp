@@ -16,6 +16,7 @@ public class Table {
         public static final String EMAIL = "email";
         public static final String DISPLAY_NAME = "display_name";
         public static final String PHOTO_URL = "photo_url";
+        public static final String HIGH_RES_PHOTO_URL = "high_res_photo_url";
     }
 
     public static class Post {

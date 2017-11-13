@@ -63,10 +63,8 @@ public class MainPresenter implements MainContract.Presenter {
         }
         mView.displayUserName(displayName);
 
-        String photoUrl = currentUser.getPhotoUrl();
-        if (photoUrl != null) {
-            mView.displayUserProfilePicture(photoUrl);
-        }
+        String highResPicture = currentUser.getHighResPhotoUrl();
+        mView.displayUserProfilePicture(highResPicture);
     }
 
     @Override
