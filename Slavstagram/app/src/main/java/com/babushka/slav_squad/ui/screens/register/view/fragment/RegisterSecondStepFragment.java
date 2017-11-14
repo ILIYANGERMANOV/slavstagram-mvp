@@ -120,7 +120,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
         try {
-            Intent intent = IntentBuilder.buildOpenGalleryIntent(getContext());
+            Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(getContext());
             startActivityForResult(intent, requestCode);
         } catch (IntentBuilder.ResolveActivityException ignored) {
             Toast.makeText(getContext(), "Gallery app not found on device, please install one :)",

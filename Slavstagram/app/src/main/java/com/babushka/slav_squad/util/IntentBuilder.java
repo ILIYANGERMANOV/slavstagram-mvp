@@ -36,6 +36,14 @@ public class IntentBuilder {
     @NonNull
     public static Intent buildOpenGalleryIntent(@NonNull Context context)
             throws ResolveActivityException {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        return intent;
+    }
+
+    @NonNull
+    public static Intent buildOpenGalleryWithChooserIntent(@NonNull Context context)
+            throws ResolveActivityException {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
 

@@ -22,7 +22,7 @@ public class LeakCanaryConfiguration implements Configuration {
     public void onConfigure(@NonNull Context context) {
         if (LeakCanary.isInAnalyzerProcess(mApplication)) {
             // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
+            // You should not applyBusinessLogic your app in this process.
             throw new Error("LeakCanary initialize error!");
         }
         LeakCanary.install(mApplication);

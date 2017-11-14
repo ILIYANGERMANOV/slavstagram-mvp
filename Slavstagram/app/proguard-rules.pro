@@ -55,3 +55,12 @@
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
 #uCrop -------------------------------------
+
+#BlurKit
+-keep class com.wonderkiln.blurkit.** { *; }
+
+-dontwarn android.support.v8.renderscript.*
+-keepclassmembers class android.support.v8.renderscript.RenderScript {
+  native *** rsn*(...);
+  native *** n*(...);
+}

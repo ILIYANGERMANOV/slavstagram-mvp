@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
 import com.babushka.slav_squad.util.IntentBuilder;
 import com.google.firebase.auth.FirebaseUser;
+import com.wonderkiln.blurkit.BlurLayout;
 
 import java.io.File;
 
@@ -75,6 +79,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     MainPostsContainer vPostsContainer;
     @BindView(R.id.main_add_post_fab)
     FloatingActionButton vAddPostFab;
+    @BindView(R.id.main_upload_post_blur_layout)
+    BlurLayout vUploadPostLayout;
 
     @Nullable
     private MaterialDialog mProgressDialog;
@@ -95,6 +101,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         setupPostsContainer();
         setupToolbar();
         setupNavDrawer();
+        setupUploadPostLayout();
+    }
+
+    private void setupUploadPostLayout() {
+        vUploadPostLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //consume all events
+                return true;
+            }
+        });
     }
 
     private void setupPostsContainer() {
@@ -213,7 +230,22 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.main_add_post_fab)
     public void onAddPostFabClicked() {
-        mPresenter.handleUploadPostClick();
+        mPresenter.handleUploadPostFabClick();
+    }
+
+    @OnClick({R.id.main_upload_camera_image_button, R.id.main_upload_camera_button_label_text_view})
+    public void onUploadPostWithCameraClick() {
+        mPresenter.handleUploadPostCameraClick();
+    }
+
+    @OnClick({R.id.main_upload_gallery_image_button, R.id.main_upload_gallery_button_label_text_view})
+    public void onUploadPostWithGalleryClick() {
+        mPresenter.handleUploadPostGalleryClick();
+    }
+
+    @OnClick(R.id.main_upload_cancel_button)
+    public void onUploadPostCancelClick() {
+        mPresenter.handleUploadPostCancelClick();
     }
 
     @Override
@@ -310,8 +342,77 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
-    public void openUploadPostScreen() {
-        UploadPostActivity.startScreen(this);
+    public void showUploadPostLayout() {
+        vUploadPostLayout.setVisibility(View.VISIBLE);
+        vUploadPostLayout.invalidate();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                vUploadPostLayout.invalidate();
+
+            }
+        }, 50);
+    }
+
+    @Override
+    public void hideUploadPostLayout() {
+        vUploadPostLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void uploadPostViaCamera() {
+        MainActivityPermissionsDispatcher.openUploadPostCameraScreenWithCheck(this);
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    public void openUploadPostCameraScreen() {
+        UploadPostActivity.startScreen(this, true);
+    }
+
+    @OnShowRationale(Manifest.permission.CAMERA)
+    public void showRationaleForCamera(@NonNull PermissionRequest request) {
+        new PermissionRationaleDialog(getString(R.string.permission_camera_rationale_title),
+                getString(R.string.permission_camera_rationale_content), request).show(this);
+    }
+
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    public void showDeniedForCamera() {
+        new PermissionDenyDialog(getString(R.string.permission_camera_deny_title),
+                getString(R.string.permission_camera_deny_content)).show(this);
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    public void showNeverAskForCamera() {
+        new PermissionNeverAskDialog(getString(R.string.permission_camera_never_ask_title),
+                getString(R.string.permission_camera_never_ask_content)).show(this);
+    }
+
+    @Override
+    public void uploadPostViaGallery() {
+        MainActivityPermissionsDispatcher.openUploadPostGalleryScreenWithCheck(this);
+    }
+
+    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void openUploadPostGalleryScreen() {
+        UploadPostActivity.startScreen(this, false);
+    }
+
+    @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
+                getString(R.string.permission_read_storage_rationale_content), request).show(this);
+    }
+
+    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showDeniedForReadStorage() {
+        new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
+                getString(R.string.permission_read_storage_deny_content)).show(this);
+    }
+
+    @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
+    public void showNeverAskForReadStorage() {
+        new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
+                getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }
 
     @Override
@@ -361,6 +462,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //TODO: use Presenter for this and apply business logic in it
+        hideUploadPostLayout();
     }
 
     @Override

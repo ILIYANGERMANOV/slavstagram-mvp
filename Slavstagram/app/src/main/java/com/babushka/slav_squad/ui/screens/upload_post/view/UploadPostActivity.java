@@ -40,6 +40,8 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract.Presenter>
         implements UploadPostContract.View {
+    private static final String EXTRA_USE_CAMERA = "use_camera_extra";
+
     @BindView(R.id.upload_post_image_view)
     ImageView vImage;
     @BindView(R.id.upload_post_desc_edit_text)
@@ -48,8 +50,11 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     @Nullable
     private MaterialDialog mProgressDialog;
 
-    public static void startScreen(@NonNull Context context) {
+    private boolean mUseCamera;
+
+    public static void startScreen(@NonNull Context context, boolean useCamera) {
         Intent intent = new Intent(context, UploadPostActivity.class);
+        intent.putExtra(EXTRA_USE_CAMERA, useCamera);
         context.startActivity(intent);
     }
 
@@ -62,6 +67,16 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     @Override
     protected UploadPostContract.Presenter initializePresenter() {
         return new UploadPostPresenter(this, new UploadPostModel(this), new CropHandler(this));
+    }
+
+    @Override
+    protected void onReadArguments(@NonNull Intent intent) {
+        mUseCamera = intent.getBooleanExtra(EXTRA_USE_CAMERA, false);
+    }
+
+    @Override
+    protected void onSetupFinished() {
+        mPresenter.applyBusinessLogic(mUseCamera);
     }
 
     @Override
@@ -116,7 +131,7 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
         try {
-            Intent intent = IntentBuilder.buildOpenGalleryIntent(this);
+            Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this);
             startActivityForResult(intent, requestCode);
         } catch (IntentBuilder.ResolveActivityException e) {
             showToast("Gallery app not found on device, please install one :)");
@@ -169,6 +184,11 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     public void showSuccessAndCloseScreen() {
         dismissProgressDialogIfShown();
         showToast("Post uploaded");
+        finish();
+    }
+
+    @Override
+    public void closeScreen() {
         finish();
     }
 

@@ -32,9 +32,13 @@ public interface UploadPostContract {
         void showError(@NonNull String message);
 
         void showSuccessAndCloseScreen();
+
+        void closeScreen();
     }
 
     interface Presenter extends BasePresenter {
+        void applyBusinessLogic(boolean useCamera);
+
         void handleCameraClicked();
 
         @NonNull

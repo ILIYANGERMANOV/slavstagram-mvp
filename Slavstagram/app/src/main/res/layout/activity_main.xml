@@ -57,6 +57,97 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_add_white_36dp"
             app:fabSize="normal"/>
+
+        <com.wonderkiln.blurkit.BlurLayout
+            android:id="@+id/main_upload_post_blur_layout"
+            android:layout_width="match_parent"
+            android:elevation="10dp"
+            app:fps="0"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                tools:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/main_upload_cancel_button"
+                    style="@style/Button"
+                    android:textSize="18sp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:text="CANCEL"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="50dp"
+                    android:layout_above="@+id/main_upload_center_view"
+                    android:layout_centerHorizontal="true"
+                    android:text="UPLOAD POST\nUSING:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:layout_height="wrap_content"/>
+
+                <ImageButton
+                    android:id="@+id/main_upload_camera_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ImageButton"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/main_upload_center_view"
+                    android:src="@drawable/ic_camera"/>
+
+                <TextView
+                    android:id="@+id/main_upload_camera_button_label_text_view"
+                    android:layout_below="@+id/main_upload_camera_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Camera"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:layout_alignRight="@id/main_upload_camera_image_button"
+                    android:layout_alignLeft="@id/main_upload_camera_image_button"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <View
+                    android:id="@+id/main_upload_center_view"
+                    android:layout_centerInParent="true"
+                    android:layout_width="1dp"
+                    android:layout_margin="20dp"
+                    android:layout_height="1dp"/>
+
+                <ImageButton
+                    android:id="@+id/main_upload_gallery_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ImageButton"
+                    android:layout_toRightOf="@id/main_upload_center_view"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_gallery"/>
+
+                <TextView
+                    android:id="@+id/main_upload_gallery_button_label_text_view"
+                    android:layout_below="@+id/main_upload_gallery_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gallery"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:layout_alignRight="@id/main_upload_gallery_image_button"
+                    android:layout_alignLeft="@id/main_upload_gallery_image_button"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+            </RelativeLayout>
+
+        </com.wonderkiln.blurkit.BlurLayout>
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

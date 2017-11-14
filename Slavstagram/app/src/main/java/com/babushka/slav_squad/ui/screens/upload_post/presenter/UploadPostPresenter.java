@@ -39,6 +39,16 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     }
 
     @Override
+    public void applyBusinessLogic(boolean useCamera) {
+        //TODO: Refactor this
+        if (useCamera) {
+            handleCameraClicked();
+        } else {
+            handleGalleryClicked();
+        }
+    }
+
+    @Override
     public void handleCameraClicked() {
         mView.openCameraWithPermissionCheck(RC_IMAGE_CAPTURE);
     }
@@ -91,6 +101,9 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
             case UCrop.REQUEST_CROP:
                 mCropHandler.handleCropResult(resultCode, data);
                 break;
+        }
+        if (resultCode == RESULT_CANCELED) {
+            mView.closeScreen();
         }
     }
 

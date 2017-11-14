@@ -28,7 +28,13 @@ public interface MainContract {
 
         void addImageToGallery(@NonNull File imageFile);
 
-        void openUploadPostScreen();
+        void showUploadPostLayout();
+
+        void hideUploadPostLayout();
+
+        void uploadPostViaCamera();
+
+        void uploadPostViaGallery();
 
         void promptGuestToLogin();
 
@@ -60,7 +66,13 @@ public interface MainContract {
 
         void downloadPost(@NonNull String imageUrl);
 
-        void handleUploadPostClick();
+        void handleUploadPostFabClick();
+
+        void handleUploadPostCameraClick();
+
+        void handleUploadPostGalleryClick();
+
+        void handleUploadPostCancelClick();
 
         void handleMyProfileClick();
 
