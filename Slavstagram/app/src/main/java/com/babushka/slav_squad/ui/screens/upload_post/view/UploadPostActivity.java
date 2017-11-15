@@ -1,7 +1,7 @@
 package com.babushka.slav_squad.ui.screens.upload_post.view;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -41,6 +41,7 @@ import permissions.dispatcher.RuntimePermissions;
 public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract.Presenter>
         implements UploadPostContract.View {
     private static final String EXTRA_USE_CAMERA = "use_camera_extra";
+    private static final String EXTRA_SELECTED_IMAGE_URI = "selected_image_uri_extra";
 
     @BindView(R.id.upload_post_image_view)
     ImageView vImage;
@@ -51,11 +52,24 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     private MaterialDialog mProgressDialog;
 
     private boolean mUseCamera;
+    private Uri mSelectedImage;
 
-    public static void startScreen(@NonNull Context context, boolean useCamera) {
-        Intent intent = new Intent(context, UploadPostActivity.class);
+    public static void startScreenForResult(@NonNull Activity activity, int requestCode,
+                                            @NonNull Uri selectedImage) {
+        startScreenForResult(activity, requestCode, selectedImage, false);
+    }
+
+    public static void startScreenForResult(@NonNull Activity activity, int requestCode,
+                                            boolean useCamera) {
+        startScreenForResult(activity, requestCode, null, useCamera);
+    }
+
+    private static void startScreenForResult(@NonNull Activity activity, int requestCode,
+                                             @Nullable Uri selectedImage, boolean useCamera) {
+        Intent intent = new Intent(activity, UploadPostActivity.class);
         intent.putExtra(EXTRA_USE_CAMERA, useCamera);
-        context.startActivity(intent);
+        intent.putExtra(EXTRA_SELECTED_IMAGE_URI, selectedImage);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -71,12 +85,13 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @Override
     protected void onReadArguments(@NonNull Intent intent) {
+        mSelectedImage = intent.getParcelableExtra(EXTRA_SELECTED_IMAGE_URI);
         mUseCamera = intent.getBooleanExtra(EXTRA_USE_CAMERA, false);
     }
 
     @Override
     protected void onSetupFinished() {
-        mPresenter.applyBusinessLogic(mUseCamera);
+        mPresenter.applyBusinessLogic(mSelectedImage, mUseCamera);
     }
 
     @Override
@@ -184,7 +199,8 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     public void showSuccessAndCloseScreen() {
         dismissProgressDialogIfShown();
         showToast("Post uploaded");
-        finish();
+        setResult(RESULT_OK);
+        closeScreen();
     }
 
     @Override

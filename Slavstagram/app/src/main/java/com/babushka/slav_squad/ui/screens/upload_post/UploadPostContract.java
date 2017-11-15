@@ -37,7 +37,7 @@ public interface UploadPostContract {
     }
 
     interface Presenter extends BasePresenter {
-        void applyBusinessLogic(boolean useCamera);
+        void applyBusinessLogic(@Nullable Uri selectedImage, boolean useCamera);
 
         void handleCameraClicked();
 

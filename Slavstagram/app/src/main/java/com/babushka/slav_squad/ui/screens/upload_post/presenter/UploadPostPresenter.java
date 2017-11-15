@@ -39,8 +39,12 @@ public class UploadPostPresenter implements UploadPostContract.Presenter {
     }
 
     @Override
-    public void applyBusinessLogic(boolean useCamera) {
-        //TODO: Refactor this
+    public void applyBusinessLogic(@Nullable Uri selectedImage, boolean useCamera) {
+        if (selectedImage != null) {
+            cropPhoto(selectedImage);
+            return;
+        }
+
         if (useCamera) {
             handleCameraClicked();
         } else {

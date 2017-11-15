@@ -1,9 +1,12 @@
 package com.babushka.slav_squad.ui.screens.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.ui.BasePresenter;
+import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.PostsView;
 
 import java.io.File;
@@ -32,9 +35,11 @@ public interface MainContract {
 
         void hideUploadPostLayout();
 
-        void uploadPostViaCamera();
+        void uploadPostViaCamera(int requestCode);
 
-        void uploadPostViaGallery();
+        void openGalleryWithCheck(int requestCode);
+
+        void openUploadPostScreen(int requestCode, @NonNull Uri selectedImage);
 
         void promptGuestToLogin();
 
@@ -49,6 +54,8 @@ public interface MainContract {
         void showMusicPlaying();
 
         void showMusicStopped();
+
+        void showToast(@NonNull String text);
     }
 
     interface Presenter extends BasePresenter {
@@ -81,6 +88,8 @@ public interface MainContract {
         void handleAboutClick();
 
         void handleLogoutClick();
+
+        void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 
     interface Model {
@@ -90,6 +99,10 @@ public interface MainContract {
         void removePostsListener();
 
         void downloadImageToFile(@NonNull String imageUrl, @NonNull DownloadCallback downloadCallback);
+
+        @NonNull
+        Uri getSelectedImageFromGallery(@NonNull Intent data)
+                throws GalleryResult.SelectedImageNotFoundException;
 
         interface DownloadCallback {
             void onImageDownloaded(@NonNull File imageFile);

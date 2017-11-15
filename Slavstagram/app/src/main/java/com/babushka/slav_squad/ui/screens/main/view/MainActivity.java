@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.nav_drawer_about_layout)
     public void onNavDrawerAboutClick() {
-        AboutActivity.startScreen(this);
+        mPresenter.handleAboutClick();
     }
 
     @OnClick(R.id.nav_drawer_logout_layout)
@@ -489,13 +489,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
-    public void uploadPostViaCamera() {
-        MainActivityPermissionsDispatcher.openUploadPostCameraScreenWithCheck(this);
+    public void uploadPostViaCamera(int requestCode) {
+        MainActivityPermissionsDispatcher.openUploadPostCameraScreenWithCheck(this, requestCode);
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
-    public void openUploadPostCameraScreen() {
-        UploadPostActivity.startScreen(this, true);
+    public void openUploadPostCameraScreen(int requestCode) {
+        UploadPostActivity.startScreenForResult(this, requestCode, true);
     }
 
     @OnShowRationale(Manifest.permission.CAMERA)
@@ -517,13 +517,18 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
-    public void uploadPostViaGallery() {
-        MainActivityPermissionsDispatcher.openUploadPostGalleryScreenWithCheck(this);
+    public void openGalleryWithCheck(int requestCode) {
+        MainActivityPermissionsDispatcher.openGalleryWithCheck(this, requestCode);
     }
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    public void openUploadPostGalleryScreen() {
-        UploadPostActivity.startScreen(this, false);
+    public void openGallery(int requestCode) {
+        try {
+            Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this);
+            startActivityForResult(intent, requestCode);
+        } catch (IntentBuilder.ResolveActivityException e) {
+            showToast("Gallery app not found on device, please install one :)");
+        }
     }
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -542,6 +547,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     public void showNeverAskForReadStorage() {
         new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
                 getString(R.string.permission_read_storage_never_ask_content)).show(this);
+    }
+
+    @Override
+    public void openUploadPostScreen(int requestCode, @NonNull Uri selectedImage) {
+        UploadPostActivity.startScreenForResult(this, requestCode, selectedImage);
     }
 
     @Override
@@ -580,6 +590,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         setMusicMenuIcon(R.drawable.ic_volume_off);
     }
 
+    @Override
+    public void showToast(@NonNull String text) {
+
+    }
+
     private void setMusicMenuIcon(@DrawableRes int menuIcon) {
         if (mMenu != null) {
             MenuItem item = mMenu.findItem(R.id.action_toggle_music);
@@ -596,8 +611,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //TODO: use Presenter for this and apply business logic in it
-        hideUploadPostLayout();
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

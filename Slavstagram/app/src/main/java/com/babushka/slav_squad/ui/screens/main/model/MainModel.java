@@ -1,12 +1,15 @@
 package com.babushka.slav_squad.ui.screens.main.model;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.ui.screens.BasePostsModel;
+import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.util.FileUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,5 +58,13 @@ public class MainModel extends BasePostsModel implements MainContract.Model {
             e.printStackTrace();
             downloadCallback.onError();
         }
+    }
+
+    @NonNull
+    @Override
+    public Uri getSelectedImageFromGallery(@NonNull Intent data)
+            throws GalleryResult.SelectedImageNotFoundException {
+        GalleryResult galleryResult = new GalleryResult(mContext, data);
+        return galleryResult.getSelectedImageFromGallery();
     }
 }

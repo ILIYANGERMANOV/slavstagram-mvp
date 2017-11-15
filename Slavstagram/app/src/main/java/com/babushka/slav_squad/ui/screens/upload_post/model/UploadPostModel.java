@@ -56,8 +56,6 @@ public class UploadPostModel implements UploadPostContract.Model {
         }
     }
 
-
-
     @NonNull
     @Override
     public Uri getSelectedImageFromGallery(@NonNull Intent data) throws GalleryResult.SelectedImageNotFoundException {

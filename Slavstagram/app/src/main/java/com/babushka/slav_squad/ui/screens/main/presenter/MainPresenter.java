@@ -1,5 +1,7 @@
 package com.babushka.slav_squad.ui.screens.main.presenter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -9,6 +11,7 @@ import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
+import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 
@@ -17,12 +20,19 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by iliyan on 29.05.17.
  */
 
 public class MainPresenter implements MainContract.Presenter {
+    //TODO: Update once we release
     public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.gepardy.gamena";
+
+    private static final int RC_UPLOAD_POST = 1;
+    private static final int RC_GALLERY = 2;
+
     @NonNull
     private final MainContract.Model mModel;
     @NonNull
@@ -147,12 +157,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void handleUploadPostCameraClick() {
-        mView.uploadPostViaCamera();
+        mView.uploadPostViaCamera(RC_UPLOAD_POST);
     }
 
     @Override
     public void handleUploadPostGalleryClick() {
-        mView.uploadPostViaGallery();
+        mView.openGalleryWithCheck(RC_GALLERY);
     }
 
     @Override
@@ -179,6 +189,36 @@ public class MainPresenter implements MainContract.Presenter {
     public void handleLogoutClick() {
         SessionManager.getInstance().logout();
         mView.startSplashScreenAsEntry();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RC_GALLERY:
+                handleGalleryResult(resultCode, data);
+                break;
+            case RC_UPLOAD_POST:
+                handleUploadPostResult(resultCode);
+                break;
+        }
+    }
+
+    private void handleGalleryResult(int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            try {
+                Uri selectedImage = mModel.getSelectedImageFromGallery(data);
+                mView.openUploadPostScreen(RC_UPLOAD_POST, selectedImage);
+            } catch (GalleryResult.SelectedImageNotFoundException e) {
+                e.printStackTrace();
+                mView.showToast("Selected image path not found :(");
+            }
+        }
+    }
+
+    private void handleUploadPostResult(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            mView.hideUploadPostLayout();
+        }
     }
 
     @Override
