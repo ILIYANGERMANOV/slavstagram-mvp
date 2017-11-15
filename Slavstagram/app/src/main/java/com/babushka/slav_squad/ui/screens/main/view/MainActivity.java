@@ -38,6 +38,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.anim.AnimationEndListener;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
@@ -364,7 +365,28 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void circularRevealUploadPostLayout() {
-//        vUploadPostLayout.setVisibility(View.VISIBLE);
+        final Animator circularReveal = newCircularRevealAnimation();
+
+        final Animation scaleDownFAB = new ScaleAnimation(
+                1f, 0f, // Start and end values for the X axis scaling
+                1f, 0f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+        scaleDownFAB.setDuration(100);
+        scaleDownFAB.setAnimationListener(new AnimationEndListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                vAddPostFab.setVisibility(View.INVISIBLE);
+                circularReveal.start();
+            }
+        });
+
+        vAddPostFab.startAnimation(scaleDownFAB);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @NonNull
+    private Animator newCircularRevealAnimation() {
         // get the center for the clipping circle
         int cx = (int) (vAddPostFab.getX() + vAddPostFab.getWidth() / 2);
         int cy = (int) (vAddPostFab.getY() + vAddPostFab.getHeight() / 2);
@@ -375,37 +397,15 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         // create the animator for this view (the start radius is zero)
         final Animator circularReveal =
                 ViewAnimationUtils.createCircularReveal(vUploadPostLayout, cx, cy, 0, finalRadius);
-        final int duration = 400;
-        circularReveal.setDuration(duration);
-
-
-        final Animation scaleDown = new ScaleAnimation(
-                1f, 0f, // Start and end values for the X axis scaling
-                1f, 0f, // Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
-        scaleDown.setDuration(100);
-        scaleDown.setAnimationListener(new Animation.AnimationListener() {
+        circularReveal.setDuration(400);
+        circularReveal.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                vAddPostFab.setVisibility(View.INVISIBLE);
+            public void onAnimationStart(Animator animation) {
                 vUploadPostLayout.setVisibility(View.VISIBLE);
                 vUploadPostLayout.invalidate();
-                circularReveal.start();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
             }
         });
-
-        vAddPostFab.startAnimation(scaleDown);
+        return circularReveal;
     }
 
     private void makeUploadPostLayoutVisibleAndRefresh() {
@@ -431,6 +431,31 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void circularHideUploadPostLayout() {
+        final Animation scaleUpFAB = new ScaleAnimation(
+                0f, 1f, // Start and end values for the X axis scaling
+                0f, 1f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+        scaleUpFAB.setDuration(100);
+        scaleUpFAB.setAnimationListener(new AnimationEndListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                vAddPostFab.setVisibility(View.VISIBLE);
+            }
+        });
+
+        Animator circularHideAnimation = newCircularHideAnimation(new Runnable() {
+            @Override
+            public void run() {
+                vAddPostFab.startAnimation(scaleUpFAB);
+            }
+        });
+        circularHideAnimation.start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @NonNull
+    private Animator newCircularHideAnimation(final @NonNull Runnable onAnimationEnd) {
         // get the center for the clipping circle
         int cx = (int) (vAddPostFab.getX() + vAddPostFab.getWidth() / 2);
         int cy = (int) (vAddPostFab.getY() + vAddPostFab.getHeight() / 2);
@@ -441,45 +466,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         // create the animation (the final radius is zero)
         Animator circularHide =
                 ViewAnimationUtils.createCircularReveal(vUploadPostLayout, cx, cy, initialRadius, 0);
-        int duration = 300;
-        circularHide.setDuration(duration);
-
-
-        final Animation scaleUp = new ScaleAnimation(
-                0f, 1f, // Start and end values for the X axis scaling
-                0f, 1f, // Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
-        scaleUp.setDuration(100);
-        scaleUp.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                vAddPostFab.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
+        circularHide.setDuration(300);
         // make the view invisible when the animation is done
         circularHide.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 vUploadPostLayout.invalidate();
                 vUploadPostLayout.setVisibility(View.INVISIBLE);
-                vAddPostFab.startAnimation(scaleUp);
+                onAnimationEnd.run();
             }
         });
-
-        circularHide.start();
+        return circularHide;
     }
 
     @Override
