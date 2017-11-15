@@ -1,13 +1,17 @@
 package com.babushka.slav_squad.ui.screens.main.view;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +25,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +50,7 @@ import com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContain
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
+import com.babushka.slav_squad.util.AppUtil;
 import com.babushka.slav_squad.util.IntentBuilder;
 import com.google.firebase.auth.FirebaseUser;
 import com.wonderkiln.blurkit.BlurLayout;
@@ -64,6 +72,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         implements MainContract.View {
     public static final int SCROLL_THRESHOLD = 30;
     //TODO: Refactor and optimize post loading by moving it on another thread
+    //TODO: !IMPORTANT Refactor upload post animation ugly code
 
     @BindView(R.id.main_toolbar)
     Toolbar vToolbar;
@@ -85,6 +94,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Nullable
     private MaterialDialog mProgressDialog;
     private Menu mMenu;
+
+    private boolean mIsUploadPostLayoutShown = false;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -343,20 +354,141 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     public void showUploadPostLayout() {
+        if (AppUtil.isLollipopOrAbove()) {
+            circularRevealUploadPostLayout();
+        } else {
+            makeUploadPostLayoutVisibleAndRefresh();
+        }
+        mIsUploadPostLayoutShown = true;
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private void circularRevealUploadPostLayout() {
+//        vUploadPostLayout.setVisibility(View.VISIBLE);
+        // get the center for the clipping circle
+        int cx = (int) (vAddPostFab.getX() + vAddPostFab.getWidth() / 2);
+        int cy = (int) (vAddPostFab.getY() + vAddPostFab.getHeight() / 2);
+
+        // get the final radius for the clipping circle
+        float finalRadius = (float) Math.hypot(vUploadPostLayout.getWidth(), vUploadPostLayout.getHeight());
+
+        // create the animator for this view (the start radius is zero)
+        final Animator circularReveal =
+                ViewAnimationUtils.createCircularReveal(vUploadPostLayout, cx, cy, 0, finalRadius);
+        final int duration = 400;
+        circularReveal.setDuration(duration);
+
+
+        final Animation scaleDown = new ScaleAnimation(
+                1f, 0f, // Start and end values for the X axis scaling
+                1f, 0f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+        scaleDown.setDuration(100);
+        scaleDown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                vAddPostFab.setVisibility(View.INVISIBLE);
+                vUploadPostLayout.setVisibility(View.VISIBLE);
+                vUploadPostLayout.invalidate();
+                circularReveal.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        vAddPostFab.startAnimation(scaleDown);
+    }
+
+    private void makeUploadPostLayoutVisibleAndRefresh() {
         vUploadPostLayout.setVisibility(View.VISIBLE);
         vUploadPostLayout.invalidate();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 vUploadPostLayout.invalidate();
-
             }
-        }, 50);
+        }, 30);
     }
 
     @Override
     public void hideUploadPostLayout() {
-        vUploadPostLayout.setVisibility(View.GONE);
+        if (AppUtil.isLollipopOrAbove()) {
+            circularHideUploadPostLayout();
+        } else {
+            vUploadPostLayout.setVisibility(View.INVISIBLE);
+        }
+        mIsUploadPostLayoutShown = false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void circularHideUploadPostLayout() {
+        // get the center for the clipping circle
+        int cx = (int) (vAddPostFab.getX() + vAddPostFab.getWidth() / 2);
+        int cy = (int) (vAddPostFab.getY() + vAddPostFab.getHeight() / 2);
+
+        // get the initial radius for the clipping circle
+        float initialRadius = (float) Math.hypot(vUploadPostLayout.getWidth(), vUploadPostLayout.getHeight());
+
+        // create the animation (the final radius is zero)
+        Animator circularHide =
+                ViewAnimationUtils.createCircularReveal(vUploadPostLayout, cx, cy, initialRadius, 0);
+        int duration = 300;
+        circularHide.setDuration(duration);
+
+
+        final Animation scaleUp = new ScaleAnimation(
+                0f, 1f, // Start and end values for the X axis scaling
+                0f, 1f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+        scaleUp.setDuration(100);
+        scaleUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                vAddPostFab.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
+        // make the view invisible when the animation is done
+        circularHide.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                vUploadPostLayout.invalidate();
+                vUploadPostLayout.setVisibility(View.INVISIBLE);
+                vAddPostFab.startAnimation(scaleUp);
+            }
+        });
+
+        circularHide.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mIsUploadPostLayoutShown) {
+            hideUploadPostLayout();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -63,10 +63,11 @@
             android:layout_width="match_parent"
             android:elevation="10dp"
             app:fps="0"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:background="#30FFFFFF"
                 tools:background="@color/gray"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
