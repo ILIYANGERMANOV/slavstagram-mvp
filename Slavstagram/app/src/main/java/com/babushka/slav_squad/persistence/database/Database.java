@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -281,6 +282,12 @@ public class Database {
                 }
             }
         };
+    }
+
+    public void retrievePost(@NonNull String postId, @NonNull ValueEventListener listener) {
+        mDatabase.child(Table.POSTS_TABLE)
+                .child(postId)
+                .addListenerForSingleValueEvent(listener);
     }
 
     public void removePostsListener() {

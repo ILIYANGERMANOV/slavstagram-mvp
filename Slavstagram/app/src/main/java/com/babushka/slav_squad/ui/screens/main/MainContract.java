@@ -3,8 +3,11 @@ package com.babushka.slav_squad.ui.screens.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.PostsView;
@@ -41,6 +44,8 @@ public interface MainContract {
 
         void openUploadPostScreen(int requestCode, @NonNull Uri selectedImage);
 
+        void openPostPreview(@NonNull Post post);
+
         void promptGuestToLogin();
 
         void openProfileScreen();
@@ -59,6 +64,8 @@ public interface MainContract {
     }
 
     interface Presenter extends BasePresenter {
+        void handleSpecialStart(@Nullable SpecialStart specialStart);
+
         void displayAllPostsInRealTime();
 
         void displayUserProfile();
@@ -100,12 +107,20 @@ public interface MainContract {
 
         void downloadImageToFile(@NonNull String imageUrl, @NonNull DownloadCallback downloadCallback);
 
+        void retrievePost(@NonNull String postId, @NonNull RetrievePostCallback callback);
+
         @NonNull
         Uri getSelectedImageFromGallery(@NonNull Intent data)
                 throws GalleryResult.SelectedImageNotFoundException;
 
         interface DownloadCallback {
             void onImageDownloaded(@NonNull File imageFile);
+
+            void onError();
+        }
+
+        interface RetrievePostCallback {
+            void onPostRetrieved(@NonNull Post post);
 
             void onError();
         }

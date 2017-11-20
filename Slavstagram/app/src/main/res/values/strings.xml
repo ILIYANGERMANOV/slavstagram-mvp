@@ -7,7 +7,7 @@
     <string name="activity_upload_post">Upload post</string>
     <string name="activity_comments">Comments</string>
     <string name="activity_likes">Squats</string>
-    <string name="activity_preview_post">Post details</string>
+    <string name="activity_post_preview">Post details</string>
     <string name="activity_image_preview">Preview</string>
     <string name="activity_about">About us</string>
 

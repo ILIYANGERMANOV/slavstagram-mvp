@@ -13,7 +13,7 @@ import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
-import com.babushka.slav_squad.ui.screens.preview_post.view.PreviewPostActivity;
+import com.babushka.slav_squad.ui.screens.preview_post.view.PostPreviewActivity;
 
 import butterknife.BindView;
 
@@ -74,7 +74,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> impl
     @Override
     public void onClick(View v) {
         if (mPost != null) {
-            PreviewPostActivity.startScreen(v.getContext(), mPost);
+            PostPreviewActivity.startScreen(v.getContext(), mPost);
         }
     }
 }

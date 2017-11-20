@@ -12,35 +12,65 @@ import android.view.View;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.view.MainActivity;
 import com.babushka.slav_squad.util.Constants;
+import com.google.gson.Gson;
 
 /**
  * Created by iliyan on 21.05.17.
  */
 
 public class SplashActivity extends AppCompatActivity {
+    private static final String EXTRA_SPECIAL_START = "special_start_extra";
+
     public static void startScreenAsEntryPoint(@NonNull Context context) {
+        Intent intent = buildEntryPointIntent(context, null);
+        context.startActivity(intent);
+    }
+
+    @NonNull
+    public static Intent buildEntryPointIntent(@NonNull Context context,
+                                               @Nullable SpecialStart specialStart) {
         Intent intent = new Intent(context, SplashActivity.class);
         intent.setFlags(Constants.START_AS_ENTRY_POINT_FLAG);
-        context.startActivity(intent);
+        intent.putExtra(EXTRA_SPECIAL_START, new Gson().toJson(specialStart));
+        return intent;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setup();
-        //TODO: remove ugly redirect delay
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                redirect();
-            }
-        }, 600);
+        loadSpecialStartsIfAny();
+        redirect();
     }
 
-    private void setup() {
+    private void loadSpecialStartsIfAny() {
+        Intent intent = getIntent();
+        String specialStartJson = intent.getStringExtra(EXTRA_SPECIAL_START);
+        if (specialStartJson != null) {
+            SpecialStart specialStart = new Gson().fromJson(specialStartJson, SpecialStart.class);
+            SpecialStart.loadSpecialStart(this, specialStart);
+        }
+    }
+
+    private void redirect() {
+        if (SessionManager.getInstance().isLoggedUser()) {
+            MainActivity.startScreen(this);
+            finish();
+        } else {
+            setupForLanding();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startLandingScreen();
+                }
+            }, 600);
+        }
+    }
+
+    private void setupForLanding() {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -51,13 +81,9 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void redirect() {
-        if (SessionManager.getInstance().isLoggedUser()) {
-            MainActivity.startScreen(this);
-        } else {
-            startActivity(new Intent(this, LandingActivity.class));
-            overridePendingTransition(R.anim.slide_in_top, R.anim.stay);
-        }
+    private void startLandingScreen() {
+        startActivity(new Intent(this, LandingActivity.class));
+        overridePendingTransition(R.anim.slide_in_top, R.anim.stay);
         finish();
     }
 }

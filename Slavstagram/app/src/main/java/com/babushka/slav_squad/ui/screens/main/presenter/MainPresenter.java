@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.event.DownloadPostEvent;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
@@ -19,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -27,6 +30,9 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class MainPresenter implements MainContract.Presenter {
+    public static final String ACTION_POST_PREVIEW = "action_post_preview";
+    public static final String POST_ID = "post_id";
+
     //TODO: Update once we release
     public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.gepardy.gamena";
 
@@ -56,6 +62,36 @@ public class MainPresenter implements MainContract.Presenter {
     @Subscribe
     public void onDownloadPost(DownloadPostEvent event) {
         mView.downloadPostWithPermissionCheck(event.getImageUrl());
+    }
+
+    @Override
+    public void handleSpecialStart(@Nullable SpecialStart specialStart) {
+        if (specialStart != null) {
+            switch (specialStart.getAction()) {
+                case ACTION_POST_PREVIEW:
+                    handlePostPreviewStart(specialStart.getData());
+                    break;
+            }
+        }
+    }
+
+    private void handlePostPreviewStart(Map<String, String> data) {
+        String postId = data.get(POST_ID);
+        mModel.retrievePost(postId, new MainContract.Model.RetrievePostCallback() {
+            @Override
+            public void onPostRetrieved(@NonNull Post post) {
+                if (mView != null) {
+                    mView.openPostPreview(post);
+                }
+            }
+
+            @Override
+            public void onError() {
+                if (mView != null) {
+                    mView.showToast("Post not found :/");
+                }
+            }
+        });
     }
 
     @Override

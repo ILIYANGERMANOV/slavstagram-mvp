@@ -30,7 +30,7 @@ import butterknife.BindView;
  * Created by iliyan on 26.09.17.
  */
 
-public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContract.Presenter>
+public class PostPreviewActivity extends BaseActionBarActivity<PreviewPostContract.Presenter>
         implements PreviewPostContract.View, AddCommentView.Listener {
     private static final String EXTRA_POST = "post_extra";
 
@@ -49,7 +49,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
     private Post mPost;
 
     public static void startScreen(@NonNull Context context, @NonNull Post post) {
-        Intent intent = new Intent(context, PreviewPostActivity.class);
+        Intent intent = new Intent(context, PostPreviewActivity.class);
         intent.putExtra(EXTRA_POST, new Gson().toJson(post));
         context.startActivity(intent);
     }
@@ -63,7 +63,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
     protected void onReadArguments(@NonNull Intent intent) {
         mPost = new Gson().fromJson(intent.getStringExtra(EXTRA_POST), Post.class);
         if (mPost == null) {
-            throw new IllegalArgumentException("PreviewPostActivity requires '" + EXTRA_POST + "' to start!");
+            throw new IllegalArgumentException("PostPreviewActivity requires '" + EXTRA_POST + "' to start!");
         }
     }
 
@@ -86,7 +86,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
         mPresenter.setupUI();
         mPresenter.displayCommentsInRealTime();
 //        vPostImage.setOnTouchListener(new View.OnTouchListener() {
-//            private ScaleGestureDetector mDetector = new ScaleGestureDetector(PreviewPostActivity.this, new ScaleGestureDetector.OnScaleGestureListener() {
+//            private ScaleGestureDetector mDetector = new ScaleGestureDetector(PostPreviewActivity.this, new ScaleGestureDetector.OnScaleGestureListener() {
 //                @Override
 //                public boolean onScale(ScaleGestureDetector detector) {
 //                    vRootScroll.smoothScrollTo(0, 0);
@@ -107,7 +107,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
 //                }
 //            });
 //
-//            private GestureDetector mGestureDetector = new GestureDetector(PreviewPostActivity.this, new GestureDetector.SimpleOnGestureListener() {
+//            private GestureDetector mGestureDetector = new GestureDetector(PostPreviewActivity.this, new GestureDetector.SimpleOnGestureListener() {
 //                @Override
 //                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 //
@@ -123,7 +123,7 @@ public class PreviewPostActivity extends BaseActionBarActivity<PreviewPostContra
         vPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePreviewActivity.startScreen(PreviewPostActivity.this, mPost.getImage().getImageUrl());
+                ImagePreviewActivity.startScreen(PostPreviewActivity.this, mPost.getImage().getImageUrl());
             }
         });
     }

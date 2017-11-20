@@ -5,12 +5,10 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.sendCommentNotification = functions.database.ref('/comments/{postId}/{commentId}').onCreate(event => {
-  console.log('Firebase function called');
+exports.sendNewCommentNotification = functions.database.ref('/comments/{postId}/{commentId}').onCreate(event => {
   const postId = event.params.postId;
   const commentIdRef = event.data.ref;
 
-  console.log('Sending push notification for postId = ', postId, ' for adding commentId = ', event.params.commentId);
 
   const commentAuthorPromise = commentIdRef.child('author').once('value');
   const postAuthorPromise = admin.database().ref(`/posts/${postId}/author`).once('value');
@@ -29,10 +27,11 @@ exports.sendCommentNotification = functions.database.ref('/comments/{postId}/{co
       console.log('Resolved commment author photo url', commentAuthor.photo_url);
 
       const payload = {
-        notification: {
-          title: 'New comment',
-          body: `${commentAuthor.display_name} commented on your post.`,
-          icon: commentAuthor.photo_url
+        data: {
+          type: "comment_on_post",
+          author_name: commentAuthor.display_name,
+          author_photo_url: commentAuthor.photo_url,
+          post_id: postId
         }
       };
 

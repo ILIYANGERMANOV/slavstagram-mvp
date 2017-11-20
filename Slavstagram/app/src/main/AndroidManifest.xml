@@ -82,8 +82,8 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.screens.preview_post.view.PreviewPostActivity"
-            android:label="@string/activity_preview_post"
+            android:name=".ui.screens.preview_post.view.PostPreviewActivity"
+            android:label="@string/activity_post_preview"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
 

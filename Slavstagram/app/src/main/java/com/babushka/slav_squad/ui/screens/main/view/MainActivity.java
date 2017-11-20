@@ -37,6 +37,7 @@ import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.anim.AnimationEndListener;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
@@ -48,6 +49,7 @@ import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer;
+import com.babushka.slav_squad.ui.screens.preview_post.view.PostPreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;
@@ -57,6 +59,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.wonderkiln.blurkit.BlurLayout;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,6 +71,9 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
+
+import static com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter.ACTION_POST_PREVIEW;
+import static com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter.POST_ID;
 
 @RuntimePermissions
 public class MainActivity extends BaseActivity<MainContract.Presenter>
@@ -97,6 +104,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     private Menu mMenu;
 
     private boolean mIsUploadPostLayoutShown = false;
+
+
+    @NonNull
+    public static SpecialStart postPreviewStart(@NonNull String postId) {
+        Map<String, String> data = Collections.singletonMap(POST_ID, postId);
+        return new SpecialStart(ACTION_POST_PREVIEW, data);
+    }
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -196,6 +210,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     protected void onSetupFinished() {
+        mPresenter.handleSpecialStart(SpecialStart.consumeLoaded(this));
         mPresenter.displayAllPostsInRealTime();
         mPresenter.displayUserProfile();
     }
@@ -555,6 +570,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
+    public void openPostPreview(@NonNull Post post) {
+        PostPreviewActivity.startScreen(this, post);
+    }
+
+    @Override
     public void promptGuestToLogin() {
         LandingActivity.startScreen(this);
     }
@@ -592,7 +612,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     public void showToast(@NonNull String text) {
-
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
     private void setMusicMenuIcon(@DrawableRes int menuIcon) {
