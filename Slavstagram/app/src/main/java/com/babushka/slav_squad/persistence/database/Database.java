@@ -113,12 +113,12 @@ public class Database {
                 .child(authorId)
                 .child(postId);
 
-        postRef.runTransaction(buildLikeToggleHandler(user));
-        userPostRef.runTransaction(buildLikeToggleHandler(user));
+        postRef.runTransaction(buildLikeToggleHandler(user, true));
+        userPostRef.runTransaction(buildLikeToggleHandler(user, false));
     }
 
     @NonNull
-    private Transaction.Handler buildLikeToggleHandler(@NonNull final User user) {
+    private Transaction.Handler buildLikeToggleHandler(@NonNull final User user, final boolean updateLikesTable) {
         return new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -138,10 +138,24 @@ public class Database {
                     //User has liked this post, unlike it
                     post.setLikesCount(post.getLikesCount() - 1);
                     likes.remove(userId);
+
+                    if (updateLikesTable) {
+                        mDatabase.child(Table.LIKES_TABLE)
+                                .child(post.getId())
+                                .child(userId)
+                                .setValue(null);
+                    }
                 } else {
                     //User has NOT like this post, like it
                     post.setLikesCount(post.getLikesCount() + 1);
                     likes.put(userId, user);
+
+                    if (updateLikesTable) {
+                        mDatabase.child(Table.LIKES_TABLE)
+                                .child(post.getId())
+                                .child(userId)
+                                .setValue(user);
+                    }
                 }
 
                 mutableData.setValue(post);
