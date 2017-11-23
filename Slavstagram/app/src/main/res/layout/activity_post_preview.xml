@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.babushka.slav_squad.ui.custom_view.LockableNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                                 android:id="@+id/activity_post_preview"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:layout_marginLeft="@dimen/post_margin_small"
+            android:layout_width="wrap_content"
+            android:text="Description"
+            android:id="@+id/post_preview_description_label_text_view"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/post_preview_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/post_margin_small"
+            android:layout_marginLeft="@dimen/post_margin_big"
+            android:layout_marginRight="@dimen/post_margin_big"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            tools:text="Slav level - Putin"/>
+
+        <com.babushka.slav_squad.ui.custom_view.AspectRatioPhotoView
+            android:id="@+id/post_preview_aspect_ratio_photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/ic_camera"/>
+
+        <TextView
+            android:id="@+id/post_preview_liked_by_label_text_view"
+            android:text="Liked by:"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:layout_marginLeft="@dimen/post_margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.babushka.slav_squad.ui.screens.post_preview.view.custom_view.LikesCirclesContainer
+            android:layout_width="match_parent"
+            android:id="@+id/post_preview_likes_container"
+            tools:layout_height="40dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/post_preview_likes_count_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/post_margin_big"
+            android:layout_marginRight="@dimen/post_margin_big"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            tools:text="1242 squats"/>
+
+        <View
+            android:layout_marginBottom="@dimen/post_margin_small"
+            android:layout_marginTop="@dimen/post_margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/post_margin_small"
+            android:text="Comments"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/post_margin_small"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <com.babushka.slav_squad.ui.screens.comments.view.custom_view.CommentsContainer
+            android:id="@+id/post_preview_comments_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.babushka.slav_squad.ui.screens.comments.view.custom_view.AddCommentView
+            android:id="@+id/post_preview_add_comment_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+    </LinearLayout>
+</com.babushka.slav_squad.ui.custom_view.LockableNestedScrollView>

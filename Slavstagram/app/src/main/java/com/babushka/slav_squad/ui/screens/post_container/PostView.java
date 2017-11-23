@@ -25,7 +25,7 @@ import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.likes.view.LikesActivity;
-import com.babushka.slav_squad.ui.screens.preview_post.view.PostPreviewActivity;
+import com.babushka.slav_squad.ui.screens.post_preview.view.PostPreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
 import com.babushka.slav_squad.util.IntentBuilder;

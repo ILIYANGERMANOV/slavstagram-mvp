@@ -49,7 +49,7 @@ import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
 import com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter;
 import com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer;
-import com.babushka.slav_squad.ui.screens.preview_post.view.PostPreviewActivity;
+import com.babushka.slav_squad.ui.screens.post_preview.view.PostPreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.view.UploadPostActivity;

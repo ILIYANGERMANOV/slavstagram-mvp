@@ -13,7 +13,7 @@ import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
-import com.babushka.slav_squad.ui.screens.preview_post.view.PostPreviewActivity;
+import com.babushka.slav_squad.ui.screens.post_preview.view.PostPreviewActivity;
 
 import butterknife.BindView;
 

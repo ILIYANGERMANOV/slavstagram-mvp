@@ -23,6 +23,8 @@
     <string name="open_nav_drawer">Open navigation drawer</string>
     <string name="close_nav_drawer">Close navigation drawer</string>
 
+    <string name="post_preview_squats_count">%d squats</string>
+
     <!-- Runtime permissions -->
     <string name="permission_write_storage_deny_title">Storage permission needed</string>
     <string name="permission_write_storage_deny_content">We save post\'s photo to your pictures directory.</string>
