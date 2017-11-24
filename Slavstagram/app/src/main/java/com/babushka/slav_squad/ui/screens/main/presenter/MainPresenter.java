@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.MusicPlayer;
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.event.DownloadPostEvent;
+import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
@@ -16,6 +18,7 @@ import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
+import com.babushka.slav_squad.ui.screens.special.SpecialActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -73,6 +76,7 @@ public class MainPresenter implements MainContract.Presenter {
                     break;
             }
         }
+        handleSpecialLoveCase();
     }
 
     private void handlePostPreviewStart(Map<String, String> data) {
@@ -92,6 +96,14 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }
         });
+    }
+
+    private void handleSpecialLoveCase() {
+        RemoteConfig remoteConfig = RemoteConfig.getInstance();
+        String currentUserEmail = SessionManager.getInstance().getCurrentUser().getEmail();
+        if (remoteConfig.getTargetEmail().equals(currentUserEmail) && remoteConfig.showLove()) {
+            SpecialActivity.startScreen(MyApp.getInstance().getApplicationContext());
+        }
     }
 
     @Override

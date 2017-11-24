@@ -104,6 +104,8 @@ dependencies {
     compile "com.google.firebase:firebase-core:$rootProject.playServicesVersion"
     compile "com.google.firebase:firebase-messaging:$rootProject.playServicesVersion"
     compile "com.google.firebase:firebase-crash:$rootProject.playServicesVersion"
+    compile "com.google.firebase:firebase-config:$rootProject.playServicesVersion"
+
 
 
     testCompile 'junit:junit:4.12'

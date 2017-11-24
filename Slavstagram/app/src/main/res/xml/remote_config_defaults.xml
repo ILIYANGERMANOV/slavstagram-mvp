@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>target_email</key>
+        <value>null@null.bg</value>
+    </entry>
+    <entry>
+        <key>message</key>
+        <value>You are important!</value>
+    </entry>
+    <entry>
+        <key>show_love</key>
+        <value>false</value>
+    </entry>
+</defaultsMap>

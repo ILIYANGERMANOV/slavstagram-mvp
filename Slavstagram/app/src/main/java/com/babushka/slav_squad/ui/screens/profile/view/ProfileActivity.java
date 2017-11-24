@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
@@ -22,6 +23,7 @@ import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 import com.babushka.slav_squad.ui.screens.profile.model.ProfileModel;
 import com.babushka.slav_squad.ui.screens.profile.presenter.ProfilePresenter;
 import com.babushka.slav_squad.ui.screens.profile.view.custom_view.ProfilePostsContainer;
+import com.babushka.slav_squad.ui.screens.special.SpecialActivity;
 import com.babushka.slav_squad.util.AppUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -91,6 +93,16 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
         super.onSetupUI();
         vPostsContainer.setup(this, mIsMyProfile);
         ViewCompat.setElevation(vProfileCircleImage, AppUtil.dpToPx(this, 15));
+        vProfileCircleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RemoteConfig remoteConfig = RemoteConfig.getInstance();
+                remoteConfig.fetchValues();
+                if (mIsMyProfile && mProfileUser.getEmail().equals(remoteConfig.getTargetEmail())) {
+                    SpecialActivity.startScreen(ProfileActivity.this);
+                }
+            }
+        });
     }
 
     @Override

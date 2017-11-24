@@ -92,6 +92,11 @@
             android:label="@string/activity_about"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".ui.screens.special.SpecialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme"/>
+
         <!-- Image cropper -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
