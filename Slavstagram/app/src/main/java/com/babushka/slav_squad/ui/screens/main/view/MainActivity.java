@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         switch (item.getItemId()) {
             case R.id.action_toggle_music:
                 mPresenter.toggleMusic();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

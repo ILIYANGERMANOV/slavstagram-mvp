@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,17 +16,21 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
+import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
 import com.babushka.slav_squad.ui.screens.cropping.CropHandler;
 import com.babushka.slav_squad.ui.screens.cropping.ImageCropper;
 import com.babushka.slav_squad.ui.screens.cropping.UploadPostCropper;
+import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.upload_post.UploadPostContract;
 import com.babushka.slav_squad.ui.screens.upload_post.model.UploadPostModel;
 import com.babushka.slav_squad.ui.screens.upload_post.presenter.UploadPostPresenter;
 import com.babushka.slav_squad.util.IntentBuilder;
+import com.wonderkiln.blurkit.BlurLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +50,12 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     private static final String EXTRA_USE_CAMERA = "use_camera_extra";
     private static final String EXTRA_SELECTED_IMAGE_URI = "selected_image_uri_extra";
 
-    @BindView(R.id.upload_post_image_view)
-    ImageView vImage;
+    @BindView(R.id.upload_post_background_image_view)
+    ImageView vBackgroundImage;
+    @BindView(R.id.upload_post_blur_layout)
+    BlurLayout vBlurLayout;
+    @BindView(R.id.upload_post_aspect_ratio_image_view)
+    AspectRatioImageView vPostImage;
     @BindView(R.id.upload_post_desc_edit_text)
     EditText vDescInput;
 
@@ -53,6 +64,9 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     private boolean mUseCamera;
     private Uri mSelectedImage;
+
+    @Nullable
+    private Uri mDisplayedPhoto;
 
     public static void startScreenForResult(@NonNull Activity activity, int requestCode,
                                             @NonNull Uri selectedImage) {
@@ -90,15 +104,52 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
     }
 
     @Override
+    protected void onSetupUI() {
+        super.onSetupUI();
+        setActionBarTitle("");
+    }
+
+    @Override
     protected void onSetupFinished() {
         mPresenter.applyBusinessLogic(mSelectedImage, mUseCamera);
     }
 
     @Override
     public void displayPostImage(@NonNull Uri photoUri) {
-        GlideApp.with(this)
-                .load(photoUri)
-                .into(vImage);
+        mDisplayedPhoto = photoUri;
+//        GlideApp.with(this)
+//                .load(photoUri)
+//                .listener(new RequestListener<Drawable>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+//                                                Target<Drawable> target, boolean isFirstResource) {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+//                                                   DataSource dataSource, boolean isFirstResource) {
+//                        vBlurLayout.invalidate();
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                vBlurLayout.invalidate();
+//                            }
+//                        }, 50);
+//                        return false;
+//                    }
+//                })
+//                .into(vBackgroundImage);
+        vPostImage.display(Storage.newPostImage(photoUri),
+                GlideApp.with(this));
+        vBlurLayout.bringToFront();
+    }
+
+    @OnClick(R.id.upload_post_aspect_ratio_image_view)
+    public void onPostImageClick() {
+        if (mDisplayedPhoto != null) {
+            ImagePreviewActivity.startScreen(this, mDisplayedPhoto.getPath());
+        }
     }
 
     @Override
@@ -218,22 +269,6 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.upload_post_camera_button)
-    public void onCameraButtonClicked() {
-        mPresenter.handleCameraClicked();
-    }
-
-    @OnClick(R.id.upload_post_gallery_button)
-    public void onGalleryButtonClicked() {
-        mPresenter.handleGalleryClicked();
-    }
-
-    @OnClick(R.id.upload_post_upload_button)
-    public void onUploadButtonClicked() {
-        String desc = vDescInput.getText().toString();
-        mPresenter.handleUpload(desc);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -248,7 +283,25 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         dismissProgressDialogIfShown();
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_upload_post, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_upload_post:
+                String desc = vDescInput.getText().toString();
+                mPresenter.handleUpload(desc);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

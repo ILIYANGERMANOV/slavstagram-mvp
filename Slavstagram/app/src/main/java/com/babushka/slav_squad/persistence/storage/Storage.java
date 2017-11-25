@@ -82,7 +82,15 @@ public class Storage {
         return uniqueId + ".png";
     }
 
-    private ImageSize getImageSize(@NonNull Uri imageUri) {
+    @NonNull
+    public static Post.Image newPostImage(@NonNull Uri uri) {
+        ImageSize imageSize = getImageSize(uri);
+        return new Post.Image(uri.getPath(),
+                imageSize.getWidth(), imageSize.getHeight());
+    }
+
+    @NonNull
+    private static ImageSize getImageSize(@NonNull Uri imageUri) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(new File(imageUri.getPath()).getAbsolutePath(), options);
