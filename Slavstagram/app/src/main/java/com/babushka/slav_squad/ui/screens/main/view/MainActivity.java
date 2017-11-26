@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -496,6 +497,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @Override
     public void onBackPressed() {
+        if (vDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            closeNavDrawer(true);
+            return;
+        }
+
         if (mIsUploadPostLayoutShown) {
             hideUploadPostLayout();
         } else {
