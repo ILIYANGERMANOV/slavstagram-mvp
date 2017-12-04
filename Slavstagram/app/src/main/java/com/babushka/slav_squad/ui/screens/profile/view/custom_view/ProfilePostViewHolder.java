@@ -63,7 +63,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> impl
     @Override
     public void display(@NonNull Post post) {
         mPost = post;
-        vPostImage.display(post.getImage(), mImageLoader);
+        vPostImage.display(post.getImage(), mImageLoader, true);
     }
 
     @Override

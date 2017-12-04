@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.babushka.slav_squad.ui.custom_view.AspectRatioImageView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.babushka.slav_squad.ui.custom_view.AspectRatioImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/adapter_profile_post_image_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"/>
+    android:layout_margin="5dp"
+    android:background="@drawable/profile_post_border"
+    android:padding="@dimen/profile_post_border_width" />

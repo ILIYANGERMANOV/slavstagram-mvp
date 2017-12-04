@@ -31,4 +31,5 @@
     <dimen name="nav_drawer_margin">16dp</dimen>
     <dimen name="nav_drawer_margin_half">8dp</dimen>
     <dimen name="nav_drawer_menu_icon_size">48dp</dimen>
+    <dimen name="profile_post_border_width">1dp</dimen>
 </resources>
