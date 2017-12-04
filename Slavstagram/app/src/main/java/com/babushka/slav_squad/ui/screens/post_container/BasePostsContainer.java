@@ -23,14 +23,4 @@ public abstract class BasePostsContainer<A extends BaseAdapter<Post, VH>, VH ext
     public BasePostsContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
-
-    @Override
-    protected void onCustomSetup(@NonNull Activity activity) {
-        addItemDecoration(new HorizontalDividerItemDecoration.Builder(activity)
-                .color(ContextCompat.getColor(activity, R.color.posts_divider_color))
-                .marginResId(R.dimen.activity_horizontal_margin_half)
-                .sizeResId(R.dimen.posts_divider_height)
-                .build());
-        ((SimpleItemAnimator) getItemAnimator()).setSupportsChangeAnimations(false);
-    }
 }

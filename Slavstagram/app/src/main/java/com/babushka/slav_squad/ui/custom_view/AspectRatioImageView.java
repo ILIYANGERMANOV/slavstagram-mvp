@@ -24,36 +24,28 @@ public class AspectRatioImageView extends AppCompatImageView {
     }
 
     public void display(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader) {
-        display(image, imageLoader, false);
-    }
-
-    public void display(@NonNull final Post.Image image, @NonNull final GlideRequests imageLoader,
-                        final boolean roundCorners) {
         int measuredWidth = getMeasuredWidth();
         if (measuredWidth == 0) {
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    resizeAndLoadImage(image, imageLoader, getMeasuredWidth(), roundCorners);
+                    resizeAndLoadImage(image, imageLoader, getMeasuredWidth());
                 }
             });
         } else {
-            resizeAndLoadImage(image, imageLoader, measuredWidth, roundCorners);
+            resizeAndLoadImage(image, imageLoader, measuredWidth);
         }
     }
 
     private void resizeAndLoadImage(@NonNull Post.Image postImage, @NonNull GlideRequests imageLoader,
-                                    int width, boolean roundCorners) {
+                                    int width) {
         int calculatedHeight = (int) (width / postImage.getWidthHeightRatio());
         setViewHeight(calculatedHeight);
-        GlideRequest<Drawable> request = imageLoader.load(postImage.getImageUrl())
-                .override(width, calculatedHeight);
-        if (roundCorners) {
-            request.transform(new RoundedCorners(AppUtil.dpToPx(getContext(), 2)));
-        }
-        //TODO: add placeholder and error drawable
-        request.into(this);
+        imageLoader.load(postImage.getImageUrl())
+                .override(width, calculatedHeight)
+                //TODO: add placeholder and error drawable
+                .into(this);
     }
 
     private void setViewHeight(int height) {
