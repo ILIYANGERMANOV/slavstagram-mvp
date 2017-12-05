@@ -15,12 +15,12 @@ buildscript {
 }
 
 ext {
-    toolsVersion = "25.0.3"
-    compileSdk = 25
+    toolsVersion = "26.0.1"
+    compileSdk = 26
     targetSdk = 25
     minSdk = 19
 
-    supportLibVersion = "25.4.0"
+    supportLibVersion = "26.0.1"
     butterKnifeVersion = "8.6.0"
     playServicesVersion = "11.0.4"
     glideVersion = "4.0.0"
