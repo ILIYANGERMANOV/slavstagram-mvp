@@ -108,7 +108,7 @@ public class EditProfileActivity extends BaseActionBarActivity<EditProfilePresen
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
         try {
-            Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this);
+            Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this, "Select new profile pic");
             startActivityForResult(intent, requestCode);
         } catch (IntentBuilder.ResolveActivityException ignored) {
             showToast("Gallery app not found on device, please install one :)");

@@ -44,13 +44,19 @@ public class IntentBuilder {
     @NonNull
     public static Intent buildOpenGalleryWithChooserIntent(@NonNull Context context)
             throws ResolveActivityException {
+        return buildOpenGalleryWithChooserIntent(context, "Select Image");
+    }
+
+    @NonNull
+    public static Intent buildOpenGalleryWithChooserIntent(@NonNull Context context, @NonNull String chooserTitle)
+            throws ResolveActivityException {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
 
         Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickIntent.setType("image/*");
 
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        Intent chooserIntent = Intent.createChooser(getIntent, chooserTitle);
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
 
         resolveActivity(context, chooserIntent);
