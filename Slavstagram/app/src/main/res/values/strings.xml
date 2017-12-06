@@ -10,6 +10,7 @@
     <string name="activity_post_preview">Post details</string>
     <string name="activity_image_preview">Preview</string>
     <string name="activity_about">About us</string>
+    <string name="activity_edit_profile">Edit profile</string>
 
     <string name="just_now">just now</string>
     <string name="minutes_ago">%dm ago</string>

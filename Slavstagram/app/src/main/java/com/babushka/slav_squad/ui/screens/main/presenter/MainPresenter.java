@@ -9,6 +9,7 @@ import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.event.DownloadPostEvent;
+import com.babushka.slav_squad.event.UpdateProfileEvent;
 import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -65,6 +66,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Subscribe
     public void onDownloadPost(DownloadPostEvent event) {
         mView.downloadPostWithPermissionCheck(event.getImageUrl());
+    }
+
+    @Subscribe
+    public void onUpdateProfile(UpdateProfileEvent event) {
+        displayUserProfile();
     }
 
     @Override

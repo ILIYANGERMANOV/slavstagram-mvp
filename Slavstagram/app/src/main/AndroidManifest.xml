@@ -93,6 +93,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".ui.screens.edit_profile.view.EditProfileActivity"
+            android:label="@string/activity_edit_profile"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".ui.screens.special.SpecialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"/>

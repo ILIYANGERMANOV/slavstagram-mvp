@@ -304,6 +304,12 @@ public class Database {
                 .addListenerForSingleValueEvent(listener);
     }
 
+    public void updateUser(@NonNull User user) {
+        mDatabase.child(Table.USERS_TABLE)
+                .child(user.getId())
+                .setValue(user);
+    }
+
     public void removePostsListener() {
         if (mPostsEventListener != null) {
             mDatabase.child(Table.POSTS_TABLE)

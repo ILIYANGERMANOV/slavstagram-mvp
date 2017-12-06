@@ -617,8 +617,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     }
 
     @Override
-    public void showToast(@NonNull String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    public void showToast(@NonNull String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void setMusicMenuIcon(@DrawableRes int menuIcon) {

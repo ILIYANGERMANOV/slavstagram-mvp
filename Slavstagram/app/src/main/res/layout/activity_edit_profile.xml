@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/edit_profile_change_photo_circle_image_view"
+        style="@style/Button"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="0.5dp"
+        tools:src="@drawable/register_slavman_head"/>
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/edit_profile_display_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:imeOptions="actionGo"
+        android:hint="Display Name"
+        android:inputType="textPersonName"/>
+
+    <Button
+        android:id="@+id/edit_profile_save_button"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="SAVE"/>
+
+
+</LinearLayout>

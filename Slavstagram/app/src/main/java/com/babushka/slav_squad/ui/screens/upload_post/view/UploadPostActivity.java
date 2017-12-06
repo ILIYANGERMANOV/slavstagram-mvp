@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
@@ -263,10 +262,6 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
-    }
-
-    private void showToast(@NonNull String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -7,10 +7,10 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
@@ -19,6 +19,7 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
+import com.babushka.slav_squad.ui.screens.edit_profile.view.EditProfileActivity;
 import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 import com.babushka.slav_squad.ui.screens.profile.model.ProfileModel;
 import com.babushka.slav_squad.ui.screens.profile.presenter.ProfilePresenter;
@@ -50,15 +51,12 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     ImageView vBlurredImage;
     @BindView(R.id.profile_circle_image_view)
     ImageView vProfileCircleImage;
-    @BindView(R.id.profile_description_text_view)
-    TextView vDescText;
-    @BindView(R.id.profile_description_edit_image_button)
-    ImageButton vDescEditButton;
     @BindView(R.id.profile_posts_container)
     ProfilePostsContainer vPostsContainer;
 
     private User mProfileUser;
     private boolean mIsMyProfile;
+    private Menu mMenu;
 
     public static void startScreen(@NonNull Context context, @NonNull User user) {
         Intent intent = new Intent(context, ProfileActivity.class);
@@ -122,19 +120,25 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     }
 
     @Override
-    public void displayUser(@NonNull String imageUrl, @NonNull String displayName) {
+    public void displayUser(@NonNull String highResPhotoUrl, @NonNull String displayName) {
         if (!mIsMyProfile) {
             setActionBarTitle(displayName);
         }
-        loadBlurredHeaderBackground(imageUrl);
+        loadBlurredHeaderBackground(highResPhotoUrl);
         GlideApp.with(this)
-                .load(imageUrl)
+                .load(highResPhotoUrl)
+                .dontAnimate()
                 .into(vProfileCircleImage);
     }
 
     @Override
     public void showEditMode() {
-        vDescEditButton.setVisibility(View.VISIBLE);
+        mMenu.findItem(R.id.action_edit_profile).setVisible(true);
+    }
+
+    @Override
+    public void openEditProfileScreen(int requestCode) {
+        EditProfileActivity.startScreenForResult(this, mProfileUser, requestCode);
     }
 
     private void loadBlurredHeaderBackground(@NonNull String imageUrl) {
@@ -173,5 +177,28 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @Override
     public void removePost(@NonNull Post post) {
         vPostsContainer.remove(post);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
+        getMenuInflater().inflate(R.menu.menu_activity_profile, menu);
+        mPresenter.setupUI();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_profile) {
+            mPresenter.handleEditProfileClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
