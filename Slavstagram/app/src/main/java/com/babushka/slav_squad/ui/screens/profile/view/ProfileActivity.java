@@ -20,6 +20,7 @@ import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.edit_profile.view.EditProfileActivity;
+import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 import com.babushka.slav_squad.ui.screens.profile.model.ProfileModel;
 import com.babushka.slav_squad.ui.screens.profile.presenter.ProfilePresenter;
@@ -100,7 +101,9 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
                 if (mIsMyProfile && (email.equals(remoteConfig.getTargetEmail())
                         || email.equals("iliyan.germanov971@gmail.com"))) {
                     SpecialActivity.startScreen(ProfileActivity.this);
+                    return;
                 }
+                ImagePreviewActivity.startScreen(ProfileActivity.this, mProfileUser.getHighResPhotoUrl());
             }
         });
     }
