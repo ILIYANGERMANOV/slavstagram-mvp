@@ -310,6 +310,13 @@ public class Database {
                 .setValue(user);
     }
 
+    public void saveFeedback(@NonNull User user, String message) {
+        mDatabase.child(Table.FEEDBACK_TABLE)
+                .child(user.getId())
+                .push()
+                .setValue(message);
+    }
+
     public void removePostsListener() {
         if (mPostsEventListener != null) {
             mDatabase.child(Table.POSTS_TABLE)

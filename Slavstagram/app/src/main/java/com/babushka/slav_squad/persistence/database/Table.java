@@ -10,6 +10,7 @@ public class Table {
     public static final String COMMENTS_TABLE = "comments";
     public static final String LIKES_TABLE = "likes";
     public static final String USER_POSTS_TABLE = "user-posts";
+    public static final String FEEDBACK_TABLE = "feedback";
 
     public static class User {
         public static final String UID = "uid";

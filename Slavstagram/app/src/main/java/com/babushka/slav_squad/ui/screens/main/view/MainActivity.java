@@ -45,6 +45,7 @@ import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
 import com.babushka.slav_squad.ui.screens.about.view.AboutActivity;
+import com.babushka.slav_squad.ui.screens.feedback.FeedbackActivity;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
 import com.babushka.slav_squad.ui.screens.main.MainContract;
 import com.babushka.slav_squad.ui.screens.main.model.MainModel;
@@ -185,8 +186,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @OnClick(R.id.nav_drawer_feedback_layout)
     public void onNavDrawerFeedbackClick() {
-        Toast.makeText(this, "Feedback click", Toast.LENGTH_SHORT).show();
-        closeNavDrawer(true);
+        mPresenter.handleFeedbackClick();
     }
 
     @OnClick(R.id.nav_drawer_about_layout)
@@ -593,6 +593,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     @Override
     public void openAboutScreen() {
         AboutActivity.startScreen(this);
+    }
+
+    @Override
+    public void openFeedbackScreen() {
+        FeedbackActivity.startScreen(this);
     }
 
     @Override

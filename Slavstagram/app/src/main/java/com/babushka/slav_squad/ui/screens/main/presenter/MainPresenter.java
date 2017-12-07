@@ -235,6 +235,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void handleFeedbackClick() {
+        mView.openFeedbackScreen();
+    }
+
+    @Override
     public void handleAboutClick() {
         mView.openAboutScreen();
     }

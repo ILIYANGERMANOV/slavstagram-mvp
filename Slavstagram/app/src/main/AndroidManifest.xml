@@ -99,6 +99,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".ui.screens.feedback.FeedbackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
+            android:label="@string/activity_feedback"/>
+
+        <activity
             android:name=".ui.screens.special.SpecialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"/>
