@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
@@ -54,10 +55,14 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     ImageView vProfileCircleImage;
     @BindView(R.id.profile_posts_container)
     ProfilePostsContainer vPostsContainer;
+    @BindView(R.id.profile_empty_state_text_view)
+    TextView vEmptyStateText;
 
     private User mProfileUser;
     private boolean mIsMyProfile;
     private Menu mMenu;
+
+    private boolean mAreAnyPosts = false;
 
     public static void startScreen(@NonNull Context context, @NonNull User user) {
         Intent intent = new Intent(context, ProfileActivity.class);
@@ -106,6 +111,15 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
                 ImagePreviewActivity.startScreen(ProfileActivity.this, mProfileUser.getHighResPhotoUrl());
             }
         });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!mAreAnyPosts) {
+                    vPostsContainer.setVisibility(View.GONE);
+                    vEmptyStateText.setVisibility(View.VISIBLE);
+                }
+            }
+        }, 500);
     }
 
     @Override
@@ -169,6 +183,13 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
 
     @Override
     public void addPostAsFirst(@NonNull Post post) {
+        //TODO: Refactor bad sounding logic
+        if (!mAreAnyPosts) {
+            //this is first post to be displayed, manage containers visibility
+            mAreAnyPosts = true;
+            vPostsContainer.setVisibility(View.VISIBLE);
+            vEmptyStateText.setVisibility(View.GONE);
+        }
         vPostsContainer.add(0, post);
     }
 
@@ -180,6 +201,11 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     @Override
     public void removePost(@NonNull Post post) {
         vPostsContainer.remove(post);
+        if (vPostsContainer.getAdapter().getItemCount() == 0) {
+            mAreAnyPosts = false;
+            vPostsContainer.setVisibility(View.GONE);
+            vEmptyStateText.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
