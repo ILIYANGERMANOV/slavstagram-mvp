@@ -12,12 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.RemoteConfig;
+import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.edit_profile.view.EditProfileActivity;
@@ -63,6 +66,20 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     private Menu mMenu;
 
     private boolean mAreAnyPosts = false;
+
+    public static void startScreen(@NonNull final Context context, @NonNull final UserBase userBase) {
+        Database.getInstance().retrieveUser(userBase.getId(), new Database.RetrieveUserCallback() {
+            @Override
+            public void onRetrieved(@NonNull User user) {
+                startScreen(context, user);
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(context, "Cannot find user :/", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public static void startScreen(@NonNull Context context, @NonNull User user) {
         Intent intent = new Intent(context, ProfileActivity.class);

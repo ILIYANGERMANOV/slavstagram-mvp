@@ -51,8 +51,8 @@ public class Database {
         return sDatabase;
     }
 
-    public void saveUser(@NonNull String userId, @NonNull User user) {
-        DatabaseReference currentUserRef = mDatabase.child(Table.USERS_TABLE).child(userId);
+    public void saveUser(@NonNull User user) {
+        DatabaseReference currentUserRef = mDatabase.child(Table.USERS_TABLE).child(user.getId());
         currentUserRef.updateChildren(user.toCreationMap());
     }
 
@@ -304,6 +304,27 @@ public class Database {
                 .addListenerForSingleValueEvent(listener);
     }
 
+    public void retrieveUser(@NonNull String userId, @NonNull final RetrieveUserCallback callback) {
+        mDatabase.child(Table.USERS_TABLE)
+                .child(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+                            callback.onRetrieved(user);
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        callback.onError();
+                    }
+                });
+    }
+
     public void updateUser(@NonNull User user) {
         mDatabase.child(Table.USERS_TABLE)
                 .child(user.getId())
@@ -389,5 +410,11 @@ public class Database {
                 mPostsListener.onError(databaseError);
             }
         }
+    }
+
+    public interface RetrieveUserCallback {
+        void onRetrieved(@NonNull User user);
+
+        void onError();
     }
 }

@@ -22,6 +22,7 @@ import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.screens.comments.view.CommentsActivity;
 import com.babushka.slav_squad.ui.screens.likes.view.LikesActivity;
@@ -174,7 +175,7 @@ public class PostView extends LinearLayout {
         vLikeButton.setImageResource(likeImageRID);
     }
 
-    private void displayAuthor(@NonNull User author, GlideRequests imageLoader) {
+    private void displayAuthor(@NonNull UserBase author, GlideRequests imageLoader) {
         imageLoader.load(author.getPhotoUrl())
                 .dontAnimate()
                 //TODO: add placeholder and error drawable
@@ -282,7 +283,7 @@ public class PostView extends LinearLayout {
     @OnClick(R.id.post_author_layout)
     public void onAuthorLayoutClick() {
         if (mPost != null) {
-            User author = mPost.getAuthor();
+            UserBase author = mPost.getAuthor();
             ProfileActivity.startScreen(getContext(), author);
         }
     }

@@ -13,6 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class LandingModelImpl implements LandingModel {
     @Override
     public void saveUser(@NonNull FirebaseUser user) {
-        Database.getInstance().saveUser(user.getUid(), new User(user));
+        Database.getInstance().saveUser(new User(user));
     }
 }

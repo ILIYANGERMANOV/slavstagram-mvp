@@ -21,7 +21,7 @@ public class Post implements Findable {
     @PropertyName(value = Table.Post.UID)
     private String mUid;
     @PropertyName(value = Table.Post.AUTHOR)
-    private User mAuthor;
+    private UserBase mAuthor;
     @PropertyName(value = Table.Post.IMAGE)
     private Image mImage;
     @PropertyName(value = Table.Post.DESCRIPTION)
@@ -92,7 +92,7 @@ public class Post implements Findable {
     }
 
     @PropertyName(value = Table.Post.AUTHOR)
-    public User getAuthor() {
+    public UserBase getAuthor() {
         return mAuthor;
     }
 
@@ -151,7 +151,7 @@ public class Post implements Findable {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put(Table.Post.UID, mUid);
-        result.put(Table.Post.AUTHOR, mAuthor);
+        result.put(Table.Post.AUTHOR, mAuthor.toUserBaseMap());
         result.put(Table.Post.DESCRIPTION, mDescription);
         result.put(Table.Post.IMAGE, mImage);
         result.put(Table.Post.LIKES_COUNT, mLikesCount);
