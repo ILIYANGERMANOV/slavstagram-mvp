@@ -95,14 +95,19 @@
         <activity
             android:name=".ui.screens.edit_profile.view.EditProfileActivity"
             android:label="@string/activity_edit_profile"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".ui.screens.feedback.FeedbackActivity"
+            android:label="@string/activity_feedback"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"
-            android:label="@string/activity_feedback"/>
+            android:windowSoftInputMode="stateVisible"/>
+
+        <activity
+            android:name=".ui.screens.terms_and_conditions.TermsAndConditionsActivity"
+            android:label="@string/activity_terms_and_conditions"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.screens.special.SpecialActivity"

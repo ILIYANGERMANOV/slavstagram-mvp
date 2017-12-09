@@ -75,16 +75,27 @@
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/login_slav_squad_terms_and_conds_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
         android:background="?android:attr/selectableItemBackground"
+        android:padding="4dp"
         android:textAllCaps="false"
-        android:textStyle="normal"
         android:textColor="@color/white"
         android:textSize="22sp"
+        android:textStyle="normal"
         tools:text="Don't have an account? Register"/>
+
+    <com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView
+        android:id="@+id/login_slav_squad_terms_and_conds_view"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

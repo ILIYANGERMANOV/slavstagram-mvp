@@ -117,12 +117,24 @@
         style="@style/LandingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/landing_slav_squad_terms_and_conds_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="56dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="Log In or Sign In with Email"
         android:textAllCaps="false"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+
+    <com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView
+        android:id="@+id/landing_slav_squad_terms_and_conds_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
         android:visibility="invisible"
         tools:visibility="visible"/>
 

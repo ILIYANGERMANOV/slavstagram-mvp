@@ -3,4 +3,8 @@
     <declare-styleable name="PostView">
         <attr name="hideAuthor" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="TermsAndConditionsTextView">
+        <attr name="hyperLinkStartIndex" format="integer"/>
+    </declare-styleable>
 </resources>

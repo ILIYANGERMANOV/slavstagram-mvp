@@ -12,6 +12,7 @@
     <string name="activity_about">About us</string>
     <string name="activity_edit_profile">Edit profile</string>
     <string name="activity_feedback">Feedback</string>
+    <string name="activity_terms_and_conditions">Terms and Conditions</string>
 
     <string name="just_now">just now</string>
     <string name="minutes_ago">%dm ago</string>

@@ -17,6 +17,7 @@ import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView;
 import com.babushka.slav_squad.ui.screens.landing.LandingContract;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.landing.presenter.LandingPresenter;
@@ -46,6 +47,8 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     TextView vOrText;
     @BindView(R.id.landing_email_button)
     Button vEmailButton;
+    @BindView(R.id.landing_slav_squad_terms_and_conds_view)
+    SlavSquadTermsAndCondsView vTermsAndConds;
 
     @Nullable
     private MaterialDialog mProgressDialog;
@@ -120,6 +123,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
                 .add(vDivider, R.anim.fade_in_fast)
                 .add(vOrText, R.anim.fade_in_fast)
                 .add(vEmailButton, R.anim.fade_in_fast)
+                .add(vTermsAndConds, R.anim.fade_in_fast)
                 .build();
         animation.run();
     }
