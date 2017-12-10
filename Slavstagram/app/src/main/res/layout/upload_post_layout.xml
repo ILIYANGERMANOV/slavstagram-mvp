@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#45FFFFFF"
+    tools:background="@color/gray">
+
+    <Button
+        android:id="@+id/main_upload_cancel_button"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="CANCEL"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:text="UPLOAD POST"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/main_upload_camera_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/main_upload_center_view"
+        android:minHeight="@dimen/min_clickable_area"
+        android:minWidth="@dimen/min_clickable_area"
+        android:src="@drawable/ic_camera"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="1dp" />
+
+    <TextView
+        android:id="@+id/main_upload_camera_button_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/main_upload_camera_image_button"
+        android:layout_alignRight="@id/main_upload_camera_image_button"
+        android:layout_below="@+id/main_upload_camera_image_button"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Camera"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp" />
+
+    <View
+        android:id="@+id/main_upload_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/main_upload_gallery_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/main_upload_center_view"
+        android:minHeight="@dimen/min_clickable_area"
+        android:minWidth="@dimen/min_clickable_area"
+        android:src="@drawable/ic_gallery"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="1dp" />
+
+    <TextView
+        android:id="@+id/main_upload_gallery_button_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/main_upload_gallery_image_button"
+        android:layout_alignRight="@id/main_upload_gallery_image_button"
+        android:layout_below="@+id/main_upload_gallery_image_button"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Gallery"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp" />
+
+</RelativeLayout>
