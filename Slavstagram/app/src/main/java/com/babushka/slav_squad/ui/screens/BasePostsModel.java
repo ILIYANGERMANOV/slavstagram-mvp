@@ -2,9 +2,8 @@ package com.babushka.slav_squad.ui.screens;
 
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.persistence.database.model.User;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.Map;
@@ -22,23 +21,23 @@ public class BasePostsModel {
     }
 
     @NonNull
-    protected PostsListener buildIsLikedPostTransformator(@NonNull final PostsListener postsListener) {
-        return new PostsListener() {
+    protected DatabaseListener<Post> buildIsLikedPostTransformator(@NonNull final DatabaseListener<Post> postsListener) {
+        return new DatabaseListener<Post>() {
             @Override
-            public void onPostAdded(@NonNull Post post) {
+            public void onAdded(@NonNull Post post) {
                 setPostLiked(post);
-                postsListener.onPostAdded(post);
+                postsListener.onAdded(post);
             }
 
             @Override
-            public void onPostChanged(@NonNull Post post) {
+            public void onChanged(@NonNull Post post) {
                 setPostLiked(post);
-                postsListener.onPostChanged(post);
+                postsListener.onChanged(post);
             }
 
             @Override
-            public void onPostRemoved(@NonNull Post post) {
-                postsListener.onPostRemoved(post);
+            public void onRemoved(@NonNull Post post) {
+                postsListener.onRemoved(post);
             }
 
             @Override
@@ -49,13 +48,13 @@ public class BasePostsModel {
     }
 
     private void setPostLiked(@NonNull Post post) {
-        Map<String, User> likes = post.getLikes();
+        Map<String, Boolean> likes = post.getLikes();
         if (likes != null) {
             iterateLikes(post, likes);
         }
     }
 
-    private void iterateLikes(@NonNull Post post, @NonNull Map<String, User> likes) {
+    private void iterateLikes(@NonNull Post post, @NonNull Map<String, Boolean> likes) {
         for (String likedUserId : likes.keySet()) {
             if (likedUserId.equals(mUserId)) {
                 post.setLiked(true);

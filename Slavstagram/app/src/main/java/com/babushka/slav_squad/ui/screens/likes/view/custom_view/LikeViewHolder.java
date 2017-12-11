@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 
@@ -19,7 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by iliyan on 09.11.17.
  */
 
-public class LikeViewHolder extends BaseAdapter.BaseViewHolder<User> implements View.OnClickListener {
+public class LikeViewHolder extends BaseAdapter.BaseViewHolder<UserBase> implements View.OnClickListener {
     @NonNull
     private final GlideRequests mImageLoader;
     @NonNull
@@ -28,7 +28,7 @@ public class LikeViewHolder extends BaseAdapter.BaseViewHolder<User> implements 
     CircleImageView vUserImage;
     @BindView(R.id.like_display_name_text_view)
     TextView vDisplayNameText;
-    private User mUser;
+    private UserBase mUser;
 
     public LikeViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
@@ -39,7 +39,7 @@ public class LikeViewHolder extends BaseAdapter.BaseViewHolder<User> implements 
     }
 
     @Override
-    public void display(@NonNull User user) {
+    public void display(@NonNull UserBase user) {
         mUser = user;
         mImageLoader.load(user.getPhotoUrl())
                 .dontAnimate()

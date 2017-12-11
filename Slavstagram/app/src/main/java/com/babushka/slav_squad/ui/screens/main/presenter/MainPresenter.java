@@ -114,8 +114,10 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void displayAllPostsInRealTime() {
-        mPostsListener = new DefaultDisplayPostsListener(mView);
-        mModel.addPostsListener(mPostsListener);
+        if (mPostsListener == null) {
+            mPostsListener = new DefaultDisplayPostsListener(mView);
+            mModel.addPostsListener(mPostsListener);
+        }
     }
 
     @Override
@@ -148,6 +150,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mIsPlayingMusic) {
             playMusic();
         }
+        displayAllPostsInRealTime();
     }
 
     @Override
@@ -286,6 +289,7 @@ public class MainPresenter implements MainContract.Presenter {
         mModel.removePostsListener();
         if (mPostsListener != null) {
             mPostsListener.destroy();
+            mPostsListener = null;
         }
         mView = null;
     }

@@ -4,10 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.persistence.database.listeners.CommentsListener;
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
+import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,7 +22,9 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -39,6 +43,8 @@ public class Database {
     private ChildEventListener mUserPostsEventListener;
     @Nullable
     private ChildEventListener mCommentsEventListener;
+    @Nullable
+    private UserBaseChildEventListener mLikesListener;
 
     private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -83,7 +89,10 @@ public class Database {
 
     public void deletePost(@NonNull Post post) {
         String authorId = post.getAuthor().getUid();
-        Map<String, Object> postDeleteMap = getPostUpdateMap(authorId, post.getId(), null);
+        String postId = post.getId();
+        Map<String, Object> postDeleteMap = getPostUpdateMap(authorId, postId, null);
+        postDeleteMap.put('/' + Table.COMMENTS_TABLE + '/' + postId, null);
+        postDeleteMap.put('/' + Table.LIKES_TABLE + '/' + postId, null);
         mDatabase.updateChildren(postDeleteMap);
         Storage.getInstance().deleteImage(post.getImage().getImageUrl());
         deleteCommentsOnPost(post);
@@ -126,7 +135,7 @@ public class Database {
                 if (post == null) {
                     return Transaction.success(mutableData);
                 }
-                Map<String, User> likes = post.getLikes();
+                Map<String, Boolean> likes = post.getLikes();
                 if (likes == null) {
                     //secure that likes are initialized
                     likes = new HashMap<>();
@@ -148,13 +157,13 @@ public class Database {
                 } else {
                     //User has NOT like this post, like it
                     post.setLikesCount(post.getLikesCount() + 1);
-                    likes.put(userId, user);
+                    likes.put(userId, true);
 
                     if (updateLikesTable) {
                         mDatabase.child(Table.LIKES_TABLE)
                                 .child(post.getId())
                                 .child(userId)
-                                .setValue(user);
+                                .updateChildren(user.toUserBaseMap());
                     }
                 }
 
@@ -180,7 +189,7 @@ public class Database {
                 .child(post.getUid())
                 .push();
         comment.setUid(newCommentRef.getKey());
-        newCommentRef.setValue(comment);
+        newCommentRef.setValue(comment.toMap());
 
         //Increment post's comments_count in POSTS AND USER-POSTS tables
         updateCommentsCount(post, true);
@@ -235,18 +244,18 @@ public class Database {
         };
     }
 
-    public void addPostsListener(@NonNull final PostsListener postsListener) {
+    public void addPostsListener(@NonNull final DatabaseListener<Post> postsListener) {
         DatabaseReference postsRef = mDatabase.child(Table.POSTS_TABLE);
-        mPostsEventListener = new DefaultPostEventListener(postsListener);
+        mPostsEventListener = new DefaultPostChildEventListener(postsListener);
         //TODO: Consider add LIMIT [IMPORTANT]
         postsRef.addChildEventListener(mPostsEventListener);
     }
 
-    public void addUserPostsListener(@NonNull String userId, @NonNull final PostsListener listener) {
+    public void addUserPostsListener(@NonNull String userId, @NonNull final DatabaseListener<Post> listener) {
         DatabaseReference userPostsRef = mDatabase
                 .child(Table.USER_POSTS_TABLE)
                 .child(userId);
-        mUserPostsEventListener = new DefaultPostEventListener(listener);
+        mUserPostsEventListener = new DefaultPostChildEventListener(listener);
         userPostsRef.addChildEventListener(mUserPostsEventListener);
     }
 
@@ -304,7 +313,7 @@ public class Database {
                 .addListenerForSingleValueEvent(listener);
     }
 
-    public void retrieveUser(@NonNull String userId, @NonNull final RetrieveUserCallback callback) {
+    public void retrieveUser(@NonNull String userId, @NonNull final RetrieveCallback<User> callback) {
         mDatabase.child(Table.USERS_TABLE)
                 .child(userId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -323,6 +332,37 @@ public class Database {
                         callback.onError();
                     }
                 });
+    }
+
+    public void retrieveLikes(@NonNull String postId, @NonNull final RetrieveCallback<List<UserBase>> callback) {
+        mDatabase.child(Table.LIKES_TABLE)
+                .child(postId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                        List<UserBase> likes = new ArrayList<>();
+                        if (children != null) {
+                            for (DataSnapshot likesSnapshot : children) {
+                                likes.add(likesSnapshot.getValue(UserBase.class));
+                            }
+                        }
+                        callback.onRetrieved(likes);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        callback.onError();
+                    }
+                });
+    }
+
+    public void addLikesListener(@NonNull String postId, @NonNull DatabaseListener<UserBase> listener) {
+        mLikesListener = new UserBaseChildEventListener(listener);
+        //TODO: Consider adding limit
+        mDatabase.child(Table.LIKES_TABLE)
+                .child(postId)
+                .addChildEventListener(mLikesListener);
     }
 
     public void updateUser(@NonNull User user) {
@@ -361,17 +401,70 @@ public class Database {
         }
     }
 
+    public void removeLikesListener(@NonNull String postId) {
+        if (mLikesListener != null) {
+            mDatabase.child(Table.LIKES_TABLE)
+                    .child(postId)
+                    .removeEventListener(mLikesListener);
+        }
+    }
+
     public interface OperationListener {
         void onSuccess();
 
         void onError();
     }
 
-    private static class DefaultPostEventListener implements ChildEventListener {
+    public static class UserBaseChildEventListener implements ChildEventListener {
         @NonNull
-        private final PostsListener mPostsListener;
+        private final DatabaseListener<UserBase> mListener;
 
-        DefaultPostEventListener(@NonNull PostsListener postsListener) {
+        public UserBaseChildEventListener(@NonNull DatabaseListener<UserBase> listener) {
+            mListener = listener;
+        }
+
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            UserBase user = dataSnapshot.getValue(UserBase.class);
+            if (user != null) {
+                mListener.onAdded(user);
+            }
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            UserBase user = dataSnapshot.getValue(UserBase.class);
+            if (user != null) {
+                mListener.onChanged(user);
+            }
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            UserBase user = dataSnapshot.getValue(UserBase.class);
+            if (user != null) {
+                mListener.onRemoved(user);
+            }
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            //TODO: Implement method
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            if (databaseError != null) {
+                mListener.onError(databaseError);
+            }
+        }
+    }
+
+    private static class DefaultPostChildEventListener implements ChildEventListener {
+        @NonNull
+        private final DatabaseListener<Post> mPostsListener;
+
+        DefaultPostChildEventListener(@NonNull DatabaseListener<Post> postsListener) {
             mPostsListener = postsListener;
         }
 
@@ -379,7 +472,7 @@ public class Database {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Post post = dataSnapshot.getValue(Post.class);
             if (post != null) {
-                mPostsListener.onPostAdded(post);
+                mPostsListener.onAdded(post);
             }
         }
 
@@ -387,7 +480,7 @@ public class Database {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Post post = dataSnapshot.getValue(Post.class);
             if (post != null) {
-                mPostsListener.onPostChanged(post);
+                mPostsListener.onChanged(post);
             }
         }
 
@@ -395,7 +488,7 @@ public class Database {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Post post = dataSnapshot.getValue(Post.class);
             if (post != null) {
-                mPostsListener.onPostRemoved(post);
+                mPostsListener.onRemoved(post);
             }
         }
 
@@ -412,9 +505,4 @@ public class Database {
         }
     }
 
-    public interface RetrieveUserCallback {
-        void onRetrieved(@NonNull User user);
-
-        void onError();
-    }
 }

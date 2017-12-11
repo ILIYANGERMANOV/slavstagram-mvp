@@ -8,14 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 
 import com.babushka.slav_squad.GlideRequests;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.container.BaseContainer;
 
 /**
  * Created by iliyan on 22.11.17.
  */
 
-public class LikesCirclesContainer extends BaseContainer<User, LikeCircleViewHolder, LikesCirclesAdapter> {
+public class LikesCirclesContainer extends BaseContainer<UserBase, LikeCircleViewHolder, LikesCirclesAdapter> {
     public LikesCirclesContainer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }

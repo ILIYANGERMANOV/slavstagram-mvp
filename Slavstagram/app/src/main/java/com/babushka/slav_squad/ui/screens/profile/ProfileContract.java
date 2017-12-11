@@ -3,7 +3,8 @@ package com.babushka.slav_squad.ui.screens.profile;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.BasePresenter;
 import com.babushka.slav_squad.ui.screens.PostsView;
 
@@ -33,7 +34,7 @@ public interface ProfileContract {
     }
 
     interface Model {
-        void addUserPostsListener(@NonNull PostsListener postsListener);
+        void addUserPostsListener(@NonNull DatabaseListener<Post> postsListener);
 
         void removeUserPostsListener();
     }

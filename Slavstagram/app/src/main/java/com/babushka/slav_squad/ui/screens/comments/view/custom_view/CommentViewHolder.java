@@ -14,6 +14,7 @@ import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
@@ -70,7 +71,7 @@ public class CommentViewHolder extends BaseAdapter.BaseViewHolder<Comment> imple
         displayCreationDate(comment.getTimestamp());
     }
 
-    private void displayAuthor(@NonNull User author) {
+    private void displayAuthor(@NonNull UserBase author) {
         mImageLoader.load(author.getPhotoUrl())
                 .dontAnimate()
                 //TODO: add placeholder and error drawable

@@ -3,7 +3,8 @@ package com.babushka.slav_squad.ui.screens.profile.model;
 import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.Database;
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
+import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.BasePostsModel;
 import com.babushka.slav_squad.ui.screens.profile.ProfileContract;
 
@@ -21,7 +22,7 @@ public class ProfileModel extends BasePostsModel implements ProfileContract.Mode
     }
 
     @Override
-    public void addUserPostsListener(@NonNull PostsListener postsListener) {
+    public void addUserPostsListener(@NonNull DatabaseListener<Post> postsListener) {
         Database database = Database.getInstance();
         database.addUserPostsListener(mProfileId, buildIsLikedPostTransformator(postsListener));
     }

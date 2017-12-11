@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.BasePresenter;
@@ -105,7 +105,7 @@ public interface MainContract {
 
     interface Model {
 
-        void addPostsListener(@NonNull PostsListener postsListener);
+        void addPostsListener(@NonNull DatabaseListener<Post> postsListener);
 
         void removePostsListener();
 

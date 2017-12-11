@@ -6,14 +6,14 @@ import android.view.View;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.container.GlideAdapter;
 
 /**
  * Created by iliyan on 09.11.17.
  */
 
-public class LikesAdapter extends GlideAdapter<User, LikeViewHolder> {
+public class LikesAdapter extends GlideAdapter<UserBase, LikeViewHolder> {
     protected LikesAdapter(@NonNull Context context, @NonNull GlideRequests imageLoader) {
         super(context, imageLoader);
     }

@@ -6,14 +6,14 @@ import android.view.View;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.container.GlideAdapter;
 
 /**
  * Created by iliyan on 22.11.17.
  */
 
-public class LikesCirclesAdapter extends GlideAdapter<User, LikeCircleViewHolder> {
+public class LikesCirclesAdapter extends GlideAdapter<UserBase, LikeCircleViewHolder> {
     LikesCirclesAdapter(@NonNull Context context, @NonNull GlideRequests imageLoader) {
         super(context, imageLoader);
     }

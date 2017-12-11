@@ -6,14 +6,13 @@ import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Post;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.likes.LikesContract;
+import com.babushka.slav_squad.ui.screens.likes.model.LikesModel;
 import com.babushka.slav_squad.ui.screens.likes.presenter.LikesPresenter;
 import com.babushka.slav_squad.ui.screens.likes.view.custom_view.LikesContainer;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -62,11 +61,26 @@ public class LikesActivity extends BaseActionBarActivity<LikesContract.Presenter
     @NonNull
     @Override
     protected LikesContract.Presenter initializePresenter() {
-        return new LikesPresenter(this, mPost);
+        return new LikesPresenter(this, mPost, new LikesModel());
     }
 
     @Override
-    public void displayLikes(@NonNull List<User> usersLiked) {
-        vLikesContainer.display(usersLiked);
+    public void showToast(@NonNull String message) {
+        super.showToast(message);
+    }
+
+    @Override
+    public void onLikeAdded(@NonNull UserBase user) {
+        vLikesContainer.add(user);
+    }
+
+    @Override
+    public void onLikeChanged(@NonNull UserBase user) {
+        vLikesContainer.update(user);
+    }
+
+    @Override
+    public void onLikeRemoved(@NonNull UserBase user) {
+        vLikesContainer.remove(user);
     }
 }

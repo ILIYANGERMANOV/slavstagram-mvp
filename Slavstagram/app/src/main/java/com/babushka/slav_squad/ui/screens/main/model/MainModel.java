@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.babushka.slav_squad.persistence.database.Database;
-import com.babushka.slav_squad.persistence.database.listeners.PostsListener;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.ui.screens.BasePostsModel;
@@ -37,7 +37,7 @@ public class MainModel extends BasePostsModel implements MainContract.Model {
     }
 
     @Override
-    public void addPostsListener(@NonNull final PostsListener postsListener) {
+    public void addPostsListener(@NonNull final DatabaseListener<Post> postsListener) {
         Database database = Database.getInstance();
         database.addPostsListener(buildIsLikedPostTransformator(postsListener));
     }

@@ -113,19 +113,4 @@ public class User extends UserBase {
         result.put(Table.User.HIGH_RES_PHOTO_URL, mHighResPhotoUrl);
         return result;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return mUid.equals(user.mUid) && mEmail.equals(user.mEmail);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mUid.hashCode();
-        result = 31 * result + mEmail.hashCode();
-        return result;
-    }
 }

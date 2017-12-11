@@ -2,7 +2,9 @@ package com.babushka.slav_squad.ui.screens.likes;
 
 import android.support.annotation.NonNull;
 
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
+import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.BasePresenter;
 
 import java.util.List;
@@ -13,10 +15,24 @@ import java.util.List;
 
 public interface LikesContract {
     interface View {
-        void displayLikes(@NonNull List<User> usersLiked);
+        void showToast(@NonNull String message);
+
+        void onLikeAdded(@NonNull UserBase user);
+
+        void onLikeChanged(@NonNull UserBase user);
+
+        void onLikeRemoved(@NonNull UserBase user);
     }
 
     interface Presenter extends BasePresenter {
         void displayLikes();
+    }
+
+    interface Model {
+        void retrieveLikes(@NonNull String postId, @NonNull RetrieveCallback<List<UserBase>> callback);
+
+        void addLikesListener(@NonNull String postId, @NonNull DatabaseListener<UserBase> listener);
+
+        void removeLikesListener(@NonNull String postId);
     }
 }

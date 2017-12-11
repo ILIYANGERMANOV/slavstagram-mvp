@@ -74,9 +74,23 @@ public class UserBase implements Findable {
     }
 
 
+    @Exclude
     @NonNull
     @Override
     public String getId() {
         return mUid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserBase)) return false;
+        UserBase userBase = (UserBase) o;
+        return mUid.equals(userBase.mUid);
+    }
+
+    @Override
+    public int hashCode() {
+        return mUid.hashCode();
     }
 }

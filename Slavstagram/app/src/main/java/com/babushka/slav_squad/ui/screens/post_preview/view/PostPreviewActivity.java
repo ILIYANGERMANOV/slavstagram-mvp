@@ -13,20 +13,21 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioPhotoView;
 import com.babushka.slav_squad.ui.custom_view.LockableNestedScrollView;
 import com.babushka.slav_squad.ui.screens.comments.view.custom_view.AddCommentView;
 import com.babushka.slav_squad.ui.screens.comments.view.custom_view.CommentsContainer;
 import com.babushka.slav_squad.ui.screens.image_preview.ImagePreviewActivity;
+import com.babushka.slav_squad.ui.screens.likes.LikesContract;
+import com.babushka.slav_squad.ui.screens.likes.model.LikesModel;
 import com.babushka.slav_squad.ui.screens.likes.view.LikesActivity;
 import com.babushka.slav_squad.ui.screens.post_preview.PostPreviewContract;
 import com.babushka.slav_squad.ui.screens.post_preview.model.PostPreviewModel;
 import com.babushka.slav_squad.ui.screens.post_preview.presenter.PostPreviewPresenter;
 import com.babushka.slav_squad.ui.screens.post_preview.view.custom_view.LikesCirclesContainer;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,7 +37,7 @@ import butterknife.OnClick;
  */
 
 public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContract.Presenter>
-        implements PostPreviewContract.View, AddCommentView.Listener {
+        implements PostPreviewContract.View, AddCommentView.Listener, LikesContract.View {
     private static final String EXTRA_POST = "post_extra";
 
     @BindView(R.id.activity_post_preview)
@@ -79,8 +80,8 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
     @NonNull
     @Override
     protected PostPreviewContract.Presenter initializePresenter() {
-        return new PostPreviewPresenter(this,
-                new PostPreviewModel(mPost), mPost);
+        return new PostPreviewPresenter(this, new PostPreviewModel(mPost),
+                new LikesModel(), this, mPost);
     }
 
     @Override
@@ -134,11 +135,6 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
     }
 
     @Override
-    public void displayPostLikes(@NonNull List<User> likes) {
-        vLikesContainer.display(likes);
-    }
-
-    @Override
     public void displayDescription(@NonNull String description) {
         if (TextUtils.isEmpty(description)) {
             vDescriptionText.setVisibility(View.GONE);
@@ -146,6 +142,26 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
         } else {
             vDescriptionText.setText(description);
         }
+    }
+
+    @Override
+    public void showToast(@NonNull String message) {
+        super.showToast(message);
+    }
+
+    @Override
+    public void onLikeAdded(@NonNull UserBase user) {
+        vLikesContainer.add(user);
+    }
+
+    @Override
+    public void onLikeChanged(@NonNull UserBase user) {
+        vLikesContainer.update(user);
+    }
+
+    @Override
+    public void onLikeRemoved(@NonNull UserBase user) {
+        vLikesContainer.remove(user);
     }
 
     @Override

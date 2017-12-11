@@ -47,6 +47,7 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> impl
                         .title("Delete post?")
                         .positiveText("DELETE")
                         .negativeText("CANCEL")
+                        .positiveColorRes(R.color.red)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

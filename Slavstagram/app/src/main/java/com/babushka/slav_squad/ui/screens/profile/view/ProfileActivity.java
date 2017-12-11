@@ -18,6 +18,7 @@ import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.Database;
+import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.persistence.database.model.UserBase;
@@ -68,7 +69,7 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
     private boolean mAreAnyPosts = false;
 
     public static void startScreen(@NonNull final Context context, @NonNull final UserBase userBase) {
-        Database.getInstance().retrieveUser(userBase.getId(), new Database.RetrieveUserCallback() {
+        Database.getInstance().retrieveUser(userBase.getId(), new RetrieveCallback<User>() {
             @Override
             public void onRetrieved(@NonNull User user) {
                 startScreen(context, user);

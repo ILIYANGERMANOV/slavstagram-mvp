@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
-import com.babushka.slav_squad.persistence.database.model.User;
+import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 
@@ -18,14 +18,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by iliyan on 22.11.17.
  */
 
-public class LikeCircleViewHolder extends BaseAdapter.BaseViewHolder<User> implements View.OnClickListener {
+public class LikeCircleViewHolder extends BaseAdapter.BaseViewHolder<UserBase> implements View.OnClickListener {
     @NonNull
     private final GlideRequests mImageLoader;
     @NonNull
     private final Context mContext;
     @BindView(R.id.like_circle_circle_image_view)
     CircleImageView vUserImage;
-    private User mUser;
+    private UserBase mUser;
 
     LikeCircleViewHolder(View itemView, @NonNull GlideRequests imageLoader) {
         super(itemView);
@@ -36,7 +36,7 @@ public class LikeCircleViewHolder extends BaseAdapter.BaseViewHolder<User> imple
     }
 
     @Override
-    public void display(@NonNull User user) {
+    public void display(@NonNull UserBase user) {
         mUser = user;
         mImageLoader.load(user.getPhotoUrl())
                 .dontAnimate()

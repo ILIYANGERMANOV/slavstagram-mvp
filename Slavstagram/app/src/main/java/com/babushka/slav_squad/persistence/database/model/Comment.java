@@ -5,8 +5,12 @@ import android.support.annotation.NonNull;
 import com.babushka.slav_squad.persistence.database.Table;
 import com.babushka.slav_squad.ui.container.Findable;
 import com.babushka.slav_squad.util.datetime.DateUtil;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by iliyan on 28.05.17.
@@ -18,7 +22,7 @@ public class Comment implements Findable {
     @PropertyName(Table.Comment.TEXT)
     private String mText;
     @PropertyName(Table.Comment.AUTHOR)
-    private User mAuthor;
+    private UserBase mAuthor;
     @PropertyName(Table.Comment.TIMESTAMP)
     private long mTimestamp;
     @PropertyName(Table.Comment.INVERTED_TIMESTAMP)
@@ -55,7 +59,7 @@ public class Comment implements Findable {
 
 
     @PropertyName(Table.Comment.AUTHOR)
-    public User getAuthor() {
+    public UserBase getAuthor() {
         return mAuthor;
     }
 
@@ -80,6 +84,17 @@ public class Comment implements Findable {
 
     public void setInvertedTimestamp(long invertedTimestamp) {
         mInvertedTimestamp = invertedTimestamp;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put(Table.Comment.UID, mUid);
+        result.put(Table.Comment.AUTHOR, mAuthor.toUserBaseMap());
+        result.put(Table.Comment.TEXT, mText);
+        result.put(Table.Comment.TIMESTAMP, mTimestamp);
+        result.put(Table.Comment.INVERTED_TIMESTAMP, mInvertedTimestamp);
+        return result;
     }
 
     @NonNull
