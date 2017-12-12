@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
-import com.babushka.slav_squad.R;
-
 /**
  * Created by iliyan on 21.11.17.
  */
@@ -20,9 +18,8 @@ public class LikeNotification extends PostNotification {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                 .setContentTitle("Post liked")
                 .setContentText(String.format("%s squated on your post.", mUserName))
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true);
-        buildPhotoActionAndShow(builder);
+        buildCommonAndShow(builder);
     }
 }
 

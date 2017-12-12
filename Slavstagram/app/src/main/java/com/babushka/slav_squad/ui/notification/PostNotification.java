@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
+import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.screens.main.view.MainActivity;
 import com.babushka.slav_squad.ui.screens.splash.SplashActivity;
 
@@ -42,8 +43,8 @@ public class PostNotification {
         mPostId = postId;
     }
 
-    protected void buildPhotoActionAndShow(@NonNull NotificationCompat.Builder builder) {
-
+    protected void buildCommonAndShow(@NonNull NotificationCompat.Builder builder) {
+        builder.setSmallIcon(R.drawable.ic_notification);
         try {
             builder.setLargeIcon(downloadBitmapFromURL(mUserPhotoUrl));
         } catch (IOException e) {

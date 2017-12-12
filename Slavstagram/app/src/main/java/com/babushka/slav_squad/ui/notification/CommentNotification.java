@@ -23,7 +23,7 @@ public class CommentNotification extends PostNotification {
                 .setContentText(String.format("%s commented on your post.", mUserName))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true);
-        buildPhotoActionAndShow(builder);
+        buildCommonAndShow(builder);
     }
 
 }
