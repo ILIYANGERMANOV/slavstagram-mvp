@@ -8,6 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.babushka.slav_squad.MyApp;
+import com.babushka.slav_squad.analytics.core.AnalyticsService;
+import com.babushka.slav_squad.analytics.event.Event;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+
 import butterknife.ButterKnife;
 
 /**
@@ -61,4 +66,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void showToast(@NonNull String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    protected void logSimpleEvent(@NonNull String eventName) {
+        Event event = EventBuilder.simpleEvent(eventName);
+        getAnalytics().logEvent(event);
+    }
+
+    protected AnalyticsService getAnalytics() {
+        return MyApp.getAnalytics();
+    }
+
 }

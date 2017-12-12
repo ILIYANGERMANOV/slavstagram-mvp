@@ -3,6 +3,9 @@ package com.babushka.slav_squad;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.babushka.slav_squad.analytics.core.AnalyticsService;
+import com.babushka.slav_squad.analytics.core.AppAnalyticsService;
+import com.babushka.slav_squad.analytics.event.Event;
 import com.babushka.slav_squad.config.Configuration;
 import com.babushka.slav_squad.config.FirebaseDBConfiguration;
 import com.babushka.slav_squad.config.LeakCanaryConfiguration;
@@ -18,6 +21,7 @@ import java.util.Set;
 public class MyApp extends Application {
     private static MyApp sAppInstance;
     private MusicPlayer mMusicPlayer;
+    private AnalyticsService mAnalyticsService;
 
     @NonNull
     public static MyApp getInstance() {
@@ -29,6 +33,15 @@ public class MyApp extends Application {
         return getInstance().mMusicPlayer;
     }
 
+    @NonNull
+    public static AnalyticsService getAnalytics() {
+        return getInstance().mAnalyticsService;
+    }
+
+    public static void logEvent(@NonNull Event event) {
+        getAnalytics().logEvent(event);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,6 +51,7 @@ public class MyApp extends Application {
         for (Configuration configuration : configurations) {
             configuration.onConfigure(this);
         }
+        mAnalyticsService = new AppAnalyticsService(this);
     }
 
     private Set<Configuration> getsConfigurationSet() {

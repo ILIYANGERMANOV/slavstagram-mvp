@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.babushka.slav_squad.MyApp;
+import com.babushka.slav_squad.analytics.core.AnalyticsService;
+import com.babushka.slav_squad.analytics.event.Event;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -62,5 +67,14 @@ public abstract class BaseFragment extends Fragment {
         if (mBind != null) {
             mBind.unbind();
         }
+    }
+
+    protected void logSimpleAnalyticsEvent(String eventName) {
+        Event event = EventBuilder.simpleEvent(eventName);
+        getAnalytics().logEvent(event);
+    }
+
+    protected AnalyticsService getAnalytics() {
+        return MyApp.getAnalytics();
     }
 }

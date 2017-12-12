@@ -8,9 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
 import com.babushka.slav_squad.persistence.RemoteConfig;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class SpecialActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         displayTimeLeft();
         displayMessage();
-        FirebaseAnalytics.getInstance(this).logEvent("open_special_screen", null);
+        MyApp.logEvent(EventBuilder.simpleEvent("open_special_screen"));
     }
 
     private void displayTimeLeft() {
