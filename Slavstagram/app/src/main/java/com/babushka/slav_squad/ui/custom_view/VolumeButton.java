@@ -36,16 +36,29 @@ public class VolumeButton extends AppCompatImageButton implements View.OnClickLi
     public void onClick(View v) {
         if (mIsVolumeOn) {
             //volume is ON, turn in off
-            mMusicPlayer.volumeOff();
-            setImageResource(R.drawable.ic_volume_off);
+            volumeOff();
         } else {
             //volume is OFF, turn it on
-            mMusicPlayer.volumeOn();
-            if (!mMusicPlayer.isPlaying()) {
-                mMusicPlayer.play();
-            }
-            setImageResource(R.drawable.ic_volume_on);
+            volumeOnAndPlay();
         }
-        mIsVolumeOn = !mIsVolumeOn;
+    }
+
+    public void volumeOff() {
+        mMusicPlayer.volumeOff();
+        setImageResource(R.drawable.ic_volume_off);
+        mIsVolumeOn = false;
+    }
+
+    private void volumeOnAndPlay() {
+        volumeOn();
+        if (!mMusicPlayer.isPlaying()) {
+            mMusicPlayer.play();
+        }
+    }
+
+    public void volumeOn() {
+        mMusicPlayer.volumeOn();
+        setImageResource(R.drawable.ic_volume_on);
+        mIsVolumeOn = true;
     }
 }

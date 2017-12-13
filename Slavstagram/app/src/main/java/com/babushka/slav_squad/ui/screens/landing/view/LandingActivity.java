@@ -18,6 +18,7 @@ import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView;
+import com.babushka.slav_squad.ui.custom_view.VolumeButton;
 import com.babushka.slav_squad.ui.screens.landing.LandingContract;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.landing.presenter.LandingPresenter;
@@ -31,6 +32,10 @@ import butterknife.OnClick;
 public class LandingActivity extends BaseActivity<LandingContract.Presenter>
         implements LandingContract.View {
 
+    //TODO: Refactor this ugly shit
+    public static boolean sWasLanding = false;
+    @BindView(R.id.landing_volume_button)
+    VolumeButton vVolumeButton;
     @BindView(R.id.landing_fb_login_invisible_button)
     LoginButton vInvisibleFbButton;
     @BindView(R.id.landing_welcome_text_view)
@@ -49,14 +54,9 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     Button vEmailButton;
     @BindView(R.id.landing_slav_squad_terms_and_conds_view)
     SlavSquadTermsAndCondsView vTermsAndConds;
-
     @Nullable
     private MaterialDialog mProgressDialog;
-
     private boolean mIsLoading = false;
-
-    //TODO: Refactor this ugly shit
-    public static boolean sWasLanding = false;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -131,13 +131,16 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
+        vVolumeButton.volumeOff();
         sWasLanding = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.playMusic();
+        if (vVolumeButton.isVolumeOn()) {
+            mPresenter.playMusic();
+        }
     }
 
     @Override
