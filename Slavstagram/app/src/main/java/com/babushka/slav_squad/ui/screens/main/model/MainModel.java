@@ -23,6 +23,8 @@ import com.google.firebase.storage.FileDownloadTask;
 import java.io.File;
 import java.io.IOException;
 
+import static com.babushka.slav_squad.persistence.database.Database.getValueSafe;
+
 /**
  * Created by iliyan on 02.06.17.
  */
@@ -69,7 +71,7 @@ public class MainModel extends BasePostsModel implements MainContract.Model {
         Database.getInstance().retrievePost(postId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Post post = dataSnapshot.getValue(Post.class);
+                Post post = getValueSafe(dataSnapshot, Post.class);
                 if (post != null) {
                     callback.onPostRetrieved(post);
                 } else {

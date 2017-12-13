@@ -3,6 +3,9 @@ package com.babushka.slav_squad.persistence.database;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.babushka.slav_squad.MyApp;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.database.listeners.CommentsListener;
 import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
@@ -55,6 +58,17 @@ public class Database {
             sDatabase = new Database();
         }
         return sDatabase;
+    }
+
+    @Nullable
+    public static <T> T getValueSafe(DataSnapshot dataSnapshot, Class<T> type) {
+        try {
+            return dataSnapshot.getValue(type);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyApp.logEvent(EventBuilder.simpleEvent(Events.INCONSISTENT_DB));
+            return null;
+        }
     }
 
     public void saveUser(@NonNull User user) {
@@ -271,7 +285,7 @@ public class Database {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Comment comment = dataSnapshot.getValue(Comment.class);
+                Comment comment = getValueSafe(dataSnapshot, Comment.class);
                 if (comment != null) {
                     listener.onCommentAdded(comment);
                 }
@@ -279,7 +293,7 @@ public class Database {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Comment comment = dataSnapshot.getValue(Comment.class);
+                Comment comment = getValueSafe(dataSnapshot, Comment.class);
                 if (comment != null) {
                     listener.onCommentChanged(comment);
                 }
@@ -287,7 +301,7 @@ public class Database {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Comment comment = dataSnapshot.getValue(Comment.class);
+                Comment comment = getValueSafe(dataSnapshot, Comment.class);
                 if (comment != null) {
                     listener.onCommentRemoved(comment);
                 }
@@ -319,7 +333,7 @@ public class Database {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
+                        User user = getValueSafe(dataSnapshot, User.class);
                         if (user != null) {
                             callback.onRetrieved(user);
                         } else {
@@ -344,7 +358,10 @@ public class Database {
                         List<UserBase> likes = new ArrayList<>();
                         if (children != null) {
                             for (DataSnapshot likesSnapshot : children) {
-                                likes.add(likesSnapshot.getValue(UserBase.class));
+                                UserBase userLiked = getValueSafe(likesSnapshot, UserBase.class);
+                                if (userLiked != null) {
+                                    likes.add(userLiked);
+                                }
                             }
                         }
                         callback.onRetrieved(likes);
@@ -425,7 +442,7 @@ public class Database {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            UserBase user = dataSnapshot.getValue(UserBase.class);
+            UserBase user = getValueSafe(dataSnapshot, UserBase.class);
             if (user != null) {
                 mListener.onAdded(user);
             }
@@ -433,7 +450,7 @@ public class Database {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            UserBase user = dataSnapshot.getValue(UserBase.class);
+            UserBase user = getValueSafe(dataSnapshot, UserBase.class);
             if (user != null) {
                 mListener.onChanged(user);
             }
@@ -441,7 +458,7 @@ public class Database {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            UserBase user = dataSnapshot.getValue(UserBase.class);
+            UserBase user = getValueSafe(dataSnapshot, UserBase.class);
             if (user != null) {
                 mListener.onRemoved(user);
             }
@@ -470,7 +487,7 @@ public class Database {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            Post post = dataSnapshot.getValue(Post.class);
+            Post post = getValueSafe(dataSnapshot, Post.class);
             if (post != null) {
                 mPostsListener.onAdded(post);
             }
@@ -478,7 +495,7 @@ public class Database {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            Post post = dataSnapshot.getValue(Post.class);
+            Post post = getValueSafe(dataSnapshot, Post.class);
             if (post != null) {
                 mPostsListener.onChanged(post);
             }
@@ -486,7 +503,7 @@ public class Database {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Post post = dataSnapshot.getValue(Post.class);
+            Post post = getValueSafe(dataSnapshot, Post.class);
             if (post != null) {
                 mPostsListener.onRemoved(post);
             }
