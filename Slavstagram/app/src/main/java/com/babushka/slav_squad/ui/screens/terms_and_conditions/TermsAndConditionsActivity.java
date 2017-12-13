@@ -12,7 +12,12 @@ import android.text.Spanned;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.Event;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.util.AppUtil;
 
 import butterknife.BindView;
@@ -39,6 +44,11 @@ public class TermsAndConditionsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupActionBar();
         displayTermsAndConds();
+        logOpenScreenEvent();
+    }
+
+    private void logOpenScreenEvent() {
+        logSimpleEvent(Events.OPEN_SCREEN_ + EventValues.Screen.TERMS_AND_CONDS);
     }
 
     private void displayTermsAndConds() {
@@ -63,5 +73,16 @@ public class TermsAndConditionsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        logSimpleEvent(Events.BACK_SCREEN_ + EventValues.Screen.TERMS_AND_CONDS);
+        super.onBackPressed();
+    }
+
+    private void logSimpleEvent(String eventName) {
+        Event event = EventBuilder.simpleEvent(eventName);
+        MyApp.logEvent(event);
     }
 }

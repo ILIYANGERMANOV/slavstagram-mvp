@@ -3,6 +3,7 @@ package com.babushka.slav_squad.ui.screens.post_preview.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ScrollView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -174,5 +176,11 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
             R.id.post_preview_liked_by_label_text_view})
     public void onShowLikesScreen() {
         LikesActivity.startScreen(this, mPost);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.POST_PREVIEW;
     }
 }

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.widget.ScrollView;
 
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -112,5 +114,11 @@ public class CommentsActivity extends BaseActionBarActivity<CommentsContract.Pre
     @Override
     protected CommentsContract.Presenter initializePresenter() {
         return new CommentsPresenter(this, new CommentsModel(mPost));
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.COMMENTS;
     }
 }

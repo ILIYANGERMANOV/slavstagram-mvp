@@ -12,6 +12,7 @@ import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.analytics.core.AnalyticsService;
 import com.babushka.slav_squad.analytics.event.Event;
 import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.Events;
 
 import butterknife.ButterKnife;
 
@@ -33,8 +34,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         //empty stub
 
     }
+
     @NonNull
     protected abstract P initializePresenter();
+
+    @Nullable
+    protected abstract String getScreenName();
 
     protected void onSetupFinished() {
         //empty stub
@@ -51,9 +56,17 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setContentView(getContentViewLayout());
         onReadArguments(getIntent());
         ButterKnife.bind(this);
+        logOpenScreenEvent();
         onSetupUI();
         mPresenter = initializePresenter();
         onSetupFinished();
+    }
+
+
+    private void logOpenScreenEvent() {
+        if (hasAnalytics()) {
+            logSimpleEvent(Events.OPEN_SCREEN_ + getScreenName());
+        }
     }
 
     @Override
@@ -67,6 +80,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        logBackEvent();
+        super.onBackPressed();
+    }
+
     protected void logSimpleEvent(@NonNull String eventName) {
         Event event = EventBuilder.simpleEvent(eventName);
         getAnalytics().logEvent(event);
@@ -74,6 +93,16 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected AnalyticsService getAnalytics() {
         return MyApp.getAnalytics();
+    }
+
+    private void logBackEvent() {
+        if (hasAnalytics()) {
+            logSimpleEvent(Events.BACK_SCREEN_ + getScreenName());
+        }
+    }
+
+    protected boolean hasAnalytics() {
+        return getScreenName() != null;
     }
 
 }

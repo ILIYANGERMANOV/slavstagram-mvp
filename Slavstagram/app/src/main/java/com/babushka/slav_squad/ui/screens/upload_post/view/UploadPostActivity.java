@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
@@ -187,11 +188,11 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
                 getString(R.string.permission_camera_never_ask_content)).show(this);
     }
 
-
     @Override
     public void openGalleryWithCheck(int requestCode) {
         UploadPostActivityPermissionsDispatcher.openGalleryWithCheck(this, requestCode);
     }
+
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
@@ -221,7 +222,6 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
                 getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }
 
-
     @Override
     public void openImageCropScreen(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
         ImageCropper cropper = new UploadPostCropper(this);
@@ -238,6 +238,7 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
                 .cancelable(false)
                 .show();
     }
+
 
     @Override
     public void showError(@NonNull String message) {
@@ -298,5 +299,11 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.UPLOAD_POST;
     }
 }

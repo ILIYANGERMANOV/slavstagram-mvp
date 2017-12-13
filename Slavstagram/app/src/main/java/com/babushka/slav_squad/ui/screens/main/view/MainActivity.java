@@ -36,6 +36,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.special_start.SpecialStart;
@@ -360,7 +361,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
                 getString(R.string.permission_write_storage_never_ask_content)).show(this);
     }
 
-
     @Override
     public void addImageToGallery(@NonNull File imageFile) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -368,6 +368,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
     }
+
 
     @Override
     public void showUploadPostLayout() {
@@ -649,5 +650,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
     protected void onDestroy() {
         super.onDestroy();
         dismissProgressDialogIfShown();
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.MAIN;
     }
 }

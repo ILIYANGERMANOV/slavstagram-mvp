@@ -3,8 +3,10 @@ package com.babushka.slav_squad.ui.screens.about.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.screens.about.AboutContract;
 import com.babushka.slav_squad.ui.screens.about.presenter.AboutPresenter;
@@ -30,5 +32,11 @@ public class AboutActivity extends BaseActionBarActivity<AboutContract.Presenter
     @Override
     protected AboutContract.Presenter initializePresenter() {
         return new AboutPresenter(this);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.ABOUT;
     }
 }

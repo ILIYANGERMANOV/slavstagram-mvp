@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
@@ -176,5 +177,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.LOGIN;
     }
 }

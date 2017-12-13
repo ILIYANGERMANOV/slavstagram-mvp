@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.screens.register.RegisterContract;
 import com.babushka.slav_squad.ui.screens.register.model.RegisterModel;
@@ -112,5 +113,11 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
     @Override
     public void onSecondStepCompleted(@NonNull RegisterSecondStepFragment.Input input) {
         mPresenter.handleSecondStepCompleted(input);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.REGISTER;
     }
 }

@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView;
 import com.babushka.slav_squad.ui.custom_view.VolumeButton;
@@ -169,9 +170,6 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     }
 
 //    @OnClick(R.id.landing_skip_button)
-//    public void onSkipButtonClicked() {
-//        mPresenter.loginAsGuest();
-//    }
 
     @Override
     public void startLoginScreen() {
@@ -211,5 +209,11 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.LANDING;
     }
 }

@@ -3,8 +3,10 @@ package com.babushka.slav_squad.ui.screens.likes.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.UserBase;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
@@ -82,5 +84,11 @@ public class LikesActivity extends BaseActionBarActivity<LikesContract.Presenter
     @Override
     public void onLikeRemoved(@NonNull UserBase user) {
         vLikesContainer.remove(user);
+    }
+
+    @Nullable
+    @Override
+    protected String getScreenName() {
+        return EventValues.Screen.LIKES;
     }
 }

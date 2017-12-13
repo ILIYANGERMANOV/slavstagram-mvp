@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.babushka.slav_squad.analytics.event.Events;
+
 /**
  * Created by iliyan on 07.06.17.
  */
@@ -33,9 +35,16 @@ public abstract class BaseActionBarActivity<P extends BasePresenter> extends Bas
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             // Respond to the action bar's Up/Home button
+            logHomeScreenEvent();
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logHomeScreenEvent() {
+        if (hasAnalytics()) {
+            logSimpleEvent(Events.HOME_SCREEN_ + getScreenName());
+        }
     }
 }
