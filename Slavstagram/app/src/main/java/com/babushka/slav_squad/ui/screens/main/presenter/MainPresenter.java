@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.SimpleAnalytics;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.event.UpdateProfileEvent;
 import com.babushka.slav_squad.persistence.RemoteConfig;
@@ -15,6 +17,7 @@ import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.special_start.SpecialStart;
+import com.babushka.slav_squad.ui.AnalyticsPresenter;
 import com.babushka.slav_squad.ui.screens.DefaultDisplayPostsListener;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.landing.view.LandingActivity;
@@ -33,7 +36,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by iliyan on 29.05.17.
  */
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter extends AnalyticsPresenter implements MainContract.Presenter {
     public static final String ACTION_POST_PREVIEW = "action_post_preview";
     public static final String POST_ID = "post_id";
 
@@ -55,7 +58,9 @@ public class MainPresenter implements MainContract.Presenter {
     private boolean mIsPlayingMusic;
 
     public MainPresenter(@NonNull MainContract.View view, @NonNull MainContract.Model model,
-                         @NonNull SessionManager sessionManager, @NonNull MusicPlayer musicPlayer) {
+                         @NonNull SessionManager sessionManager, @NonNull MusicPlayer musicPlayer,
+                         @NonNull SimpleAnalytics simpleAnalytics) {
+        super(simpleAnalytics);
         mView = view;
         mModel = model;
         mSessionManager = sessionManager;
@@ -169,6 +174,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     private void pauseMusic() {
+        if (mIsPlayingMusic) {
+            mAnalytics.logEvent(Events.Main.PAUSE_MUSIC);
+        }
         mMusicPlayer.pause();
         mView.showMusicStopped();
     }
@@ -179,6 +187,7 @@ public class MainPresenter implements MainContract.Presenter {
         }
         mMusicPlayer.play();
         mView.showMusicPlaying();
+        mAnalytics.logEvent(Events.Main.PLAY_MUSIC);
     }
 
     @Override

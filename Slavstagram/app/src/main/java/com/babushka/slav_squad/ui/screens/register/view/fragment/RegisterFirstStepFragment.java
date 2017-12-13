@@ -8,7 +8,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.session.data.LoginDetails;
+import com.babushka.slav_squad.ui.custom_view.VolumeButton;
 import com.babushka.slav_squad.ui.listeners.editor.EditorNextListener;
 import com.babushka.slav_squad.ui.screens.register.view.RegisterSupport;
 import com.babushka.slav_squad.ui.wizard.WizardFragment;
@@ -22,6 +25,8 @@ import butterknife.OnClick;
  */
 
 public class RegisterFirstStepFragment extends WizardFragment<LoginDetails, RegisterSupport> {
+    @BindView(R.id.register_first_step_volume_button)
+    VolumeButton vVolumeButton;
     @BindView(R.id.register_first_step_email_edit_text)
     EditText vEmailInput;
     @BindView(R.id.register_first_step_password_edit_text)
@@ -80,6 +85,12 @@ public class RegisterFirstStepFragment extends WizardFragment<LoginDetails, Regi
                 }
             }
         });
+        vVolumeButton.setFromScreen(EventValues.Screen.REGISTER_FIRST_STEP);
+    }
+
+    @Override
+    protected void onInitialized() {
+        logSimpleEvent(Events.OPEN_SCREEN_ + EventValues.Screen.REGISTER_FIRST_STEP);
     }
 
     private boolean isValidInput(LoginDetails input) {

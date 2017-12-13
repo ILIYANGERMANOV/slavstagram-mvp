@@ -8,6 +8,7 @@
 
     <com.babushka.slav_squad.ui.custom_view.VolumeButton
         style="@style/ImageButton"
+        android:id="@+id/register_first_step_volume_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

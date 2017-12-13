@@ -17,6 +17,7 @@ import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.ui.BaseActivity;
 import com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView;
 import com.babushka.slav_squad.ui.custom_view.VolumeButton;
@@ -73,7 +74,8 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected LandingContract.Presenter initializePresenter() {
         MusicPlayer musicPlayer = MyApp.getMusicPlayer();
-        return new LandingPresenter(this, new LandingModelImpl(), musicPlayer);
+        return new LandingPresenter(this, new LandingModelImpl(),
+                musicPlayer, getSimpleAnalytics());
     }
 
     @Override
@@ -91,6 +93,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
 
     @Override
     protected void onSetupUI() {
+        vVolumeButton.setFromScreen(getScreenName());
         vEmailButton.setPaintFlags(vEmailButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -132,7 +135,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     @Override
     protected void onSetupFinished() {
         mPresenter.setupFacebookLogin(this, vInvisibleFbButton);
-        vVolumeButton.volumeOff();
+        vVolumeButton.volumeOff(false);
         sWasLanding = true;
     }
 
@@ -161,6 +164,7 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     public void onLoginWithFbClick() {
         //TODO: Refatcor this internal call of showProgress(), it's work for the Presenter
         showProgress();
+        logSimpleEvent(Events.Landing.LOGIN_WITH_FB);
         vInvisibleFbButton.callOnClick();
     }
 
@@ -168,8 +172,6 @@ public class LandingActivity extends BaseActivity<LandingContract.Presenter>
     public void onRegisterClick() {
         mPresenter.handleEmailClick();
     }
-
-//    @OnClick(R.id.landing_skip_button)
 
     @Override
     public void startLoginScreen() {

@@ -79,7 +79,7 @@ import static com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter.AC
 import static com.babushka.slav_squad.ui.screens.main.presenter.MainPresenter.POST_ID;
 
 @RuntimePermissions
-public class MainActivity extends BaseActivity<MainContract.Presenter>
+public class MainActivity extends BaseActivity<MainPresenter>
         implements MainContract.View {
     public static final int SCROLL_THRESHOLD = 30;
     //TODO: Refactor and optimize post loading by moving it on another thread
@@ -250,11 +250,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter>
 
     @NonNull
     @Override
-    protected MainContract.Presenter initializePresenter() {
+    protected MainPresenter initializePresenter() {
         SessionManager sessionManager = SessionManager.getInstance();
         FirebaseUser user = sessionManager.getCurrentFirebaseUser();
         return new MainPresenter(this, new MainModel(this, user),
-                sessionManager, MyApp.getMusicPlayer());
+                sessionManager, MyApp.getMusicPlayer(), getSimpleAnalytics());
     }
 
     @OnClick(R.id.main_add_post_fab)

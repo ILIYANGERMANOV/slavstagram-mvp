@@ -7,10 +7,11 @@
               android:orientation="vertical">
 
     <com.babushka.slav_squad.ui.custom_view.VolumeButton
+        android:id="@+id/register_second_step_volume_button"
+        style="@style/ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        style="@style/ImageButton"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
@@ -20,10 +21,10 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="20dp"
-        android:textColor="@color/black"
         android:gravity="center_horizontal"
         android:text="Pick your slav profile picture"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/black"
         android:textSize="28sp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -37,8 +38,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="Set your slav display name"
         android:textColor="@color/white"
         android:textSize="28sp"/>
@@ -47,31 +48,31 @@
         android:id="@+id/register_second_step_display_name_edit_text"
         style="@style/RegisterInput"
         android:layout_marginTop="5dp"
-        android:imeOptions="actionGo"
-        android:inputType="textPersonName"
         android:backgroundTint="@color/black"
-        android:hint="Enter display name"/>
+        android:hint="Enter display name"
+        android:imeOptions="actionGo"
+        android:inputType="textPersonName"/>
 
 
     <Button
         android:id="@+id/register_second_step_register_button"
         style="@style/Button"
         android:layout_width="150dp"
-        android:enabled="false"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_selector"
+        android:enabled="false"
         android:text="REGISTER"/>
 
     <com.babushka.slav_squad.ui.custom_view.SlavSquadTermsAndCondsView
         android:id="@+id/login_slav_squad_terms_and_conds_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="100dp"
+        android:gravity="bottom|center_horizontal"
         android:textColor="@color/white"/>
 
 </LinearLayout>

@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
 
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.Events;
+
 /**
  * Created by iliyan on 11.11.17.
  */
@@ -39,7 +42,9 @@ public class MusicPlayer {
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                MyApp.logEvent(EventBuilder.simpleEvent(Events.Music.REPEAT));
                 try {
+                    mp.seekTo(0);
                     mp.start();
                 } catch (Exception e) {
                     e.printStackTrace();

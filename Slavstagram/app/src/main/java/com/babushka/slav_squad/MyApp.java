@@ -3,6 +3,7 @@ package com.babushka.slav_squad;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.babushka.slav_squad.analytics.SimpleAnalytics;
 import com.babushka.slav_squad.analytics.core.AnalyticsService;
 import com.babushka.slav_squad.analytics.core.AppAnalyticsService;
 import com.babushka.slav_squad.analytics.event.Event;
@@ -22,6 +23,7 @@ public class MyApp extends Application {
     private static MyApp sAppInstance;
     private MusicPlayer mMusicPlayer;
     private AnalyticsService mAnalyticsService;
+    private SimpleAnalytics mSimpleAnalytics;
 
     @NonNull
     public static MyApp getInstance() {
@@ -38,6 +40,11 @@ public class MyApp extends Application {
         return getInstance().mAnalyticsService;
     }
 
+    @NonNull
+    public static SimpleAnalytics getSimpleAnalytics() {
+        return getInstance().mSimpleAnalytics;
+    }
+
     public static void logEvent(@NonNull Event event) {
         getAnalytics().logEvent(event);
     }
@@ -52,6 +59,7 @@ public class MyApp extends Application {
             configuration.onConfigure(this);
         }
         mAnalyticsService = new AppAnalyticsService(this);
+        mSimpleAnalytics = new SimpleAnalytics(mAnalyticsService);
     }
 
     private Set<Configuration> getsConfigurationSet() {

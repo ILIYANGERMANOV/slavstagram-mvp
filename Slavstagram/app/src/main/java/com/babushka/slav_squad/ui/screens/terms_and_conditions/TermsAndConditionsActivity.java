@@ -69,6 +69,7 @@ public class TermsAndConditionsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             // Respond to the action bar's Up/Home button
+            logSimpleEvent(Events.HOME_SCREEN_ + EventValues.Screen.TERMS_AND_CONDS);
             finish();
             return true;
         }

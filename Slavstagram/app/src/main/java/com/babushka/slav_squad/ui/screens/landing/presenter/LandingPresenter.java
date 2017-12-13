@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.babushka.slav_squad.MusicPlayer;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.SimpleAnalytics;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.session.FacebookLoginCallback;
 import com.babushka.slav_squad.session.FirebaseLoginCallback;
 import com.babushka.slav_squad.session.LoginAdapter;
 import com.babushka.slav_squad.session.SessionManager;
+import com.babushka.slav_squad.ui.AnalyticsPresenter;
 import com.babushka.slav_squad.ui.screens.landing.LandingContract;
 import com.babushka.slav_squad.ui.screens.landing.LandingModel;
 import com.facebook.login.widget.LoginButton;
@@ -21,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by iliyan on 22.05.17.
  */
 
-public class LandingPresenter implements LandingContract.Presenter {
+public class LandingPresenter extends AnalyticsPresenter implements LandingContract.Presenter {
     @NonNull
     private final SessionManager mSessionManager;
     @NonNull
@@ -33,7 +36,8 @@ public class LandingPresenter implements LandingContract.Presenter {
 
 
     public LandingPresenter(@NonNull LandingContract.View view, @NonNull LandingModel model,
-                            @NonNull MusicPlayer musicPlayer) {
+                            @NonNull MusicPlayer musicPlayer, @NonNull SimpleAnalytics analytics) {
+        super(analytics);
         mView = view;
         mModel = model;
         mSessionManager = SessionManager.getInstance();
@@ -48,11 +52,13 @@ public class LandingPresenter implements LandingContract.Presenter {
                 new FacebookLoginCallback() {
                     @Override
                     public void onSuccess(@NonNull FirebaseUser user) {
+                        mAnalytics.logEvent(Events.Landing.LOGIN_WITH_FB_SUCCESS);
                         saveUserAndHandleSuccessfulLogin(user);
                     }
 
                     @Override
                     public void onCancel() {
+                        mAnalytics.logEvent(Events.Landing.LOGIN_WITH_FB_CANCEL);
                         if (mView != null) {
                             mView.hideProgress();
                             mView.showToast("Facebook signIn canceled");
@@ -61,6 +67,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
                     @Override
                     public void onError(@Nullable Exception exception) {
+                        mAnalytics.logEvent(Events.Landing.LOGIN_WITH_FB_ERROR);
                         handleLoginError("Error while signIn with FB: ", exception);
                     }
                 });
@@ -69,14 +76,17 @@ public class LandingPresenter implements LandingContract.Presenter {
     @Override
     public void loginWithGoogle(@NonNull AppCompatActivity activity) {
         mView.showProgress();
+        mAnalytics.logEvent(Events.Landing.LOGIN_WITH_GOOGLE);
         mLoginAdapter = mSessionManager.loginWithGoogle(activity, new FirebaseLoginCallback() {
             @Override
             public void onSuccess(@NonNull FirebaseUser user) {
+                mAnalytics.logEvent(Events.Landing.LOGIN_WITH_GOOGLE_SUCCESS);
                 saveUserAndHandleSuccessfulLogin(user);
             }
 
             @Override
             public void onError(@Nullable Exception exception) {
+                mAnalytics.logEvent(Events.Landing.LOGIN_WITH_GOOGLE_ERROR);
                 handleLoginError("Error while signIn with Google: ", exception);
             }
         });
@@ -84,6 +94,7 @@ public class LandingPresenter implements LandingContract.Presenter {
 
     @Override
     public void handleEmailClick() {
+        mAnalytics.logEvent(Events.Landing.EMAIL_CLICK);
         mView.startLoginScreen();
     }
 

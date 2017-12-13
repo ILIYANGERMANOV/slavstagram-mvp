@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
+import com.babushka.slav_squad.ui.custom_view.VolumeButton;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionNeverAskDialog;
 import com.babushka.slav_squad.ui.dialog.PermissionRationaleDialog;
@@ -44,6 +47,8 @@ import permissions.dispatcher.RuntimePermissions;
 public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondStepFragment.Input, RegisterSupport> {
     private static final int RC_OPEN_GALLERY = 1;
 
+    @BindView(R.id.register_second_step_volume_button)
+    VolumeButton vVolumeButton;
     @BindView(R.id.register_second_step_circle_image_view)
     CircleImageView vCircleImage;
     @BindView(R.id.register_second_step_display_name_edit_text)
@@ -99,6 +104,12 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
                 return false;
             }
         });
+        vVolumeButton.setFromScreen(EventValues.Screen.REGISTER_SECOND_STEP);
+    }
+
+    @Override
+    protected void onInitialized() {
+        logSimpleEvent(Events.OPEN_SCREEN_ + EventValues.Screen.REGISTER_SECOND_STEP);
     }
 
     private boolean validateInput() {

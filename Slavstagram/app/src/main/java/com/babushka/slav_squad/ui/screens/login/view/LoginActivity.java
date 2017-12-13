@@ -19,6 +19,7 @@ import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.session.data.LoginDetails;
 import com.babushka.slav_squad.ui.BaseActivity;
+import com.babushka.slav_squad.ui.custom_view.VolumeButton;
 import com.babushka.slav_squad.ui.listeners.editor.EditorGoListener;
 import com.babushka.slav_squad.ui.screens.landing.LandingModelImpl;
 import com.babushka.slav_squad.ui.screens.login.LoginContract;
@@ -36,6 +37,8 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         implements LoginContract.View {
 
+    @BindView(R.id.login_volume_button)
+    VolumeButton vVolumeButton;
     @BindView(R.id.login_email_edit_text)
     EditText vEmailInput;
     @BindView(R.id.login_password_edit_text)
@@ -99,6 +102,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         Spanned htmlLabel = Html.fromHtml("Don't have an account? <b> Register </b>");
         vRegisterButton.setText(htmlLabel);
         vRegisterButton.setPaintFlags(vRegisterButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        vVolumeButton.setFromScreen(getScreenName());
     }
 
     @Override

@@ -14,6 +14,8 @@ public interface EventValues {
         String UPLOAD_POST = "upl_post";
         String LOGIN = "login";
         String REGISTER = "register";
+        String REGISTER_FIRST_STEP = "reg_first";
+        String REGISTER_SECOND_STEP = "reg_second";
         String LIKES = "likes";
         String MAIN = "main";
         String PROFILE = "profile";

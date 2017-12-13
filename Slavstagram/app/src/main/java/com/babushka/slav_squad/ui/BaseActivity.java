@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.babushka.slav_squad.MyApp;
+import com.babushka.slav_squad.analytics.SimpleAnalytics;
 import com.babushka.slav_squad.analytics.core.AnalyticsService;
 import com.babushka.slav_squad.analytics.event.Event;
 import com.babushka.slav_squad.analytics.event.EventBuilder;
@@ -93,6 +94,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected AnalyticsService getAnalytics() {
         return MyApp.getAnalytics();
+    }
+
+    protected SimpleAnalytics getSimpleAnalytics() {
+        return MyApp.getSimpleAnalytics();
     }
 
     private void logBackEvent() {
