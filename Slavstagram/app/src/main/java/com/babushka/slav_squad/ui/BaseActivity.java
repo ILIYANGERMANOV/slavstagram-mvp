@@ -13,6 +13,7 @@ import com.babushka.slav_squad.analytics.SimpleAnalytics;
 import com.babushka.slav_squad.analytics.core.AnalyticsService;
 import com.babushka.slav_squad.analytics.event.Event;
 import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.EventParamKeys;
 import com.babushka.slav_squad.analytics.event.Events;
 
 import butterknife.ButterKnife;
@@ -87,8 +88,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onBackPressed();
     }
 
+    protected void logFromScreenEvent(@NonNull String eventName) {
+        logEvent(new EventBuilder()
+                .setEventName(eventName)
+                .addParam(EventParamKeys.FROM_SCREEN, getScreenName())
+                .build());
+    }
+
     protected void logSimpleEvent(@NonNull String eventName) {
         Event event = EventBuilder.simpleEvent(eventName);
+        logEvent(event);
+    }
+
+    protected void logEvent(Event event) {
         getAnalytics().logEvent(event);
     }
 

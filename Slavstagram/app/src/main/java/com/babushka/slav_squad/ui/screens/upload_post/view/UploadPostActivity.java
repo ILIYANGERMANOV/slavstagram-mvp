@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.storage.Storage;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
@@ -159,6 +160,7 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @NeedsPermission(Manifest.permission.CAMERA)
     public void openCamera(int requestCode) {
+        logFromScreenEvent(Events.Permission.CAMERA_GRANTED);
         try {
             File photoFile = mPresenter.providePhotoFile();
             Intent takePictureIntent = IntentBuilder.buildOpenCameraIntent(this, photoFile);
@@ -172,18 +174,21 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @OnShowRationale(Manifest.permission.CAMERA)
     public void showRationaleForCamera(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.CAMERA_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_camera_rationale_title),
                 getString(R.string.permission_camera_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     public void showDeniedForCamera() {
+        logFromScreenEvent(Events.Permission.CAMERA_DENY);
         new PermissionDenyDialog(getString(R.string.permission_camera_deny_title),
                 getString(R.string.permission_camera_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     public void showNeverAskForCamera() {
+        logFromScreenEvent(Events.Permission.CAMERA_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_camera_never_ask_title),
                 getString(R.string.permission_camera_never_ask_content)).show(this);
     }
@@ -196,6 +201,7 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_GRANTED);
         try {
             Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this);
             startActivityForResult(intent, requestCode);
@@ -206,18 +212,21 @@ public class UploadPostActivity extends BaseActionBarActivity<UploadPostContract
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
                 getString(R.string.permission_read_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_DENY);
         new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
                 getString(R.string.permission_read_storage_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
                 getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }

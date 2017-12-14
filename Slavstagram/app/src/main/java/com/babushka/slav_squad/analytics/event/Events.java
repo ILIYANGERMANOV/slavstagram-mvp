@@ -42,6 +42,32 @@ public interface Events {
     interface Main {
         String PLAY_MUSIC = "play_music_main";
         String PAUSE_MUSIC = "pause_music_main";
+        String FEED_SCROLL_UP = "feed_scroll_up";
+        String FEED_SCROLL_DOWN = "feed_scroll_down";
+        String POST_LIKE = "post_like";
+        String POST_LIKE_DOUBLE_TAP = "post_like_double_tap";
+        String POST_UNLIKE = "post_unlike";
+        String POST_COMMENT_CLICK = "post_comment_click";
+        String POST_SHARE_CLICK = "post_share_click";
+        String POST_DOWNLOAD = "post_download";
+        String POST_HEADER_CLICK = "post_header_click";
+        String POST_IMAGE_CLICK = "post_image_click";
+        String UPLOAD_POST_BUTTON_CLICK = "upload_post_button_click";
+    }
+
+    interface Permission {
+        String READ_STORAGE_GRANTED = "read_storage_granted";
+        String READ_STORAGE_DENY = "read_storage_deny";
+        String READ_STORAGE_RATIONALE = "read_storage_rationale";
+        String READ_STORAGE_NEVER_ASK = "read_storage_never_ask";
+        String WRITE_STORAGE_GRANTED = "write_storage_granted";
+        String WRITE_STORAGE_DENY = "write_storage_deny";
+        String WRITE_STORAGE_RATIONALE = "write_storage_rationale";
+        String WRITE_STORAGE_NEVER_ASK = "write_storage_never_ask";
+        String CAMERA_GRANTED = "camera_granted";
+        String CAMERA_DENY = "camera_deny";
+        String CAMERA_RATIONALE = "camera_rationale";
+        String CAMERA_NEVER_ASK = "camera_never_ask";
     }
 
     interface Music {

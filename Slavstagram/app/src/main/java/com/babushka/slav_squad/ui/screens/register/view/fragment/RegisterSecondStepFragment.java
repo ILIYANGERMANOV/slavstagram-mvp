@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.EventParamKeys;
 import com.babushka.slav_squad.analytics.event.EventValues;
 import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.ui.custom_view.VolumeButton;
@@ -104,7 +106,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
                 return false;
             }
         });
-        vVolumeButton.setFromScreen(EventValues.Screen.REGISTER_SECOND_STEP);
+        vVolumeButton.setFromScreen(getScreenName());
         if (mCroppedPhoto != null) {
             displayPhoto();
         }
@@ -112,7 +114,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
 
     @Override
     protected void onInitialized() {
-        logSimpleEvent(Events.OPEN_SCREEN_ + EventValues.Screen.REGISTER_SECOND_STEP);
+        logSimpleEvent(Events.OPEN_SCREEN_ + getScreenName());
     }
 
     private boolean validateInput() {
@@ -135,6 +137,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
         try {
+            logEventWithFromScreen(Events.Permission.READ_STORAGE_GRANTED);
             Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(getContext());
             startActivityForResult(intent, requestCode);
         } catch (IntentBuilder.ResolveActivityException ignored) {
@@ -145,22 +148,31 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        logEventWithFromScreen(Events.Permission.READ_STORAGE_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
                 getString(R.string.permission_read_storage_rationale_content), request).show(getActivity());
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
+        logEventWithFromScreen(Events.Permission.READ_STORAGE_DENY);
         new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
                 getString(R.string.permission_read_storage_deny_content)).show(getActivity());
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
+        logEventWithFromScreen(Events.Permission.READ_STORAGE_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
                 getString(R.string.permission_read_storage_never_ask_content)).show(getActivity());
     }
 
+    private void logEventWithFromScreen(@NonNull String eventName) {
+        logEvent(new EventBuilder()
+                .setEventName(eventName)
+                .addParam(EventParamKeys.FROM_SCREEN, getScreenName())
+                .build());
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -188,6 +200,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
         }
 
     }
+
 
     private void cropPhoto(Uri selectedImageFromGallery) {
         mCropHandler = new CropHandler(getContext());
@@ -229,6 +242,11 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
     @OnClick(R.id.register_second_step_register_button)
     public void onRegisterButtonClicked() {
         next(new Input(mCroppedPhoto, vDisplayNameInput.getText().toString()));
+    }
+
+    @NonNull
+    private String getScreenName() {
+        return EventValues.Screen.REGISTER_SECOND_STEP;
     }
 
     public class Input {

@@ -37,6 +37,7 @@ import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.special_start.SpecialStart;
@@ -339,17 +340,20 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void downloadPost(@NonNull String imageUrl) {
+        logFromScreenEvent(Events.Permission.WRITE_STORAGE_GRANTED);
         mPresenter.downloadPost(imageUrl);
     }
 
     @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showRationaleForWriteStorage(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.WRITE_STORAGE_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_write_storage_rationale_title),
                 getString(R.string.permission_write_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showDeniedForWriteStorage() {
+        logFromScreenEvent(Events.Permission.WRITE_STORAGE_DENY);
         new PermissionDenyDialog(getString(R.string.permission_write_storage_deny_title),
                 getString(R.string.permission_write_storage_deny_content)).show(this);
 
@@ -357,6 +361,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void showNeverAskForWriteStorage() {
+        logFromScreenEvent(Events.Permission.WRITE_STORAGE_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_write_storage_never_ask_title),
                 getString(R.string.permission_write_storage_never_ask_content)).show(this);
     }
@@ -517,23 +522,27 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @NeedsPermission(Manifest.permission.CAMERA)
     public void openUploadPostCameraScreen(int requestCode) {
+        logFromScreenEvent(Events.Permission.CAMERA_GRANTED);
         UploadPostActivity.startScreenForResult(this, requestCode, true);
     }
 
     @OnShowRationale(Manifest.permission.CAMERA)
     public void showRationaleForCamera(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.CAMERA_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_camera_rationale_title),
                 getString(R.string.permission_camera_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     public void showDeniedForCamera() {
+        logFromScreenEvent(Events.Permission.CAMERA_DENY);
         new PermissionDenyDialog(getString(R.string.permission_camera_deny_title),
                 getString(R.string.permission_camera_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     public void showNeverAskForCamera() {
+        logFromScreenEvent(Events.Permission.CAMERA_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_camera_never_ask_title),
                 getString(R.string.permission_camera_never_ask_content)).show(this);
     }
@@ -545,6 +554,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_GRANTED);
         try {
             Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this);
             startActivityForResult(intent, requestCode);
@@ -555,18 +565,21 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
                 getString(R.string.permission_read_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_DENY);
         new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
                 getString(R.string.permission_read_storage_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
                 getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }

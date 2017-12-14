@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
 import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.database.model.User;
 import com.babushka.slav_squad.ui.BaseActionBarActivity;
 import com.babushka.slav_squad.ui.dialog.PermissionDenyDialog;
@@ -108,6 +109,7 @@ public class EditProfileActivity extends BaseActionBarActivity<EditProfilePresen
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void openGallery(int requestCode) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_GRANTED);
         try {
             Intent intent = IntentBuilder.buildOpenGalleryWithChooserIntent(this, "Select new profile pic");
             startActivityForResult(intent, requestCode);
@@ -118,18 +120,21 @@ public class EditProfileActivity extends BaseActionBarActivity<EditProfilePresen
 
     @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showRationaleForReadStorage(@NonNull PermissionRequest request) {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_RATIONALE);
         new PermissionRationaleDialog(getString(R.string.permission_read_storage_rationale_title),
                 getString(R.string.permission_read_storage_rationale_content), request).show(this);
     }
 
     @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showDeniedForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_DENY);
         new PermissionDenyDialog(getString(R.string.permission_read_storage_deny_title),
                 getString(R.string.permission_read_storage_deny_content)).show(this);
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void showNeverAskForReadStorage() {
+        logFromScreenEvent(Events.Permission.READ_STORAGE_NEVER_ASK);
         new PermissionNeverAskDialog(getString(R.string.permission_read_storage_never_ask_title),
                 getString(R.string.permission_read_storage_never_ask_content)).show(this);
     }

@@ -71,6 +71,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected void logSimpleEvent(String eventName) {
         Event event = EventBuilder.simpleEvent(eventName);
+        logEvent(event);
+    }
+
+    protected void logEvent(Event event) {
         getAnalytics().logEvent(event);
     }
 
