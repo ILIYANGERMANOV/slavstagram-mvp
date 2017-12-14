@@ -28,7 +28,15 @@ public interface Events {
     }
 
     interface Register {
-
+        String REG_WIZARD_START = "reg_wizard_start";
+        String FIRST_STEP_COMPLETE = "first_step_complete";
+        String REG_WITH_EMAIL = "reg_with_email";
+        String REG_WITH_EMAIL_SUCCESS = "reg_with_email_success";
+        String REG_WITH_EMAIL_ERROR = "reg_with_email_error";
+        String REG_WITH_EMAIL_SELECT_IMAGE = "reg_email_select_img";
+        String REG_WITH_EMAIL_SELECT_START_CROP = "reg_email_select_img_start_crop";
+        String REG_WITH_EMAIL_IMAGE_SELECTED = "reg_email_img_selected";
+        String REG_WITH_EMAIL_SELECT_IMAGE_CANCEL = "reg_email_select_img_cancel";
     }
 
     interface Main {

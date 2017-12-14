@@ -105,6 +105,9 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
             }
         });
         vVolumeButton.setFromScreen(EventValues.Screen.REGISTER_SECOND_STEP);
+        if (mCroppedPhoto != null) {
+            displayPhoto();
+        }
     }
 
     @Override
@@ -118,6 +121,7 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
 
     @OnClick(R.id.register_second_step_circle_image_view)
     public void onSelectProfilePicture() {
+        logSimpleEvent(Events.Register.REG_WITH_EMAIL_SELECT_IMAGE);
         RegisterSecondStepFragmentPermissionsDispatcher.openGalleryWithCheck(this, RC_OPEN_GALLERY);
     }
 
@@ -171,6 +175,8 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
                     } catch (GalleryResult.SelectedImageNotFoundException ignored) {
                         //TODO: Handle gallery result excep+tion
                     }
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    logSimpleEvent(Events.Register.REG_WITH_EMAIL_SELECT_IMAGE_CANCEL);
                 }
                 break;
             case UCrop.REQUEST_CROP:
@@ -188,12 +194,14 @@ public class RegisterSecondStepFragment extends WizardFragment<RegisterSecondSte
         mCropHandler.cropPhoto(selectedImageFromGallery, new CropHandler.Result() {
             @Override
             public void onStartCropActivity(@NonNull Uri sourceUri, @NonNull Uri destinationUri) {
+                logSimpleEvent(Events.Register.REG_WITH_EMAIL_SELECT_START_CROP);
                 ProfilePictureCropper cropper = new ProfilePictureCropper(getContext());
                 cropper.crop(RegisterSecondStepFragment.this, sourceUri, destinationUri);
             }
 
             @Override
             public void onCropped(@NonNull Uri croppedImage) {
+                logSimpleEvent(Events.Register.REG_WITH_EMAIL_IMAGE_SELECTED);
                 mCroppedPhoto = croppedImage;
                 displayPhoto();
             }

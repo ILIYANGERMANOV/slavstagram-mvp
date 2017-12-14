@@ -28,6 +28,10 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
 
     @Nullable
     private MaterialDialog mProgressDialog;
+    @Nullable
+    private RegisterFirstStepFragment mFirstStepFragment;
+    @Nullable
+    private RegisterSecondStepFragment mSecondStepFragment;
 
     public static void startScreen(@NonNull Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);
@@ -47,7 +51,7 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
     @NonNull
     @Override
     protected RegisterContract.Presenter initializePresenter() {
-        return new RegisterPresenter(this, new RegisterModel());
+        return new RegisterPresenter(this, new RegisterModel(), getSimpleAnalytics());
     }
 
     @Override
@@ -69,12 +73,18 @@ public class RegisterActivity extends WizardActionBarActivity<RegisterContract.P
 
     @Override
     public void showFirstStep() {
-        changeFragment(RegisterFirstStepFragment.newInstance(), false);
+        if (mFirstStepFragment == null) {
+            mFirstStepFragment = RegisterFirstStepFragment.newInstance();
+        }
+        changeFragment(mFirstStepFragment, false);
     }
 
     @Override
     public void showSecondStep() {
-        changeFragment(RegisterSecondStepFragment.newInstance(), true);
+        if (mSecondStepFragment == null) {
+            mSecondStepFragment = RegisterSecondStepFragment.newInstance();
+        }
+        changeFragment(mSecondStepFragment, true);
     }
 
     @Override
