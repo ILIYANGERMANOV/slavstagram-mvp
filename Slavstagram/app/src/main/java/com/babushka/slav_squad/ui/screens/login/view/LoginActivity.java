@@ -138,7 +138,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     @NonNull
     @Override
     protected LoginContract.Presenter initializePresenter() {
-        return new LoginPresenter(this, new LandingModelImpl());
+        return new LoginPresenter(this, new LandingModelImpl(), getSimpleAnalytics());
     }
 
     @Override

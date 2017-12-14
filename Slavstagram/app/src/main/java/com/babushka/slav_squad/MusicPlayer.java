@@ -36,21 +36,24 @@ public class MusicPlayer {
     }
 
     @NonNull
-    private MediaPlayer newMediaRepeatablePlayer(@RawRes int music) {
+    private MediaPlayer newMediaRepeatablePlayer(@RawRes final int music) {
         //TODO: Optimize method to use one MediaPlayer instance
         MediaPlayer mediaPlayer = MediaPlayer.create(mApplication, music);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
-                MyApp.logEvent(EventBuilder.simpleEvent(Events.Music.REPEAT));
-                try {
-                    mp.seekTo(0);
-                    mp.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if (mIsVolumeOn) {
+                    MyApp.logEvent(EventBuilder.simpleEvent(Events.Music.REPEAT));
+                }
+                mediaPlayer.release();
+                mPlayer = newMediaRepeatablePlayer(music);
+                mPlayer.start();
+                if (!mIsVolumeOn) {
+                    mPlayer.setVolume(NO_VOLUME, NO_VOLUME);
                 }
             }
         });
+//        mediaPlayer.setLooping(true);
         return mediaPlayer;
     }
 

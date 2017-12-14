@@ -20,6 +20,17 @@ public interface Events {
         String EMAIL_CLICK = "landing_email_click";
     }
 
+    interface Login {
+        String LOGIN_WITH_EMAIL = "login_with_email";
+        String LOGIN_WITH_EMAIL_SUCCESS = "login_with_email_success";
+        String LOGIN_WITH_EMAIL_ERROR = "login_with_email_error";
+        String LOGIN_REGISTER_CLICK = "login_register_click";
+    }
+
+    interface Register {
+
+    }
+
     interface Main {
         String PLAY_MUSIC = "play_music_main";
         String PAUSE_MUSIC = "pause_music_main";
