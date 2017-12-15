@@ -17,7 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babushka.slav_squad.GlideRequests;
+import com.babushka.slav_squad.MyApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.EventParamKeys;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.event.DownloadPostEvent;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
@@ -231,6 +235,7 @@ public class PostView extends LinearLayout {
 
     private void likePost(@NonNull Post post) {
         if (!post.isLiked()) {
+            logPostEvent(Events.Main.POST_LIKE);
             vLikeButton.setImageResource(R.drawable.ic_like_filled);
             setPostLikedState(post, true);
         }
@@ -238,6 +243,7 @@ public class PostView extends LinearLayout {
 
     private void unlikePost(@NonNull Post post) {
         if (post.isLiked()) {
+            logPostEvent(Events.Main.POST_UNLIKE);
             vLikeButton.setImageResource(R.drawable.ic_like);
             setPostLikedState(post, false);
         }
@@ -251,6 +257,7 @@ public class PostView extends LinearLayout {
 
     @OnClick({R.id.post_likes_count_text_view, R.id.post_likes_count_click_area})
     public void onLikesCountClick() {
+        logPostEvent(Events.Main.POST_LIKES_COUNT_CLICK);
         if (mPost != null) {
             LikesActivity.startScreen(getContext(), mPost);
         }
@@ -258,6 +265,7 @@ public class PostView extends LinearLayout {
 
     @OnClick({R.id.post_comment_image_button, R.id.post_comment_click_area})
     public void onCommentsClicked() {
+        logPostEvent(Events.Main.POST_COMMENT_CLICK);
         if (mPost != null) {
             CommentsActivity.startScreen(getContext(), mPost);
         }
@@ -265,6 +273,7 @@ public class PostView extends LinearLayout {
 
     @OnClick({R.id.post_share_image_button, R.id.post_share_click_area})
     public void onShareClick() {
+        logPostEvent(Events.Main.POST_SHARE_CLICK);
         if (mPost != null) {
             Context context = getContext();
             String imageUrl = mPost.getImage().getImageUrl();
@@ -275,6 +284,7 @@ public class PostView extends LinearLayout {
 
     @OnClick({R.id.post_download_image_button, R.id.post_download_click_area})
     public void onDownloadClick() {
+        logPostEvent(Events.Main.POST_DOWNLOAD);
         if (mPost != null) {
             EventBus.getDefault().post(new DownloadPostEvent(mPost.getImage().getImageUrl()));
         }
@@ -283,9 +293,23 @@ public class PostView extends LinearLayout {
     @OnClick(R.id.post_author_layout)
     public void onAuthorLayoutClick() {
         if (mPost != null) {
+            MyApp.logEvent(new EventBuilder()
+                    .setEventName(Events.Main.POST_OPEN_PROFILE)
+                    .addParam(EventParamKeys.POST_ID, mPost.getId())
+                    .addParam(EventParamKeys.USER_ID, mPost.getAuthor().getId())
+                    .build());
             UserBase author = mPost.getAuthor();
             ProfileActivity.startScreen(getContext(), author);
         }
+    }
+
+    private void logPostEvent(@NonNull String eventName) {
+        EventBuilder builder = new EventBuilder()
+                .setEventName(eventName);
+        if (mPost != null) {
+            builder.addParam(EventParamKeys.POST_ID, mPost.getId());
+        }
+        MyApp.logEvent(builder.build());
     }
 
     public interface OnPostLongClickListener {
@@ -301,6 +325,7 @@ public class PostView extends LinearLayout {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            logPostEvent(Events.Main.POST_LIKE_DOUBLE_TAP);
             if (mPost != null) {
                 likePost(mPost);
             }
@@ -309,6 +334,7 @@ public class PostView extends LinearLayout {
 
         @Override
         public void onLongPress(MotionEvent e) {
+            logPostEvent(Events.Main.POST_IMAGE_LONG_CLICK);
             if (mOnPostLongClickListener != null && mPost != null) {
                 mOnPostLongClickListener.onPostLongClick(mPost);
             }
@@ -316,6 +342,7 @@ public class PostView extends LinearLayout {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
+            logPostEvent(Events.Main.POST_PREVIEW);
             if (mPost != null) {
                 PostPreviewActivity.startScreen(getContext(), mPost);
             }

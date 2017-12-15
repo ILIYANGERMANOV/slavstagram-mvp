@@ -6,5 +6,5 @@ package com.babushka.slav_squad.analytics.event;
 public interface EventParamKeys {
     String FROM_SCREEN = "from_screen";
     String USER_ID = "user_id";
-    String USER_EMAIL = "user_email";
+    String POST_ID = "post_id";
 }

@@ -59,8 +59,8 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
 
     public MainPresenter(@NonNull MainContract.View view, @NonNull MainContract.Model model,
                          @NonNull SessionManager sessionManager, @NonNull MusicPlayer musicPlayer,
-                         @NonNull SimpleAnalytics simpleAnalytics) {
-        super(simpleAnalytics);
+                         @NonNull SimpleAnalytics analytics) {
+        super(analytics);
         mView = view;
         mModel = model;
         mSessionManager = sessionManager;
@@ -213,6 +213,7 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
 
     @Override
     public void handleUploadPostFabClick() {
+        mAnalytics.logEvent(Events.Main.UPLOAD_POST_FAB_CLICK);
         boolean isGuest = mSessionManager.getCurrentFirebaseUser().isAnonymous();
         if (isGuest) {
             mView.promptGuestToLogin();
@@ -223,16 +224,19 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
 
     @Override
     public void handleUploadPostCameraClick() {
+        mAnalytics.logEvent(Events.Main.UPLOAD_POST_CAMERA_CLICK);
         mView.uploadPostViaCamera(RC_UPLOAD_POST);
     }
 
     @Override
     public void handleUploadPostGalleryClick() {
+        mAnalytics.logEvent(Events.Main.UPLOAD_POST_GALLERY_CLICK);
         mView.openGalleryWithCheck(RC_GALLERY);
     }
 
     @Override
     public void handleUploadPostCancelClick() {
+        mAnalytics.logEvent(Events.Main.UPLOAD_POST_CANCEL);
         mView.hideUploadPostLayout();
     }
 

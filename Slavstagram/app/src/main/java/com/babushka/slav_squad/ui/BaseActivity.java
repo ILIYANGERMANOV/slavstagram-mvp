@@ -65,7 +65,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
 
-    private void logOpenScreenEvent() {
+    protected void logOpenScreenEvent() {
         if (hasAnalytics()) {
             logSimpleEvent(Events.OPEN_SCREEN_ + getScreenName());
         }

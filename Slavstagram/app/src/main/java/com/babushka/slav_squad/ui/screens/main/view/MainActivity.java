@@ -147,13 +147,34 @@ public class MainActivity extends BaseActivity<MainPresenter>
     private void setupPostsContainer() {
         vPostsContainer.setup(this);
         vPostsContainer.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private boolean mScrollStateChanged = false;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                mScrollStateChanged = true;
+            }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                logScrollEvent(recyclerView, dy);
                 boolean isShown = vAddPostFab.isShown();
                 if (dy > SCROLL_THRESHOLD && isShown) {
                     vAddPostFab.hide();
                 } else if (dy < -SCROLL_THRESHOLD && !isShown) {
                     vAddPostFab.show();
+                }
+            }
+
+            private void logScrollEvent(RecyclerView recyclerView, int dy) {
+                if (mScrollStateChanged && recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if (dy > 0) {
+                        //scrolling bottom
+                        logSimpleEvent(Events.Main.FEED_SCROLL_DOWN);
+                    } else {
+                        //scrolling top
+                        logSimpleEvent(Events.Main.FEED_SCROLL_UP);
+                    }
+                    mScrollStateChanged = false;
                 }
             }
         });
@@ -169,7 +190,19 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     private void setupNavDrawer() {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, vDrawerLayout, vToolbar,
-                R.string.open_nav_drawer, R.string.close_nav_drawer);
+                R.string.open_nav_drawer, R.string.close_nav_drawer) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                logSimpleEvent(Events.Main.NAV_DRAWER_OPEN);
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                logSimpleEvent(Events.Main.NAV_DRAWER_CLOSE);
+                super.onDrawerClosed(drawerView);
+            }
+        };
 
         vDrawerLayout.addDrawerListener(actionBarDrawerToggle);
 
@@ -178,26 +211,31 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @OnClick(R.id.nav_drawer_header_layout)
     public void onNavDrawerHeaderClick() {
+        logSimpleEvent(Events.Main.NAV_DRAWER_HEADER_CLICK);
         mPresenter.handleMyProfileClick();
     }
 
     @OnClick(R.id.nav_drawer_share_layout)
     public void onNavDrawerShareClick() {
+        logSimpleEvent(Events.Main.NAV_DRAWER_SHARE_APP);
         mPresenter.handleShareClick();
     }
 
     @OnClick(R.id.nav_drawer_feedback_layout)
     public void onNavDrawerFeedbackClick() {
+        logSimpleEvent(Events.Main.NAV_DRAWER_FEEDBACK);
         mPresenter.handleFeedbackClick();
     }
 
     @OnClick(R.id.nav_drawer_about_layout)
     public void onNavDrawerAboutClick() {
+        logSimpleEvent(Events.Main.NAV_DRAWER_ABOUT);
         mPresenter.handleAboutClick();
     }
 
     @OnClick(R.id.nav_drawer_logout_layout)
     public void onNavDrawerLogoutClick() {
+        logSimpleEvent(Events.Main.NAV_DRAWER_LOGOUT);
         closeNavDrawer(false);
         mPresenter.handleLogoutClick();
     }
@@ -208,6 +246,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @OnClick(R.id.main_toolbar_slav_squad_logo_image_view)
     public void onToolbarLogoClick() {
+        logSimpleEvent(Events.Main.MAIN_LOGO_CLICK);
         vPostsContainer.scrollToPosition(0);
     }
 
@@ -504,11 +543,13 @@ public class MainActivity extends BaseActivity<MainPresenter>
     @Override
     public void onBackPressed() {
         if (vDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            logSimpleEvent(Events.Main.NAV_DRAWER_BACK);
             closeNavDrawer(true);
             return;
         }
 
         if (mIsUploadPostLayoutShown) {
+            logSimpleEvent(Events.Main.UPLOAD_POST_BACK);
             hideUploadPostLayout();
         } else {
             super.onBackPressed();

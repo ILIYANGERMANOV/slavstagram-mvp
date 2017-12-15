@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import com.babushka.slav_squad.GlideApp;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.analytics.event.EventBuilder;
+import com.babushka.slav_squad.analytics.event.EventParamKeys;
 import com.babushka.slav_squad.analytics.event.EventValues;
+import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
@@ -248,6 +251,16 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void logOpenScreenEvent() {
+        if (hasAnalytics()) {
+            logEvent(new EventBuilder()
+                    .setEventName(Events.OPEN_SCREEN_ + getScreenName())
+                    .addParam(EventParamKeys.USER_ID, mProfileUser.getId())
+                    .build());
+        }
     }
 
     @Nullable
