@@ -34,9 +34,10 @@ android {
 
     buildTypes {
         release {
-            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
             signingConfig signingConfigs.release
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Slav Squad"
         }
