@@ -4,10 +4,13 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.google.gms:google-services:3.1.0'
+        // For Android Studio 3.0, use firebase-plugins version 1.1.5
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -15,7 +18,7 @@ buildscript {
 }
 
 ext {
-    toolsVersion = "26.0.1"
+    toolsVersion = "26.0.2"
     compileSdk = 26
     targetSdk = 25
     minSdk = 19
@@ -43,6 +46,7 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+        google()
     }
 }
 
