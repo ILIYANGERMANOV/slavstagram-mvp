@@ -2,11 +2,13 @@ package com.babushka.slav_squad.ui.screens.post_preview.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.babushka.slav_squad.persistence.database.listeners.ValueListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.comments.presenter.CommentsPresenter;
 import com.babushka.slav_squad.ui.screens.likes.LikesContract;
 import com.babushka.slav_squad.ui.screens.likes.view.DisplayLikesRealtimeListener;
 import com.babushka.slav_squad.ui.screens.post_preview.PostPreviewContract;
+import com.google.firebase.database.DatabaseError;
 
 /**
  * Created by iliyan on 26.09.17.
@@ -45,7 +47,21 @@ public class PostPreviewPresenter extends CommentsPresenter implements PostPrevi
     private void displayLikes() {
         mLikesRealtimeListener = new DisplayLikesRealtimeListener(mLikesView);
         mLikesModel.addLikesListener(mPost.getId(), mLikesRealtimeListener);
-        //TODO: Display likes count in realtime
+        mLikesModel.addLikesCountListener(mPost.getId(), new ValueListener<Integer>() {
+            @Override
+            public void onChanged(Integer likesCount) {
+                if (mView != null) {
+                    mLikesView.displayLikesCount(likesCount);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull DatabaseError databaseError) {
+                if (mView != null) {
+                    mView.showToast("Database error: " + databaseError.getMessage());
+                }
+            }
+        });
         mLikesView.displayLikesCount(mPost.getLikesCount());
     }
 
@@ -53,6 +69,7 @@ public class PostPreviewPresenter extends CommentsPresenter implements PostPrevi
     public void onDestroy() {
         super.onDestroy();
         mLikesModel.removeLikesListener(mPost.getId());
+        mLikesModel.removeLikesCountListener(mPost.getId());
         mLikesRealtimeListener.destroy();
         mView = null;
         mLikesView = null;

@@ -161,6 +161,7 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
     @Override
     public void onPause() {
         pauseMusic();
+        removePostsListener();
     }
 
     @Override
@@ -299,11 +300,15 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        removePostsListener();
+        mView = null;
+    }
+
+    private void removePostsListener() {
         mModel.removePostsListener();
         if (mPostsListener != null) {
             mPostsListener.destroy();
             mPostsListener = null;
         }
-        mView = null;
     }
 }

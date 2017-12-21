@@ -9,6 +9,7 @@ import com.babushka.slav_squad.analytics.event.Events;
 import com.babushka.slav_squad.persistence.database.listeners.CommentsListener;
 import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.listeners.RetrieveCallback;
+import com.babushka.slav_squad.persistence.database.listeners.ValueListener;
 import com.babushka.slav_squad.persistence.database.model.Comment;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.persistence.database.model.User;
@@ -47,7 +48,9 @@ public class Database {
     @Nullable
     private ChildEventListener mCommentsEventListener;
     @Nullable
-    private UserBaseChildEventListener mLikesListener;
+    private ChildEventListener mLikesListener;
+    @Nullable
+    private ValueEventListener mLikesCountListener;
 
     private Database() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -388,6 +391,30 @@ public class Database {
                 .setValue(user);
     }
 
+    public void addLikesCountListener(@NonNull String postId, @NonNull final ValueListener<Integer> listener) {
+        mLikesCountListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer likesCount = getValueSafe(dataSnapshot, Integer.class);
+                if (likesCount != null) {
+                    listener.onChanged(likesCount);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                if (databaseError != null) {
+                    listener.onError(databaseError);
+                }
+            }
+        };
+        mDatabase.child(Table.POSTS_TABLE)
+                .child(postId)
+                .child(Table.Post.LIKES_COUNT)
+                .addValueEventListener(mLikesCountListener);
+    }
+
     public void saveFeedback(@NonNull User user, String message) {
         mDatabase.child(Table.FEEDBACK_TABLE)
                 .child(user.getId())
@@ -423,6 +450,14 @@ public class Database {
             mDatabase.child(Table.LIKES_TABLE)
                     .child(postId)
                     .removeEventListener(mLikesListener);
+        }
+    }
+
+    public void removeLikesCountListener(@NonNull String postId) {
+        if (mLikesCountListener != null) {
+            mDatabase.child(Table.POSTS_TABLE)
+                    .child(postId)
+                    .removeEventListener(mLikesCountListener);
         }
     }
 

@@ -2,9 +2,11 @@ package com.babushka.slav_squad.ui.screens.likes.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.babushka.slav_squad.persistence.database.listeners.ValueListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.ui.screens.likes.LikesContract;
 import com.babushka.slav_squad.ui.screens.likes.view.DisplayLikesRealtimeListener;
+import com.google.firebase.database.DatabaseError;
 
 /**
  * Created by iliyan on 09.11.17.
@@ -29,12 +31,28 @@ public class LikesPresenter implements LikesContract.Presenter {
     public void displayLikes() {
         mLikesRealtimeListener = new DisplayLikesRealtimeListener(mView);
         mModel.addLikesListener(mPost.getId(), mLikesRealtimeListener);
+        mModel.addLikesCountListener(mPost.getId(), new ValueListener<Integer>() {
+            @Override
+            public void onChanged(Integer likesCount) {
+                if (mView != null) {
+                    mView.displayLikesCount(likesCount);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull DatabaseError databaseError) {
+                if (mView != null) {
+                    mView.showToast("Database error: " + databaseError.getMessage());
+                }
+            }
+        });
         mView.displayLikesCount(mPost.getLikesCount());
     }
 
     @Override
     public void onDestroy() {
         mModel.removeLikesListener(mPost.getId());
+        mModel.removeLikesCountListener(mPost.getId());
         mLikesRealtimeListener.destroy();
         mView = null;
     }
