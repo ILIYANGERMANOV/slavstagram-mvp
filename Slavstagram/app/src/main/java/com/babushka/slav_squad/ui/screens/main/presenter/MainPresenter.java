@@ -41,7 +41,7 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
     public static final String POST_ID = "post_id";
 
     //TODO: Update once we release
-    public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.gepardy.gamena";
+    public static final String GOOGLE_PLAY_DOWNLOAD_URL = "https://play.google.com/apps/testing/com.babushka.slav_squad";
 
     private static final int RC_UPLOAD_POST = 1;
     private static final int RC_GALLERY = 2;
