@@ -6,14 +6,17 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.babushka.slav_squad.BuildConfig;
 import com.babushka.slav_squad.GlideRequests;
 import com.babushka.slav_squad.R;
+import com.babushka.slav_squad.persistence.RemoteConfig;
 import com.babushka.slav_squad.persistence.database.Database;
 import com.babushka.slav_squad.persistence.database.model.Post;
+import com.babushka.slav_squad.session.SessionManager;
 import com.babushka.slav_squad.ui.container.BaseAdapter;
 import com.babushka.slav_squad.ui.custom_view.AspectRatioImageView;
 import com.babushka.slav_squad.ui.screens.post_preview.view.PostPreviewActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -34,9 +37,15 @@ public class ProfilePostViewHolder extends BaseAdapter.BaseViewHolder<Post> impl
         super(itemView);
         mImageLoader = imageLoader;
         itemView.setOnClickListener(this);
-        if (isMyProfile || BuildConfig.DEBUG) {
+        if (isMyProfile || isAdmin()) {
             addPostDeleteOption(itemView);
         }
+    }
+
+    private boolean isAdmin() {
+        String email = SessionManager.getInstance().getCurrentUser().getEmail();
+        List<String> admins = RemoteConfig.getInstance().getAdmins();
+        return admins.contains(email);
     }
 
     private void addPostDeleteOption(final View itemView) {

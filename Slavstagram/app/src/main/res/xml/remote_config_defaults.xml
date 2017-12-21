@@ -12,4 +12,9 @@
         <key>show_love</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>admins</key>
+        <value>["iliyan.germanov971@gmail.com", "steliqna2000@gmail.com", "silijevss97@gmail.com"]
+        </value>
+    </entry>
 </defaultsMap>
