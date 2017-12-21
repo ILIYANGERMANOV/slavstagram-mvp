@@ -132,11 +132,6 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
     }
 
     @Override
-    public void displayPostLikesCount(int likesCount) {
-        vLikesCountText.setText(getString(R.string.post_preview_squats_count, likesCount));
-    }
-
-    @Override
     public void displayDescription(@NonNull String description) {
         if (TextUtils.isEmpty(description)) {
             vDescriptionText.setVisibility(View.GONE);
@@ -144,6 +139,11 @@ public class PostPreviewActivity extends BaseActionBarActivity<PostPreviewContra
         } else {
             vDescriptionText.setText(description);
         }
+    }
+
+    @Override
+    public void displayLikesCount(int likesCount) {
+        vLikesCountText.setText(getResources().getQuantityString(R.plurals.likes_count, likesCount, likesCount));
     }
 
     @Override

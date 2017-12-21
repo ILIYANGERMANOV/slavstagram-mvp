@@ -13,9 +13,9 @@ import com.babushka.slav_squad.ui.screens.likes.view.DisplayLikesRealtimeListene
 public class LikesPresenter implements LikesContract.Presenter {
     @NonNull
     private final Post mPost;
-    private LikesContract.View mView;
     @NonNull
     private final LikesContract.Model mModel;
+    private LikesContract.View mView;
     private DisplayLikesRealtimeListener mLikesRealtimeListener;
 
     public LikesPresenter(@NonNull LikesContract.View view, @NonNull Post post,
@@ -29,6 +29,7 @@ public class LikesPresenter implements LikesContract.Presenter {
     public void displayLikes() {
         mLikesRealtimeListener = new DisplayLikesRealtimeListener(mView);
         mModel.addLikesListener(mPost.getId(), mLikesRealtimeListener);
+        mView.displayLikesCount(mPost.getLikesCount());
     }
 
     @Override

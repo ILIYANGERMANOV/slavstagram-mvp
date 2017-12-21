@@ -46,7 +46,7 @@ public class PostPreviewPresenter extends CommentsPresenter implements PostPrevi
         mLikesRealtimeListener = new DisplayLikesRealtimeListener(mLikesView);
         mLikesModel.addLikesListener(mPost.getId(), mLikesRealtimeListener);
         //TODO: Display likes count in realtime
-        mView.displayPostLikesCount(mPost.getLikesCount());
+        mLikesView.displayLikesCount(mPost.getLikesCount());
     }
 
     @Override

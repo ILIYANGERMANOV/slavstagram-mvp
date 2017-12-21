@@ -13,8 +13,6 @@ public interface PostPreviewContract {
     interface View extends CommentsContract.View {
         void displayPostImage(@NonNull Post.Image image);
 
-        void displayPostLikesCount(int likesCount);
-
         void displayDescription(@NonNull String description);
 
         void showToast(@NonNull String message);

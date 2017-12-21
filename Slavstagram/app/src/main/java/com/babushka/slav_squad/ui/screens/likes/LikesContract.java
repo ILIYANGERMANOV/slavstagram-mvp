@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface LikesContract {
     interface View {
+        void displayLikesCount(int likesCount);
+
         void showToast(@NonNull String message);
 
         void onLikeAdded(@NonNull UserBase user);

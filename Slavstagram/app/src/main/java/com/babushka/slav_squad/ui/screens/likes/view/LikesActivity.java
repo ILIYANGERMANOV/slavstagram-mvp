@@ -67,6 +67,11 @@ public class LikesActivity extends BaseActionBarActivity<LikesContract.Presenter
     }
 
     @Override
+    public void displayLikesCount(int likesCount) {
+        setActionBarTitle(getResources().getQuantityString(R.plurals.likes_count, likesCount, likesCount));
+    }
+
+    @Override
     public void showToast(@NonNull String message) {
         super.showToast(message);
     }
