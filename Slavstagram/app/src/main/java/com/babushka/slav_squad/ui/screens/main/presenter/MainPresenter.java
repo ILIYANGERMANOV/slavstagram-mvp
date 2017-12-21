@@ -155,13 +155,11 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
         if (mIsPlayingMusic) {
             playMusic();
         }
-        displayAllPostsInRealTime();
     }
 
     @Override
     public void onPause() {
         pauseMusic();
-        removePostsListener();
     }
 
     @Override
