@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
@@ -96,6 +97,8 @@ public class MainActivity extends BaseActivity<MainPresenter>
     CircleImageView vNavDrawerProfileImage;
     @BindView(R.id.nav_drawer_display_name_text_view)
     TextView vNavDrawerDisplayNameText;
+    @BindView(R.id.main_swipe_refresh_layout)
+    SwipeRefreshLayout vSwipeRefreshLayout;
     @BindView(R.id.main_posts_container)
     MainPostsContainer vPostsContainer;
     @BindView(R.id.main_add_post_fab)
@@ -175,6 +178,16 @@ public class MainActivity extends BaseActivity<MainPresenter>
                         logSimpleEvent(Events.Main.FEED_SCROLL_UP);
                     }
                     mScrollStateChanged = false;
+                }
+            }
+        });
+        vSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mPresenter != null) {
+                    logSimpleEvent(Events.Main.SWIPE_TO_REFRESH);
+                    mPresenter.refreshPosts();
+                    vSwipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -679,6 +692,11 @@ public class MainActivity extends BaseActivity<MainPresenter>
     @Override
     public void showToast(@NonNull String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void removeAllPosts() {
+        vPostsContainer.removeAll();
     }
 
     private void setMusicMenuIcon(@DrawableRes int menuIcon) {

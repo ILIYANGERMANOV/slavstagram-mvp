@@ -96,6 +96,13 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
         }
     }
 
+    public void removeAll() {
+        ensureDataListIsInitialized();
+        mData.clear();
+        notifyDataSetChanged();
+    }
+
+
     private int findItemPosition(@NonNull T desiredItem) throws ItemNotFoundException {
         String desiredItemId = desiredItem.getId();
         for (int i = 0; i < mData.size(); ++i) {
@@ -106,7 +113,6 @@ public abstract class BaseAdapter<T extends Findable, VH extends BaseAdapter.Bas
         }
         throw new ItemNotFoundException();
     }
-
 
     private void ensureDataListIsInitialized() {
         if (mData == null) {

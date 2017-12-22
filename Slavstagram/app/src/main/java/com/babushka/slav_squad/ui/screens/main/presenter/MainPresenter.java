@@ -90,6 +90,13 @@ public class MainPresenter extends AnalyticsPresenter implements MainContract.Pr
         handleSpecialLoveCase();
     }
 
+    @Override
+    public void refreshPosts() {
+        mView.removeAllPosts();
+        removePostsListener();
+        displayAllPostsInRealTime();
+    }
+
     private void handlePostPreviewStart(Map<String, String> data) {
         String postId = data.get(POST_ID);
         mModel.retrievePost(postId, new MainContract.Model.RetrievePostCallback() {

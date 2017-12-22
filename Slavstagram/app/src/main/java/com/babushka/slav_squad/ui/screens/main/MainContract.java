@@ -63,10 +63,14 @@ public interface MainContract {
         void showMusicStopped();
 
         void showToast(@NonNull String text);
+
+        void removeAllPosts();
     }
 
     interface Presenter extends BasePresenter {
         void handleSpecialStart(@Nullable SpecialStart specialStart);
+
+        void refreshPosts();
 
         void displayAllPostsInRealTime();
 

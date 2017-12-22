@@ -68,6 +68,7 @@ public interface Events {
         String NAV_DRAWER_FEEDBACK = "nav_drawer_feedback";
         String NAV_DRAWER_ABOUT = "nav_drawer_about_us";
         String NAV_DRAWER_LOGOUT = "nav_drawer_logout";
+        String SWIPE_TO_REFRESH = "main_swipe_to_refresh";
     }
 
     interface Permission {

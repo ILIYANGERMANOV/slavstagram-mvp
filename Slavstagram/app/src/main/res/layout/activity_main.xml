@@ -42,11 +42,19 @@
             </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer
-            android:id="@+id/main_posts_container"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/main_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/main_app_bar_layout"/>
+            android:layout_below="@+id/main_app_bar_layout">
+
+            <com.babushka.slav_squad.ui.screens.main.view.custom_view.MainPostsContainer
+                android:id="@+id/main_posts_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_add_post_fab"
@@ -61,11 +69,11 @@
         <com.wonderkiln.blurkit.BlurLayout
             android:id="@+id/main_upload_post_blur_layout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:elevation="10dp"
-            app:fps="0"
-            app:blurRadius="10"
             android:visibility="invisible"
-            android:layout_height="match_parent">
+            app:blurRadius="10"
+            app:fps="0">
 
             <include layout="@layout/upload_post_layout"/>
 

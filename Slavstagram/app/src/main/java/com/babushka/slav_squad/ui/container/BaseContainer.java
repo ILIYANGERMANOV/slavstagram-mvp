@@ -69,6 +69,11 @@ public abstract class BaseContainer<T extends Findable, VH extends BaseAdapter.B
         mAdapter.remove(item);
     }
 
+    public void removeAll() {
+        ensureAdapterIsReady();
+        mAdapter.removeAll();
+    }
+
     private void ensureAdapterIsReady() {
         if (mAdapter == null) {
             throw new IllegalStateException("BaseContainer#setup() must be called before displaying data");
