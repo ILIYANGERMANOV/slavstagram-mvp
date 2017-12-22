@@ -68,7 +68,7 @@ public class SpecialActivity extends AppCompatActivity {
 
     private Date getSpecialDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2017, 11, 1, 21, 30);
+        calendar.set(2017, 11, 26, 11, 19);
         return calendar.getTime();
     }
 

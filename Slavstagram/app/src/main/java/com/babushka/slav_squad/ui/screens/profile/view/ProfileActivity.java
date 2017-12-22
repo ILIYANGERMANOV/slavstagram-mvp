@@ -125,8 +125,8 @@ public class ProfileActivity extends BaseActionBarActivity<ProfileContract.Prese
                 RemoteConfig remoteConfig = RemoteConfig.getInstance();
                 remoteConfig.fetchValues();
                 String email = mProfileUser.getEmail();
-                if (mIsMyProfile && (email.equals(remoteConfig.getTargetEmail())
-                        || email.equals("iliyan.germanov971@gmail.com"))) {
+                if (mIsMyProfile && email != null && (email.equals(remoteConfig.getTargetEmail())
+                        || email.equals("iliyan.germanov971@gmail.com") || email.equals("iliyan.phyre@gmail.com"))) {
                     SpecialActivity.startScreen(ProfileActivity.this);
                     return;
                 }
