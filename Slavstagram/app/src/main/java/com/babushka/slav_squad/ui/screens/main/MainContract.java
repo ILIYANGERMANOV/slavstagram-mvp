@@ -9,6 +9,7 @@ import com.babushka.slav_squad.persistence.database.listeners.DatabaseListener;
 import com.babushka.slav_squad.persistence.database.model.Post;
 import com.babushka.slav_squad.special_start.SpecialStart;
 import com.babushka.slav_squad.ui.BasePresenter;
+import com.babushka.slav_squad.ui.screens.DownloadPostView;
 import com.babushka.slav_squad.ui.screens.GalleryResult;
 import com.babushka.slav_squad.ui.screens.PostsView;
 
@@ -19,20 +20,10 @@ import java.io.File;
  */
 
 public interface MainContract {
-    interface View extends PostsView {
+    interface View extends PostsView, DownloadPostView {
         void displayUserProfilePicture(@NonNull String url);
 
         void displayUserName(@NonNull String displayName);
-
-        void downloadPostWithPermissionCheck(@NonNull String imageUrl);
-
-        void showDownloadPostLoading();
-
-        void showDownloadPostSuccess();
-
-        void showDownloadPostError();
-
-        void addImageToGallery(@NonNull File imageFile);
 
         void showUploadPostLayout();
 
