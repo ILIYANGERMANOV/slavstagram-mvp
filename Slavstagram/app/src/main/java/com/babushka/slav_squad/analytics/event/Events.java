@@ -91,4 +91,8 @@ public interface Events {
         String VOLUME_ON = "volume_on";
         String VOLUME_OFF = "volume_off";
     }
+
+    interface About {
+        String OPEN_TERMS_AND_CONDS = "about_terms_and_conds_click";
+    }
 }

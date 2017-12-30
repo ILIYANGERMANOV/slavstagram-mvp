@@ -16,6 +16,8 @@ android {
         //Required by com.wonderkiln:blurkit
         renderscriptTargetApi project.targetSdk
         renderscriptSupportModeEnabled true
+
+        buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
     }
 
     signingConfigs {
