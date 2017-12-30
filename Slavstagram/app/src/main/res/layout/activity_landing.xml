@@ -3,6 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:background="@drawable/blurred_splash_screen"
                 tools:context="com.babushka.slav_squad.ui.screens.landing.view.LandingActivity">
 
     <com.babushka.slav_squad.ui.custom_view.VolumeButton
@@ -15,15 +16,25 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
+    <ImageView
+        android:id="@+id/slav_squad_label_image_view"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/landing_volume_button"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/slav_squad_label"/>
+
     <TextView
         android:id="@+id/landing_welcome_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/landing_welcome_caption_text_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/landing_side_margin"
         android:layout_marginRight="@dimen/landing_side_margin"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Welcome to Slav Squad"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -36,9 +47,10 @@
         android:id="@+id/landing_welcome_caption_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/landing_fb_login_button"
+        android:layout_above="@id/landing_center_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="Please log in or sign in"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -52,13 +64,19 @@
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/landing_center_view"/>
+
     <Button
         android:id="@+id/landing_fb_login_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/landing_google_login_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/landing_center_view"
         android:background="@drawable/fb_button_selector"
         android:drawableLeft="@drawable/ic_fb_logo"
         android:elevation="14dp"
@@ -73,9 +91,9 @@
         android:id="@+id/landing_google_login_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/landing_divider_view"
+        android:layout_below="@id/landing_fb_login_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/google_button_selector"
         android:drawableLeft="@drawable/ic_google_logo"
         android:elevation="10dp"
@@ -90,11 +108,11 @@
         android:id="@+id/landing_divider_view"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_above="@+id/landing_or_text_view"
+        android:layout_below="@+id/landing_google_login_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginTop="30dp"
         android:background="#9E9E9E"
         android:visibility="invisible"
         tools:visibility="visible"/>
@@ -103,9 +121,9 @@
         android:id="@+id/landing_or_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/landing_email_button"
+        android:layout_below="@+id/landing_divider_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:text="or"
         android:textColor="#757575"
         android:textSize="20sp"
@@ -117,9 +135,9 @@
         style="@style/LandingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/landing_slav_squad_terms_and_conds_view"
+        android:layout_below="@id/landing_or_text_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp"
+        android:layout_marginTop="5dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="Log In or Sign In with Email"
         android:textAllCaps="false"
@@ -130,11 +148,13 @@
         android:id="@+id/landing_slav_squad_terms_and_conds_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:layout_below="@id/landing_email_button"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
         android:visibility="invisible"
         tools:visibility="visible"/>
 
