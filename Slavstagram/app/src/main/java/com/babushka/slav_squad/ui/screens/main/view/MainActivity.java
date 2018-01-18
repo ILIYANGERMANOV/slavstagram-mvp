@@ -111,6 +111,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
     private Menu mMenu;
 
     private boolean mIsUploadPostLayoutShown = false;
+    private boolean mAutoScrollToTop = false;
 
 
     @NonNull
@@ -187,6 +188,7 @@ public class MainActivity extends BaseActivity<MainPresenter>
                 if (mPresenter != null) {
                     logSimpleEvent(Events.Main.SWIPE_TO_REFRESH);
                     mPresenter.refreshPosts();
+                    mAutoScrollToTop = true;
                     vSwipeRefreshLayout.setRefreshing(false);
                 }
             }
@@ -332,6 +334,15 @@ public class MainActivity extends BaseActivity<MainPresenter>
 
     @Override
     public void addPostAsFirst(@NonNull Post post) {
+        if (mAutoScrollToTop) {
+            mAutoScrollToTop = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    vPostsContainer.scrollToPosition(0);
+                }
+            }, 500);
+        }
         vPostsContainer.add(0, post);
     }
 
