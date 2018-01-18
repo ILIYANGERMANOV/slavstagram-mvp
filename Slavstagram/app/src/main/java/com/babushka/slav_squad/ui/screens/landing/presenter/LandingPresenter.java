@@ -87,7 +87,7 @@ public class LandingPresenter extends AnalyticsPresenter implements LandingContr
             @Override
             public void onError(@Nullable Exception exception) {
                 mAnalytics.logEvent(Events.Landing.LOGIN_WITH_GOOGLE_ERROR);
-                handleLoginError("Error while signIn with Google: ", exception);
+                handleLoginError("Google SignIn Error: ", exception);
             }
         });
     }

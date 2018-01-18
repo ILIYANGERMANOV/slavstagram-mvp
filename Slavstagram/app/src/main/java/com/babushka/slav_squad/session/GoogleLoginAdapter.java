@@ -12,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 
 /**
  * Created by iliyan on 24.05.17.
@@ -48,29 +50,48 @@ public class GoogleLoginAdapter
     }
 
     void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        mActivity.startActivityForResult(signInIntent, RC_SIGN_IN);
+        OptionalPendingResult<GoogleSignInResult> operation = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (operation.isDone()) {
+            handleSignInResult(operation.get());
+        } else {
+            operation.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult result) {
+                    if (result.isSuccess()) {
+                        handleSignInResult(result);
+                    } else {
+                        //probably require additional authentication
+                        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                        mActivity.startActivityForResult(signInIntent, RC_SIGN_IN);
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        handleErrorAndCallback(new GoogleSignInError(connectionResult.getErrorMessage()));
+        handleError(new GoogleSignInError(connectionResult.getErrorMessage()));
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                GoogleSignInAccount account = result.getSignInAccount();
-                mCallback.onSuccess(account);
-            } else {
-                handleErrorAndCallback(new GoogleSignInError("Google SignIn failed"));
-            }
+            handleSignInResult(result);
         }
     }
 
-    private void handleErrorAndCallback(@NonNull GoogleSignInError error) {
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            mCallback.onSuccess(account);
+        } else {
+            handleError(new GoogleSignInError("Maybe you have clicked on the screen while it was loading, comrade!"));
+        }
+    }
+
+    private void handleError(@NonNull GoogleSignInError error) {
         mGoogleApiClient.stopAutoManage(mActivity);
         mGoogleApiClient.disconnect();
         mCallback.onError(error);
