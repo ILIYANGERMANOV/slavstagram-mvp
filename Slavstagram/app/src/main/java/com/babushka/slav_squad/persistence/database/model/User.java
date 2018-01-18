@@ -52,8 +52,13 @@ public class User extends UserBase {
         String provider = providers.get(0);
         switch (provider) {
             case FacebookAuthProvider.PROVIDER_ID:
-                String facebookUserId = AccessToken.getCurrentAccessToken().getUserId();
-                return getFbHighResProfilePicture(facebookUserId);
+                AccessToken fbAccessToken = AccessToken.getCurrentAccessToken();
+                if (fbAccessToken != null) {
+                    String facebookUserId = fbAccessToken.getUserId();
+                    return getFbHighResProfilePicture(facebookUserId);
+                } else {
+                    return photoUrl;
+                }
             case GOOGLE_PROVIDER_ID:
                 return getGoogleHighResProfilePicture(photoUrl);
             case REGISTER_ACCOUNT_PROVIDER:
