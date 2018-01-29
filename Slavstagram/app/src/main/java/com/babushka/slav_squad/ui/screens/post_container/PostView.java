@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -33,6 +34,7 @@ import com.babushka.slav_squad.ui.screens.likes.view.LikesActivity;
 import com.babushka.slav_squad.ui.screens.post_preview.view.PostPreviewActivity;
 import com.babushka.slav_squad.ui.screens.profile.view.ProfileActivity;
 import com.babushka.slav_squad.ui.screens.util.TimeAgo;
+import com.babushka.slav_squad.util.AppUtil;
 import com.babushka.slav_squad.util.IntentBuilder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +48,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by iliyan on 30.05.17.
  */
 
-public class PostView extends LinearLayout {
+public class PostView extends CardView {
     private static final int MILLION = 1000000;
     private static final int THOUSAND = 1000;
     private static int sPostViewWidth = 0;
@@ -109,7 +111,8 @@ public class PostView extends LinearLayout {
     }
 
     private void setupRootView() {
-        setOrientation(VERTICAL);
+        setRadius(AppUtil.dpToPx(getContext(), 6));
+        setCardElevation(AppUtil.dpToPx(getContext(), 4));
     }
 
     private void setup() {
