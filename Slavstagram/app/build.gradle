@@ -100,10 +100,10 @@ dependencies {
     //Authentication
     compile "com.google.firebase:firebase-auth:$project.playServicesVersion"
     compile "com.google.android.gms:play-services-auth:$project.playServicesVersion"
-    compile "com.google.firebase:firebase-database:$project.playServicesVersion"
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     //Firebase
+    compile "com.google.firebase:firebase-database:$project.playServicesVersion"
     compile "com.google.firebase:firebase-storage:$rootProject.playServicesVersion"
     compile "com.google.firebase:firebase-core:$rootProject.playServicesVersion"
     compile "com.google.firebase:firebase-messaging:$rootProject.playServicesVersion"
